@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>UINT16_MAX - uint16_tの最大値を表す定数 - C言語/C++/Cuda Perlバインディング入門</title>
+<title>UINT16_MAX - uint16_tの最大値を表す定数 - C99対応のC言語入門とC言語/C++/Cuda Perlバインディング入門</title>
 <meta name="description" content="UINT16_MAXはuint16_tの最大値を表す定数です。">
   </head>
   <body>
@@ -16,7 +16,7 @@
         <!-- header -->
 <div class="main">
   <h1>
-    <a href="/">C言語/C++/Cuda Perlバインディング入門</a>
+    <a href="/">C99対応のC言語入門とC言語/C++/Cuda Perlバインディング入門</a>
   </h1>
 </div>
 
@@ -34,7 +34,8 @@
   UINT16_MAXはuint16_tの最大値を表す定数です。
 </p>
 <pre>
-#include &lt;stdint&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
 
 int main() {
   printf("%d", UINT16_MAX);
