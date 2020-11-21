@@ -10,7 +10,14 @@
   a, a:visited {
     color:#0000EE;
   }
-  
+
+  /* コンテンツを表示する中心の領域のデフォルト */
+  .inside {
+    max-width:1310px;
+    margin:0 auto;
+    padding:0 16px;
+  }
+
   /* header */
   .header {
     margin:0 auto;
@@ -33,11 +40,6 @@
     padding:25px 0;
     font-size:16px;
     background:#fafafa;
-  }
-  .footer .what_is_this_site b {
-    padding-left:3px;
-    padding-right:3px;
-    font-size:101%;
   }
   .footer .what_is_this_site ul {
   }
