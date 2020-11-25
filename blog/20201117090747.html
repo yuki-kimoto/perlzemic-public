@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>int8_t - 符号付8bit整数型 - C99対応のC言語入門</title>
-<meta name="description" content="「int8_t」は符号付8bit整数型です。「stdint.h」をインクルードすることで使えます。">
+<title>int8_t - 符号あり8bit整数型 - C99対応のC言語入門</title>
+<meta name="description" content="「int8_t」は符号あり8bit整数型です。「stdint.h」をインクルードすることで使えます。">
   </head>
   <body>
     <div class="container">
@@ -29,19 +29,19 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20201117090747.html">int8_t - 符号付8bit整数型</a></h2>
+    <h2><a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a></h2>
 <p>
-  「int8_t」は符号付8bit整数型です。「stdint.h」をインクルードすることで使えます。
+  「int8_t」は符号あり8bit整数型です。「stdint.h」をインクルードすることで使えます。
 </p>
 <pre>
-# 符号付8bit整数型
+# 符号あり8bit整数型
 int8_t
 </pre>
 <p>
-  符号付8bit整数型が表現できる整数の最大値は「127」、最小値は「-128」です。
+  符号あり8bit整数型が表現できる整数の最大値は「127」、最小値は「-128」です。
 </p>
 <p>
-  最大値は「INT8_MAX」、最小値は「INT8_MIN」というマクロで定義されています。
+  最大値は「<a href="/blog/20201115090747.html">INT8_MAX</a>」、最小値は「<a href="/blog/20201114090747.html">INT8_MIN</a>」というマクロで定義されています。
 </p>
 <h3>int8_tのサンプルコード</h3>
 <p>
@@ -56,6 +56,12 @@ int main() {
   
   printf("%d\n", num);
 }
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+5
 </pre>
 
   </div>
