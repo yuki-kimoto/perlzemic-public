@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>Entries - C99対応のC言語入門</title>
-<meta name="description" content="Entries of C99対応のC言語入門">
+<title>int16_t - 符号あり16bit整数型 - C99対応のC言語入門</title>
+<meta name="description" content="「int16_t」は符号あり16bit整数型です。「stdint.h」をインクルードすることで使えます。">
   </head>
   <body>
     <div class="container">
@@ -29,45 +29,40 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/list.html">Entries</a></h2>
-<ul>
-  <li style="list-style:none;">
-    <b>2020</b>
-  </li>
-  <li style="list-style:none">
-    11/26 <a href="/blog/20201126090559.html">int16_t - 符号あり16bit整数型</a>
-  </li>
-  <li style="list-style:none">
-    11/25 <a href="/blog/20201125090559.html">INT16_MAX - int16_tの最大値を表す定数</a>
-  </li>
-  <li style="list-style:none">
-    11/24 <a href="/blog/20201124085008.html">C言語の開発環境の構築</a>
-  </li>
-  <li style="list-style:none">
-    11/23 <a href="/blog/20201123084622.html">UINT8_MAX - uint8_tの最大値を表す定数</a>
-  </li>
-  <li style="list-style:none">
-    11/22 <a href="/blog/20201122084622.html">uint8_t - 符号なし8bit整数型</a>
-  </li>
-  <li style="list-style:none">
-    11/21 <a href="/blog/20201121084622.html">INT16_MIN - int16_tの最小値を表す定数</a>
-  </li>
-  <li style="list-style:none">
-    11/17 <a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a>
-  </li>
-  <li style="list-style:none">
-    11/16 <a href="/blog/20201116090747.html">プログラミング言語Perlの実装はC言語で書かれている</a>
-  </li>
-  <li style="list-style:none">
-    11/15 <a href="/blog/20201115090747.html">INT8_MAX - int8_tの最大値を表す定数</a>
-  </li>
-  <li style="list-style:none">
-    11/14 <a href="/blog/20201114090747.html">INT8_MIN - int8_tの最小値を表す定数</a>
-  </li>
-  <li style="list-style:none">
-    11/13 <a href="/blog/20201113150850.html">UINT16_MAX - uint16_tの最大値を表す定数</a>
-  </li>
-</ul>
+    <h2><a href="/blog/20201126090559.html">int16_t - 符号あり16bit整数型</a></h2>
+<p>
+  「int16_t」は符号あり16bit整数型です。「stdint.h」をインクルードすることで使えます。
+</p>
+<pre>
+# 符号あり16bit整数型
+int16_t
+</pre>
+<p>
+  符号あり16bit整数型が表現できる整数の最大値は「32767」、最小値は「-32768」です。
+</p>
+<p>
+  最大値は「<a href="/blog/20201125090559.html">INT16_MAX</a>」、最小値は「<a href="/blog/20201121084622.html">INT16_MIN</a>」というマクロで定義されています。
+</p>
+<h3>int16_tのサンプルコード</h3>
+<p>
+  int16_tを使ったサンプルコードです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main() {
+  int16_t num = 1000;
+  
+  printf("%d\n", num);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+1000
+</pre>
 
   </div>
   <div class="bottom">
