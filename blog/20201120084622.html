@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>C99対応のC言語入門</title>
-<meta name="description" content="C99規格に対応したC言語入門のコンテンツです。C言語入門の多くは、C99以前のコンテンツがほとんどのため、ここでは、C99規格に対応した入門を書きます。">
+<title>uint16_t - 符号なし16bit整数型 - C99対応のC言語入門</title>
+<meta name="description" content="「uint16_t」は符号なし16bit整数型です。「stdint.h」をインクルードすることで使えます。C99で導入された型です。">
   </head>
   <body>
     <div class="container">
@@ -29,38 +29,40 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/">C99対応のC言語入門</a></h2>
+    <h2><a href="/blog/20201120084622.html">uint16_t - 符号なし16bit整数型</a></h2>
 <p>
-  C99規格に対応したC言語入門のコンテンツです。C言語入門の多くは、C99以前のコンテンツがほとんどのため、ここでは、C99規格に対応した入門を書きます。
+  「uint16_t」は符号なし16bit整数型です。「stdint.h」をインクルードすることで使えます。C99で導入された型です。
+</p>
+<pre>
+# 符号なし16bit整数型
+uint16_t
+</pre>
+<p>
+  符号なし16bit整数型が表現できる整数の最大値は「65535」、最小値は「0」です。
 </p>
 <p>
-  C99は複素数のための数学関数と型の追加、「//」によるコメント、forのPerl風スコープ、整数幅を確実に指定できる整数型などが追加された、実用的にも便利な機能が追加されたC言語の規格のバージョンです。
+  最大値は「<a href="/blog/20201113150850.html">UINT16_MAX</a>」というマクロで定義されています。
 </p>
-<h3>C言語の開発環境構築</h4>
-<ul>
-  <li><a href="/blog/20201124085008.html">C言語の開発環境の構築</a></li>
-</ul>
-<h3>型</h3>
-<h4>幅が保証される整数型</h4>
-<ul>
-  <li><a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a></li>
-  <li><a href="/blog/20201122084622.html">uint8_t - 符号なし8bit整数型</a></li>
-  <li><a href="/blog/20201126090559.html">int16_t - 符号あり16bit整数型</a></li>
-  <li><a href="/blog/20201120084622.html">uint16_t - 符号なし16bit整数型</a></li>
-</ul>
-<h4>整数型定数マクロ</h4>
-<ul>
-  <li><a href="/blog/20201115090747.html">INT8_MAX - int8_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201114090747.html">INT8_MIN - int8_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201123084622.html">UINT8_MAX - uint8_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201125090559.html">INT16_MAX - int16_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201121084622.html">INT16_MIN - int16_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201113150850.html">UINT16_MAX - uint16_tの最大値を表す定数</a></li>
-</ul>
-<h3>参考情報</h4>
-<ul>
-  <li><a href="/blog/20201116090747.html">プログラミング言語Perlの実装はC言語で書かれている</a></li>
-</ul>
+<h3>uint16_tのサンプルコード</h3>
+<p>
+  uint16_tを使ったサンプルコードです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main() {
+  uint16_t num = 65535;
+  
+  printf("%u\n", num);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+65535
+</pre>
 
   </div>
   <div class="bottom">
