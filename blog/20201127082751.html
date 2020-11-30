@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>int64_t - 符号あり64bit整数型 - C99対応のC言語入門</title>
+<meta name="description" content="「int64_t」は符号あり64bit整数型です。「stdint.h」をインクルードすることで使えます。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201127082751.html">int64_t - 符号あり64bit整数型</a></h2>
+<p>
+  「int64_t」は符号あり64bit整数型です。「stdint.h」をインクルードすることで使えます。
+</p>
+<pre>
+# 符号あり64bit整数型
+int64_t
+</pre>
+<p>
+  符号あり64bit整数型が表現できる整数の最大値は「9223372036854775807」、最小値は「-9223372036854775808」です。
+</p>
+<p>
+  最大値は「<a href="/blog/20201118082751.html">INT64_MAX</a>」、最小値は「<a href="/blog/20201112150850.html">INT64_MIN</a>」というマクロで定義されています。
+</p>
+<h3>int64_tのサンプルコード</h3>
+<p>
+  int64_tを使ったサンプルコードです。Unix/Linux/Mac/Windowsですべて正しく動くように、整数リテラルのサフィックスは「LL」、フォーマット指定子には「%lld」を使用しています。「L」や「%ld」はWindowsでは、符号あり32bit整数を意味しているからです。符号あり64bit整数を保証するために、「LL」と「%lld」を使用しています。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main() {
+  int64_t num = -9223372036854775808LL;
+  
+  printf("%lld\n", num);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+-9223372036854775808
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述C9して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
