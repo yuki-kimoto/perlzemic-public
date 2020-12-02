@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>uint32_t - 符号なし32bit整数型 - C99対応のC言語入門</title>
-<meta name="description" content="「uint32_t」は符号なし32bit整数型です。「stdint.h」をインクルードすることで使えます。C99で導入された型です。">
+<title>UINT64_MAX - uint64_tの最大値を表す定数 - C99対応のC言語入門</title>
+<meta name="description" content="UINT64_MAXはuint64_t - 符号なし64bit整数型の最大値を表す定数です。「stdint.h」をインクルードすると利用できます。">
   </head>
   <body>
     <div class="container">
@@ -29,40 +29,30 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20201111150850.html">uint32_t - 符号なし32bit整数型</a></h2>
+    <h2><a href="/blog/20201108150850.html">UINT64_MAX - uint64_tの最大値を表す定数</a></h2>
 <p>
-  「uint32_t」は符号なし32bit整数型です。「stdint.h」をインクルードすることで使えます。C99で導入された型です。
-</p>
-<pre>
-# 符号なし32bit整数型
-uint32_t
-</pre>
-<p>
-  符号なし32bit整数型が表現できる整数の最大値は「4294967295」、最小値は「0」です。
-</p>
-<p>
-  最大値は「<a href="/blog/20201110150850.html">UINT32_MAX</a>」というマクロで定義されています。
-</p>
-<h3>uint32_tのサンプルコード</h3>
-<p>
-  uint32_tを使ったサンプルコードです。符号あり32bit整数の値を超えおり、符号なし32bit整数であることを示すために整数リテラルで「U」サフィックスを使っています。
+  UINT64_MAXは<a href="/blog/20201109150850.html">uint64_t - 符号なし64bit整数型</a>の最大値を表す定数です。「stdint.h」をインクルードすると利用できます。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
 #include &lt;stdint.h&gt;
 
-int main(void) {
-  uint32_t num = 4294967295U;
-  
-  printf("%u\n", num);
+int main() {
+  printf("%llu", UINT64_MAX);
 }
 </pre>
 <p>
-  出力結果。
+  <a href="https://linux.perlzemi.com/">Unix/Linux</a>、Mac、Windowsで、符号なし64bit整数を正しく表示できるように「%llu」というフォーマット指定子を使っています。
+</p>
+<p>
+  UINT64_MAXの値です。
 </p>
 <pre>
-4294967295
+18446744073709551615
 </pre>
+<p>
+  UINT64_MAXはC99で導入されたマクロです。
+</p>
 
   </div>
   <div class="bottom">
