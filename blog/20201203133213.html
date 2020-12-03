@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>UINT64_MAX - uint64_tの最大値を表す定数 - C99対応のC言語入門</title>
-<meta name="description" content="UINT64_MAXはuint64_t - 符号なし64bit整数型の最大値を表す定数です。「stdint.h」をインクルードすると利用できます。">
+<title>double - 倍精度(64bit)浮動小数点型 - C99対応のC言語入門</title>
+<meta name="description" content="「double」は倍精度(64bit)浮動小数点型です。倍精度というのは単に64bitという意味です。浮動小数点とは、小数をソフトウェアで表現する一つの形式で、IEEE 754 形式においては、符号部、仮数部、指数部からなります。仮数部は、有効桁数のことだと考えてください。">
   </head>
   <body>
     <div class="container">
@@ -29,26 +29,43 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20201108150850.html">UINT64_MAX - uint64_tの最大値を表す定数</a></h2>
+    <h2><a href="/blog/20201203133213.html">double - 倍精度(64bit)浮動小数点型</a></h2>
 <p>
-  UINT64_MAXは<a href="/blog/20201109150850.html">uint64_t - 符号なし64bit整数型</a>の最大値を表す定数です。「stdint.h」をインクルードすると利用できます。
+  「double」は倍精度(64bit)浮動小数点型です。倍精度というのは単に64bitという意味です。浮動小数点とは、小数をソフトウェアで表現する一つの形式で、IEEE 754 形式においては、符号部、仮数部、指数部からなります。仮数部は、有効桁数のことだと考えてください。
+</p>
+<pre>
+# 倍精度(64bit)浮動小数点型
+double
+</pre>
+<p>
+  倍精度(64bit)浮動小数点型が表現できる浮動小数の最大値はDBL_MAX、最小値はFLT_MINで定義されています。
+</p>
+<h3>doubleのサンプルコード</h3>
+<p>
+  doubleを使ったサンプルコードです。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
 #include &lt;stdint.h&gt;
 
 int main(void) {
-  printf("%llu", UINT64_MAX);
+  double num = 5.4;
+  
+  printf("%f\n", num);
 }
 </pre>
 <p>
-  UINT64_MAXの値です。
+  出力結果。
 </p>
 <pre>
-18446744073709551615
+5.400000
 </pre>
+<h3>32bit幅の整数はdoubleで表現できる</h3>
 <p>
-  UINT64_MAXはC99で導入されたマクロです。
+  doubleは浮動小数点型ですが、整数は浮動小数点の一つの値なので、整数も表現できます。
+</p>
+<p>
+  数の大小関係で覚えておいてほしいのは、32bit幅の整数(<a href="/blog/20201130082751.html">int32_t</a>, <a href="/blog/20201111150850.html">uint32_t</a>)は、doubleで表現できるということです。一方で、64it幅の整数(<a href="/blog/20201127082751.html">int64_t</a>, <a href="/blog/20201109150850.html">uint64_t</a>)は、doubleでは表現できません。
 </p>
 
   </div>
