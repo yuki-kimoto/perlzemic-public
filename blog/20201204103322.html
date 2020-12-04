@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>char - 文字を表現する型 - C99対応のC言語入門</title>
+<meta name="description" content="charは、文字を表現する型です。char型は、ASCII文字コード(0～127)を表現することが想定されていると考えられます。char型は、8bit符号あり整数型か、8bit符号なし整数型として定義されています。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201204103322.html">char - 文字を表現する型</a></h2>
+<p>
+  charは、文字を表現する型です。char型は、ASCII文字コード(0～127)を表現することが想定されていると考えられます。char型は、8bit符号あり整数型か、8bit符号なし整数型として定義されています。
+</p>
+<pre>
+# 文字を表現する型
+char
+</pre>
+<h3>charのサンプルコード</h3>
+<p>
+  charを使ったサンプルコードです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  char ch = 'a';
+  
+  printf("%c\n", ch);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+a
+</pre>
+<h3>なぜchar型は、符号ありか符号なしかがはっきりしていないのですか?</h3>
+<p>
+  歴史的な経緯で、charを8bit符号あり整数として実装した処理系と8bit符号なし整数として実装した処理系があったからだと考えられます。そのためC言語仕様では、charは8bit符号あり整数または、8bit符号なし整数として定義されています。
+</p>
+<h3>幅が8bitであることは保証されていますか?</h3>
+<p>
+  はい、幅が8bitであることは保証されています。
+</p>
+<h3>8bitの数値を扱うときは、int8_t, uint8_tを使う</h3>
+<p>
+  文字ではなく、8bitの数値を表現するときは、符号あり、符号なしが、定義されている<a href="/blog/20201117090747.html">int8_t</a>, <a href="/blog/20201122084622.html">uint8_t</a>を使いましょう。
+</p>
+<h3>charではなく、int8_t, uint8_tを全部の箇所で使ったらいいのでは?</h3>
+<p>
+  理想的には、そうです。ただし、歴史的な経緯からC言語では文字や文字列を受け取る関数の引数の型は「char」や「char*」です。
+</p>
+<p>
+  文字や文字列を関数の引数に渡すことを考えると、文字の表現には「char」、文字列の表現には「char*」を使っておくと、型キャストがいらないという点で、簡潔でわかりやすくなります。
+</p>
+<p>
+  また、文字の場合は、符号ありと符号なしで区別ができないことで困るということがあまりありません。もし困った場合は、その場合だけ、int8_tあるいはuint8_tに型キャストできます。
+</p>
+<h3>C言語でUnicodeを表現することはできますか?</h3>
+<p>
+  まず前提として「コードポイントであるUnicode」と「実際の符号化であるUTF-8やUTF-16やUTF-32」を区別できていることを前提とします。
+</p>
+<h4>Unicodeコードポイント</h3>
+<p>
+  Unicode(デファクトスタンダードであるUCS-4)は、最大31bitで、一つの文字を表現します。つまり、包括的に表現しようと思うと、4バイト必要だということです。つまり、<a href="<a href="/blog/20201130082751.html">int32_t型</a>が必要です。一番大きなビットの32bit目は、利用されないことが仕様上保証されているので、<a href="/blog/20201111150850.html">uint32_t型</a>を使う必要はありません。
+</p>
+<p>
+  またC11で追加されたchar32_tを使うこともできます。
+</p>
+<h4>UTF-8</h4>
+<p>
+  UTF-8は、Unicodeコードポイントを1～4バイトの可変長で符号化する符号化形式です。UTF-8は、単なるバイト列で、エンディアンを意識する必要がないです。つまり、文字あるいは文字列はcharの配列として表現できます。
+</p>
+<pre>
+// C言語におけるUTF-８の表現(ソースコードはUTF-8で保存)
+const char* ch = "あ";
+const char* string = "あいうえお";
+</pre>
+<p>
+  UTF-8はprintf関数で、普通に出力できます。
+</p>
+<pre>
+printf("%s\n", string);
+</pre>
+<h4>UTF-32</h4>
+<p>
+  UTF-32は、これが符号化であるという点を除いて、Unicodeコードポイントとまったく同じものです。Unicodeコードポイントの解説を読んでください。
+</p>
+<p>
+  UTF-32は、エンディアンを意識する必要があります。
+</p>
+<h4>UTF-16</h4>
+<p>
+  UTF-16は、Unicodeを一文字を2バイトで表現する符号化形式です。ただし、Unicodeで表現する必要のある文字は、2バイトで表現できる文字の集合を超えています。その場合は、サロゲートペアと呼ばれる方法で、4バイトを使って表現します。
+</p>
+<p>
+  通常は2バイトなので、C言語では、一つの文字はuint16_tで表現できます、4バイトになる場合は、uint16_tふたつで表現できます。
+</p>
+<p>
+  また、C11で追加された、char16_tを使うこともできます。
+</p>
+<p>
+  UTF-16は、エンディアンを意識する必要があります。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述C9して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
