@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>uint16_t - 符号なし16bit整数型 - C99対応のC言語入門</title>
-<meta name="description" content="「uint16_t」は符号なし16bit整数型です。「stdint.h」をインクルードすることで使えます。C99で導入された型です。">
+<title>C99の新機能 - C99対応のC言語入門</title>
+<meta name="description" content="C99の新機能の紹介です。">
   </head>
   <body>
     <div class="container">
@@ -29,39 +29,16 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20201120084622.html">uint16_t - 符号なし16bit整数型</a></h2>
+    <h2><a href="/blog/20201206125815.html">C99の新機能</a></h2>
 <p>
-  「uint16_t」は符号なし16bit整数型です。「stdint.h」をインクルードすることで使えます。C99で導入された型です。
+  C99の新機能の紹介です。
+</p>
+<h3>「//」による一行コメント</h3>
+<p>
+  「//」による一行コメントが、正式に<a href="/blog/20201206125815.html">C99</a>で採用されました。
 </p>
 <pre>
-# 符号なし16bit整数型
-uint16_t
-</pre>
-<p>
-  符号なし16bit整数型が表現できる整数の最大値は「65535」、最小値は「0」です。
-</p>
-<p>
-  最大値は「<a href="/blog/20201113150850.html">UINT16_MAX</a>」というマクロで定義されています。
-</p>
-<h3>uint16_tのサンプルコード</h3>
-<p>
-  uint16_tを使ったサンプルコードです。
-</p>
-<pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdint.h&gt;
-
-int main(void) {
-  uint16_t num = 65535;
-  
-  printf("%u\n", num);
-}
-</pre>
-<p>
-  出力結果。
-</p>
-<pre>
-65535
+// コメント
 </pre>
 
   </div>

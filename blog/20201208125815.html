@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>char* - 文字列を表現する型 - C99対応のC言語入門</title>
+<meta name="description" content="文字列を表現するにはcharのポインタ型である「char*」を使います。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201208125815.html">char* - 文字列を表現する型</a></h2>
+<p>
+  文字列を表現するにはcharのポインタ型である「char*」を使います。
+</p>
+<pre>
+char*
+</pre>
+<p>
+  「char*」型には、文字列リテラルを代入できます。
+</p>
+<pre>
+char* name = "Perl";
+</pre>
+<p>
+  一般的には、文字列リテラルを代入する場合の用途で「char*」型を使う場合は、const修飾子をつけて、文字の変更を行わないようにしておくのが望ましいです。
+</p>
+<pre>
+const char* name = "Perl";
+</pre>
+<p>
+  C言語における文字列とは、末尾が「\0」で終わる文字の配列だということを意識しておきましょう。要素を書くと以下のようになります。
+</p>
+<pre>
+0 1 2 3 4
+P e r l \0
+</pre>
+<p>
+  意味的には、文字列リテラルの代入は以下のコードと同じになります。
+</p>
+<p>
+  文字列リテラルを代入して出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* name = "Perl";
+  printf("%s\n", name);
+}
+</pre>
+<h3>実行時に文字列を生成する場合</h3>
+<p>
+  実行時に動的に文字列を生成するには、mallocでメモリを確保します。Perlという文字は4文字ですが、末尾に「\0」が必要なため、5バイトを確保します。charのサイズは1バイトです。
+</p>
+<pre>
+#include &lt;stdlib.h&gt;
+
+char* name = malloc(sizeof(char) * 5);
+
+// Perl
+name[0] = 'P';
+name[1] = 'e';
+name[2] = 'r';
+name[3] = 'l';
+name[4] = '\0';
+</pre>
+<p>
+  動的に生成した文字列を出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+
+  char* name = malloc(sizeof(char) * 5);
+
+  // Perl
+  name[0] = 'P';
+  name[1] = 'e';
+  name[2] = 'r';
+  name[3] = 'l';
+  name[4] = '\0';
+
+  printf("%s\n", name);
+}
+</pre>
+<h3>途中に\0を含む文字列を作成することはできないの?</h3>
+<p>
+  含むことは可能ですが、文字列に関するC言語関数は、文字列の終わりを「\0」と想定しています。文字列の途中に「\0」を含んだ場合は、その位置を文字列の終了位置として認識します。文字列定数の表現も、末尾に「\0」を自動的につけます。C言語では、文字列の末尾は「\0」であると文法や関数が想定していると考えておくほうがよいでしょう。
+</p>
+<h3>C言語の文字列は長さの情報を含んでいないの?</h3>
+<p>
+  はい。C言語の文字列は長さの情報を含んでいません。「\0」を終了位置とみなしますので、長さを取得する場合は「\0」までの文字数を数える必要があります。文字列の長さを取得するstrlen関数は「\0」までの文字数を数えます。
+</p>
+<h3>C言語の文字列のセキュリティリスク</h3>
+<p>
+  C言語の文字列は末尾が「\0」までを文字列としてみなすという仕様があるために、もし文字列の末尾に「\0」を含むことを忘れると、C言語の文字列関数(最大処理文字数を指定できないもの)は、バッファオーバーランします。
+</p>
+<p>
+  これは、C言語を記述する場合のメモリ操作で、容易に起こりうることです。
+</p>
+<p>
+  C言語の文字列関数を扱う場合は、バッファオーバーランをしないかどうかを、常に考える必要があります。
+</p>
+<p>
+  C言語でなぜ文字列の扱いが難しいのかという理由のひとつが見えてきますね。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
