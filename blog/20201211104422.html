@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>C言語ソースコードを実行する手順 - C99対応のC言語入門</title>
+<meta name="description" content="C言語ソースコードを実行する手順を解説します。コンパイル・リンク・実行という流れがありますが、まずは実行することを目標にしてみましょう。C言語開発環境の構築ができていることが前提です。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201211104422.html">C言語ソースコードを実行する手順</a></h2>
+<p>
+  C言語ソースコードを実行する手順を解説します。コンパイル・リンク・実行という流れがありますが、まずは実行することを目標にしてみましょう。<a href="/blog/20201124085008.html">C言語開発環境の構築</a>ができていることが前提です。
+</p>
+<h3>コンパイルとリンクで実行ファイルを生成</h3>
+<p>
+  コンパイルとリンクを行って、実行ファイルを生成するにはgccコマンドで、「-o」オプションを使用します。
+</p>
+<p>
+  「-o」オプションで出力ファイル名を指定します。
+</p>
+<pre>
+gcc -o 出力ファイル名 入力ファイル名
+</pre>
+<p>
+  このコマンドでは、コンパイルとリンクの作業を一度に行ってしまいます。入力ファイルが一つなので、リンクした気分にはならないです。リンクという言葉の意味もまだ説明していません。まず実行できるところまでを、試してみましょう。
+</p>
+<p>
+  「test.c」というC言語ソースファイルから「test」という実行ファイルを作成してみましょう。
+</p>
+<pre>
+// test.c
+
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("Hello World!\n");
+}
+</pre>
+<p>
+  gccコマンドで実行ファイルを生成します。
+</p>
+<pre>
+gcc -o test test.c
+</pre>
+<h3>実行ファイルを実行する</h3>
+<p>
+  作成された実行ファイルを実行しましょう。実行ファイルというのは、一般的にいうプログラムのことです。
+</p>
+<pre>
+# 実行ファイル(プログラム)を実行する
+./test
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello World!
+</pre>
+<p>
+  先頭に「./」が付いているところに注目してください。<a href="https://linux.perlzemi.com/">Unix/Linux</a>では、セキュリティリスクを減らすために「test」と記述しただけでは、実行ファイルが実行できないようになっています。カレントディレクトリの実行ファイルを実行する場合は、「./」をつける必要があると覚えておきましょう。絶対パスであれば、このようなことを意識する必要はないです。
+</p>
+<p>
+  コンパイル・リンク・実行を一行で書くこともできます。
+</p>
+<pre>
+gcc -o test test.c &amp;&amp; ./test
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
