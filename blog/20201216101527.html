@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>実行ファイルを実行する - C99対応のC言語入門</title>
+<meta name="description" content="実行ファイルを実行する方法を解説します。実行ファイルとは、単にプログラムのことだと考えてください。実行ファイルを実行するは、プログラムを実行すると同じ意味です。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201216101527.html">実行ファイルを実行する</a></h2>
+<p>
+  実行ファイルを実行する方法を解説します。実行ファイルとは、単にプログラムのことだと考えてください。実行ファイルを実行するは、プログラムを実行すると同じ意味です。
+</p>
+<h3>パーミッションの設定</h3>
+<p>
+  実行ファイルを実行するには、ファイルに実行権限が必要です。gccで生成された実行ファイルには、デフォルトで実行権限がつきます。
+</p>
+<p>
+  <a href="https://linux.perlzemi.com/blog/20191126082723.html">lsコマンド</a>の「-l」オプションを使って、ファイルの実行権限を見てみましょう。
+</p>
+<pre>
+ls -l
+</pre>
+<p>
+  実行ファイルである「test」にだけ、「x」という実行権限がついていますね。
+</p>
+<pre>
+-rwxrwxr-x  1 kimoto kimoto    6702 Dec 14 14:42 test
+-rw-r--r--  1 kimoto kimoto      78 Dec 11 10:52 test.c
+-rw-rw-r--  1 kimoto kimoto    1488 Dec 14 14:37 test.o
+</pre>
+<p>
+  参考情報として、実行権限を与えるには<a href="https://linux.perlzemi.com/blog/20200519082545.html">chmod</a>コマンドを使うことを覚えておきましょう。
+</p>
+<h3>実行ファイルを実行する</h3>
+<p>
+  実行ファイルを実行するには、ファイル名を指定して「Enter」を押します。
+</p>
+<pre>
+実行ファイル名
+</pre>
+<p>
+  一つの注意点は<a href="https://linux.perlzemi.com">UNIX/Linux</a>では、カレントディレクトリにある実行ファイルを実行する場合は「./」と先頭につける必要があることです。
+</p>
+<pre>
+./test
+</pre>
+<p>
+  絶対パスや相対パスでも実行ファイルを実行できます。
+</p>
+<pre>
+# 絶対パスで実行
+/foo/bar/test
+
+# 相対パスで実行
+bar/test
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
