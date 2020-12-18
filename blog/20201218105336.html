@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>浮動小数点の四則演算 - C99対応のC言語入門</title>
+<meta name="description" content="浮動小数点の四則演算を行いましょう。浮動小数点の足し算・引き算・掛け算・割り算を行います。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201218105336.html">浮動小数点の四則演算</a></h2>
+<p>
+  <b>浮動小数点の四則演算</b>を行いましょう。浮動小数点の足し算・引き算・掛け算・割り算を行います。
+</p>
+<h3>double型を使った64bit浮動小数点の四則演算</h3>
+<p>
+  <a href="/blog/20201203133213.html">double型</a>を使った64bit浮動小数点の四則演算です。浮動小数点を出力する場合は、フォーマット指定子には「%f」を使います。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  double num1 = 1.45;
+  double num2 = 4.67;
+  
+  // 足し算
+  double num_add = num1 + num2;
+  
+  // 引き算
+  double num_sub = num1 - num2;
+  
+  // 掛け算
+  double num_mul = num1 * num2;
+  
+  // 割り算
+  double num_div = num1 / num2;
+  
+  printf("Add %f\n", num_add);
+  printf("Subtract %f\n", num_sub);
+  printf("Multiply %f\n", num_mul);
+  printf("Division %f\n", num_div);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+Add 6.120000
+Subtract -3.220000
+Multiply 6.771500
+Division 0.310493
+</pre>
+<h3>float型を使った32bit浮動小数点の四則演算</h3>
+<p>
+  <a href="/blog/20201202133213.html">float型</a>を使った32bit浮動小数点の四則演算です。浮動小数点リテラルのfサフィックスを使って、float型にしています。浮動小数点を出力する場合は、フォーマット指定子には「%f」を使います。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  float num1 = 1.45f;
+  float num2 = 4.67f;
+  
+  // 足し算
+  float num_add = num1 + num2;
+  
+  // 引き算
+  float num_sub = num1 - num2;
+  
+  // 掛け算
+  float num_mul = num1 * num2;
+  
+  // 割り算
+  float num_div = num1 / num2;
+  
+  printf("Add %f\n", num_add);
+  printf("Subtract %f\n", num_sub);
+  printf("Multiply %f\n", num_mul);
+  printf("Division %f\n", num_div);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+Add 6.120000
+Subtract -3.220000
+Multiply 6.771500
+Division 0.310493
+</pre>
+<h3>浮動小数点演算の特徴</h3>
+<p>
+  浮動小数点演算の特徴です。
+</p>
+<h4>正確な値ではなく誤差が存在する</h4>
+<p>
+  浮動小数点は、2進数で表現できる数を除いて、内部的には誤差が発生しています。
+</p>
+<p>
+  たとえば、0.5, 0.25, 0.125などは、2進数で0.1, 0.01, 0.001と表現できますから、誤差はありませんが、そうではない数の場合は、数学で扱う正確な値とは誤差が発生しています。
+</p>
+<h4>浮動小数点演算は0除算してもエラーにならない</h4>
+<p>
+  浮動小数点演算は、整数演算と異なり、0除算しても、エラーになりません。nan(Not A Number)と呼ばれる値が設定されます。整数除算のように計算前にチェックする必然性はありません。
+</p>
+<h4>無限大という値を表現できる</h4>
+<p>
+  doubleやfloatで表現できる値の最大値を超えた場合は、Infと呼ばれる無限大の値が設定されます。符号に応じて、正の無限大、負の無限大があります。
+</p>
+<h4>同じ0でも、符号が異なる0が存在する</h4>
+<p>
+  同じ0でも、符号が正の0と符号が負の0が存在します。正の0と負の0は、比較演算では、等価とみなされますが、内部表現が異なり、それを意識する演算では異なる結果になります。
+</p>
+<h4>CPUによって計算結果が異なる場合がある</h4>
+<p>
+  double型は64bit浮動小数点を表現しますが、実はCPUは、64bitの精度を超えて、計算している場合があります。ひとつの例として、IntelのCPUは、80bitの浮動小数点計算用の領域を持ちます。
+</p>
+<p>
+  つまり、64bit浮動小数点としての本来予想される計算結果と、異なる場合があるということです。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
