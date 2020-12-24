@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>if文 - 条件分岐 - C99対応のC言語入門</title>
+<meta name="description" content="C言語の条件分岐について解説します。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201224090954.html">if文 - 条件分岐</a></h2>
+<p>
+  C言語の<b>条件分岐</b>について解説します。
+</p>
+<h3>if文</h3>
+<p>
+  条件分岐を行うために<br>if文</b>を使用します。
+</p>
+<pre>
+if (条件) {
+  // 条件が満たされた場合に実行する処理
+}
+</pre>
+<p>
+  C言語での真偽値は、0が偽で、それ以外の値が真です。NULLはC言語では、0として定義されていますので、偽になります。
+</p>
+<p>
+  if文のサンプルです。
+</p>
+<p>
+  比較演算子は、満たされた場合に1が、満たされなかった場合に0になります。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t flag = 1;
+  
+  if (flag == 1) {
+    printf("1 OK\n");
+  }
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+1 OK
+</pre>
+<h3>else if文</h3>
+<p>
+  複数の条件を書きたい場合は<b>else if文</b>を使用します。else if文は複数記述することができます。
+</p>
+<pre>
+if (条件1) {
+  // 条件1が満たされた場合に実行する処理
+}
+else if (条件2) {
+  // 条件2が満たされた場合に実行する処理
+}
+else if (条件3) {
+  // 条件3が満たされた場合に実行する処理
+}
+</pre>
+<p>
+  else if文のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t flag = 2;
+  
+  if (flag == 1) {
+    printf("1 OK\n");
+  }
+  else if (flag == 2) {
+    printf("2 OK\n");
+  }
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+2 OK
+</pre>
+<h3>else文</h3>
+<p>
+  条件が満たされなかった場合に処理を実行したい場合はelse文を使用します。
+</p>
+<pre>
+if (条件) {
+  // 条件が満たされた場合に実行する処理
+}
+else {
+  // 条件が満たされなかった場合に実行する処理
+}
+
+if (条件1) {
+  // 条件1が満たされた場合に実行する処理
+}
+else if (条件2) {
+  // 条件2が満たされた場合に実行する処理
+}
+else if (条件3) {
+  // 条件3が満たされた場合に実行する処理
+}
+else {
+  // 上記の条件がすべてみたされなかった場合の処理
+}
+</pre>
+<p>
+  else文のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t flag = 3;
+  
+  if (flag == 1) {
+    printf("1 OK\n");
+  }
+  else if (flag == 2) {
+    printf("2 OK\n");
+  }
+  else {
+    printf("Not OK\n");
+  }
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+Not OK
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
