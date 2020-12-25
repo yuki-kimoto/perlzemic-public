@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>C言語の真偽値 - C99対応のC言語入門</title>
+<meta name="description" content="C言語の真偽値についての解説です。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201225090215.html">C言語の真偽値</a></h2>
+<p>
+  C言語の真偽値についての解説です。
+</p>
+<h3>C言語の真偽値</h3>
+<p>
+  C言語では0は偽値で、それ以外が真値です。非常にシンプルです。NULLは、C言語では0と等価として定義されるので、偽値です。
+</p>
+<table>
+  <tr>
+    <th>真値</th><td>0以外</td>
+  </tr>
+  <tr>
+    <th>偽値</th><td>0</td>
+  </tr>
+</table>
+<p>
+  <a href="/blog/20201224090954.html">if文</a>で真偽値を使ってみましょう。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t flag = 1;
+  // int32_t flag = 0;
+  
+  if (flag) {
+    printf("OK\n");
+  }
+  else {
+    printf("Not OK\n");
+  }
+}
+</pre>
+<p>
+  flagが1の時は「OK」、0のときは「Not OK」と表示されます。
+</p>
+<p>
+  NULLも使ってみましょう。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  const char* string = "Hello";
+  // const char* string = NULL;
+  
+  if (string) {
+    printf("OK\n");
+  }
+  else {
+    printf("Not OK\n");
+  }
+}
+</pre>
+<p>
+  文字列が代入されているときは「OK」、NULLが代入されているときは「Not OK」と表示されます。
+</p>
+<h3>C言語には真偽値型は存在しますか?</h3>
+<p>
+  <a href="/blog/20201206125815.html">C99</a>でstdbool.hが導入され_Bool型が追加されました。
+</p>
+<p>
+  1か0にしかならない型です。
+</p>
+<p>
+  ただし処理系が1bitで実装するということは考えにくく、最低1バイト使うので、汎用的に使える<a href="/blog/20201117090747.html">int8_t</a>でよいかもしれないとも思います。
+</p>
+<p>
+  普段は<a href="/blog/20201130082751.html">int32_t</a>を使って、サイズを節約したい場合はint8_tみたいな。
+</p>
+<p>
+  使うかどうかの判断はお任せします。僕の評価は、あってもよいけど、ないならないでよいという感じです。
+</p>
+<h3>Perlの真偽値との違いは?</h3>
+<p>
+  C言語の真偽値は<a href="https://tutorial.perlzemi.com/blog/20080323120628.html">Perlの真偽値</a>と似ています。
+</p>
+<p>
+  C言語では、0が偽値で、それ以外が真です。NULLは、0と等価として定義されているので、偽になります。
+</p>
+<p>
+  Perlでは、数値0, 文字列の0, undef, 空文字列, 空のリストが、偽値で、それ以外は真です。
+</p>
+<p>
+  体感としては真偽値は、PerlとC言語は似た感覚で使えます。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
