@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>整数の四則演算 - 書き始め - C99対応のC言語入門</title>
+<meta name="description" content="整数の四則演算を行いましょう。整数の足し算・引き算・掛け算・割り算を行います。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210108153045.html">整数の四則演算 - 書き始め</a></h2>
+<p>
+  <b>整数の四則演算</b>を行いましょう。整数の足し算・引き算・掛け算・割り算を行います。
+</p>
+<h3>C言語の整数の四則演算の注意点</h3>
+<p>
+  C言語の整数の四則演算の規則は簡単なように見えて、意外と複雑です。複雑な理由をまず先に書いておきます。
+</p>
+<h4>符号あり整数型と符号なし整数型の区別</h4>
+<p>
+  まず、C言語には、型として、符号あり整数型と符号なし整数型があります。
+</p>
+<p>
+  さて、符号あり整数型と符号なし整数型を演算したら、結果はどうなるのだろうか? 結果の型は、結果の値は? そんな疑問がわいてきますね。
+</p>
+<p>
+  C言語の型の自動変換規則の仕様は、複雑で、覚えておくことは難しく感じます。
+</p>
+<p>
+  ですので、ここでは、まずベストプラクティスを先に書いておきましょう。
+</p>
+<h4>符号あり整数型と符号なし整数型を混ぜた演算を行わない</h4>
+<p>
+  符号あり整数型と符号なし整数型を混ぜた演算は行わない。演算が必要な場合は、型変換によって、符号あり整数型か符号なし整数型にそろえましょう。
+</p>
+<h4>整数の演算は符号あり整数型で行う</h4>
+<p>
+  整数の演算は符号あり整数型で行う。
+</p>
+<p>
+  整数の演算はできる限り符号あり整数型どうしで行います。<a href="/blog/20201109150850.html">符号なし64bit整数型であるuint64_t型</a>の演算は、ごくたまに必要になりますが、これ以外の演算は、符号あり64bit以下の整数型(<a href="/blog/20201127082751.html">int64_t</a>, <a href="/blog/20201130082751.html">int32_t</a>, <a href="/blog/20201126090559.html">int16_t</a>, <a href="/blog/20201117090747.html">int8_t</a>)で行うことができます。
+</p>
+<h4>最初に選択するのは符号あり32bit整数型</h4>
+<p>
+  整数演算において最初に選択する整数型は、<a href="/blog/20201130082751.html">符号あり32bit整数型のint32_t</a>です。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 符号あり32bit整数型
+  int32_t num = 3;
+}
+</pre>
+<p>
+  符号あり32bit整数は、整数型の最も基本的な型です。
+</p>
+<p>
+  符号あり32bit整数演算は符号あり64bit整数演算よりもメモリの利用量が少なく、速いです。どれくらい速いのかはわかりませんが、アーキテクチャを考えると64bit整数演算よりも遅くなることはないと考えます。
+</p>
+<p>
+  符号あり64bit整数演算が必要になる場合には、符号あり64bit整数型int64_tを使うようにします。
+</p>
+<p>
+  符号あり16bit整数型と符号あり8bit整数型を選ばないのは、多くの処理系において、これらの型は、符号あり32bit整数に型拡張されCPU上で計算されると想定されるからです。これをC言語仕様では汎整数拡張と呼びます。
+</p>
+<p>
+  C言語の仕様では、int型より小さい符号あり整数型(shortやsigned char)は、intに型拡張されます。C言語のintの仕様における定義は、「最低限16bit幅を持つ整数型」です。ただし、2020年、多くの処理系では、int型は32bitであると想定してもよいでしょう。つまり、32bitより小さい符号あり整数は、符号あり32bit整数に型拡張されると想定してください。
+</p>
+<h4>符号あり整数型の演算における自動的な型拡張変換</h4>
+<p>
+  符号あり整数型どうしの演算では、幅が小さい方の型は、幅が大きい方の型に拡張されて計算されます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 符号あり32bit整数型と符号あり64bit整数型の演算
+  // num1はint64_tに型変換される
+  int32_t num1 = 3;
+  int64_t num2 = 5;
+
+  int64_t num3 = num1 + num2;
+}
+</pre>
+<p>
+  以下と同じ意味になります。
+</p>
+<pre>
+int64_t num3 = (int64_t)num1 + num2;
+</pre>
+<p>
+  符号あり整数型における型の拡張においては、中身の値が変わることはないので、安心できます。
+</p>
+<p>
+  (続く)
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
