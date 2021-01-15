@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>UINT32_MAX - uint32_tの最大値を表す定数 - C99対応のC言語入門</title>
-<meta name="description" content="UINT32_MAXはuint32_t - 符号なし32bit整数型の最大値を表す定数です。「stdint.h」をインクルードすると利用できます。">
+<title>for文 - 繰り返しの構文 - C99対応のC言語入門</title>
+<meta name="description" content="for文を使用すると繰り返しが書けます。">
   </head>
   <body>
     <div class="container">
@@ -29,27 +29,96 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20201110150850.html">UINT32_MAX - uint32_tの最大値を表す定数</a></h2>
+    <h2><a href="/blog/20210115151850.html">for文 - 繰り返しの構文</a></h2>
 <p>
-  UINT32_MAXは<a href="/blog/20201111150850.html">uint32_t - 符号なし32bit整数型</a>の最大値を表す定数です。「stdint.h」をインクルードすると利用できます。
+  for文を使用すると繰り返しが書けます。
 </p>
 <pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdint.h&gt;
-
-int main(void) {
-  printf("%u", UINT32_MAX);
+for (ループ変数の初期化;繰り返し条件;ループ変数の更新) {
+  
 }
 </pre>
 <p>
-  UINT32_MAXの値です。
+  for文で合計を求めるサンプルです。
 </p>
 <pre>
-4294967295
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // for文で合計を求める
+  int32_t total = 0;
+  int32_t i;
+  for (i = 0; i &lt; 10; i++) {
+    total += i;
+  }
+  
+  printf("%d\n", total);
+}
 </pre>
 <p>
-  UINT32_MAXはC99で導入されたマクロです。
+  0～9までの合計が出力されます。
 </p>
+<pre>
+45
+</pre>
+<h3>C99で追加されたforのループ変数初期化部における変数宣言</h3>
+<p>
+  <a href="/blog/20201206125815.html">C99</a>で追加されたforのループ変数初期化部における変数宣言の機能が便利です。
+</p>
+<pre>
+for (ループ変数の宣言と初期化;繰り返し条件;ループ変数の更新) {
+  
+}
+</pre>
+<p>
+  for文で合計を求めるサンプルです。C99の機能を使って、初期化と同時に宣言を行っています。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // for文で合計を求める
+  int32_t total = 0;
+  for (int32_t i = 0; i &lt; 10; i++) {
+    total += i;
+  }
+  
+  printf("%d\n", total);
+}
+</pre>
+<p>
+  意味的には次のコードのシンタックスシュガーとなっています。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // for文で合計を求める
+  int32_t total = 0;
+  {
+    int32_t i;
+    for (i = 0; i &lt; 10; i++) {
+      total += i;
+    }
+  }
+  
+  printf("%d\n", total);
+}
+</pre>
+<p>
+  新しめのgccであれば、オプションなしで動くと思います。古めのgccであれば次のオプションをつけます。
+</p>
+<pre>
+gcc -std=c99 -o a a.c &amp;&amp; ./a
+
+gcc -std=gnu99 -o a a.c &amp;&amp; ./a
+</pre>
 
   </div>
   <div class="bottom">

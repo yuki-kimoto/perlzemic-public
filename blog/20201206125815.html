@@ -35,11 +35,45 @@
 </p>
 <h3>「//」による一行コメント</h3>
 <p>
-  「//」による一行コメントが、正式に<a href="/blog/20201206125815.html">C99</a>で採用されました。
+  「//」による一行コメントが、正式にC99で採用されました。
 </p>
 <pre>
 // コメント
 </pre>
+<h3>forのループ変数初期化部で変数宣言が可能に</h3>
+<p>
+  forのループ変数初期化部で変数宣言が可能になりました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  int32_t total = 0;
+
+  // forのループ変数初期化部で変数宣言を行う
+  for (int32_t i = 0; i &lt; 10; i++) {
+    total += i;
+  }
+  
+  printf("%d\n", total);
+}
+</pre>
+<h3>確実な幅を指定できる整数型</h3>
+<p>
+  確実な幅を指定できる整数型が利用できるようになりました。
+</p>
+<ul>
+  <li><a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a></li>
+  <li><a href="/blog/20201126090559.html">int16_t - 符号あり16bit整数型</a></li>
+  <li><a href="/blog/20201130082751.html">int32_t - 符号あり32bit整数型</a></li>
+  <li><a href="/blog/20201127082751.html">int64_t - 符号あり64bit整数型</a></li>
+  <li><a href="/blog/20201122084622.html">uint8_t - 符号なし8bit整数型</a></li>
+  <li><a href="/blog/20201120084622.html">uint16_t - 符号なし16bit整数型</a></li>
+  <li><a href="/blog/20201111150850.html">uint32_t - 符号なし32bit整数型</a></li>
+  <li><a href="/blog/20201109150850.html">uint64_t - 符号なし64bit整数型</a></li>
+</ul>
 
   </div>
   <div class="bottom">
@@ -60,7 +94,13 @@
           <!-- side -->
 <div class="side-list">
   <div class="side-list-title">
-    コンテンツ
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
   </div>
   <ul>
     <li><a href="/list.html">新着記事</a></li>
