@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>for文 - 繰り返しの構文 - C99対応のC言語入門</title>
-<meta name="description" content="for文を使用すると繰り返しが書けます。">
+<title>while文 - 繰り返しの構文 - C99対応のC言語入門</title>
+<meta name="description" content="while文を使用すると繰り返しが書けます。">
   </head>
   <body>
     <div class="container">
@@ -29,17 +29,17 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210115151850.html">for文 - 繰り返しの構文</a></h2>
+    <h2><a href="/blog/20210119082326.html">while文 - 繰り返しの構文</a></h2>
 <p>
-  for文を使用すると繰り返しが書けます。
+  while文を使用すると繰り返しが書けます。
 </p>
 <pre>
-for (ループ変数の初期化;繰り返し条件;ループ変数の更新) {
+while (繰り返し条件) {
   
 }
 </pre>
 <p>
-  for文で合計を求めるサンプルです。
+  while文で合計を求めるサンプルです。
 </p>
 <pre>
 #include &lt;stdint.h&gt;
@@ -47,11 +47,12 @@ for (ループ変数の初期化;繰り返し条件;ループ変数の更新) {
 
 int main(void) {
   
-  // for文で合計を求める
+  // while文で合計を求める
   int32_t total = 0;
-  int32_t i;
-  for (i = 0; i &lt; 10; i++) {
+  int32_t i = 0;
+  while (i &lt; 10) {
     total += i;
+    i++;
   }
   
   printf("%d\n", total);
@@ -64,7 +65,15 @@ int main(void) {
 45
 </pre>
 <p>
-  for文は<a href="/blog/20210119082326.html">while文</a>のシンタックスシュガーです。以下のwhile文とfor文は等価です。
+  上記のwhile文は<a href="/blog/20210115151850.html">for文</a>を使って簡潔に書くことができます。
+</p>
+<h3>while文とfor文の使い分け</h3>
+<p>
+  while文とfor文はどのように使い分けるのでしょうか?
+</p>
+<h4>for文が適しているサンプル</h4>
+<p>
+  配列などインデックスを使う処理は、for文で書いた方が、わかりやすく簡潔に書けます。インデックスの間隔が+1や+2などの固定されている場合はfor文で十分です。
 </p>
 <pre>
 #include &lt;stdint.h&gt;
@@ -72,28 +81,23 @@ int main(void) {
 
 int main(void) {
   
+  int32_t nums[3] = {1, 3, 5};
+  
   // for文で合計を求める
   int32_t total = 0;
-  int32_t i = 0;
-  while (i &lt; 10) {
-    total += i;
-    i++;
+  for (int32_t i = 0; i &lt; 3; i++) {
+    total += nums[i];
   }
   
   printf("%d\n", total);
 }
 </pre>
-<h3>C99で追加されたforのループ変数初期化部における変数宣言</h3>
+<h4>while文が適しているサンプル</h4>
 <p>
-  <a href="/blog/20201206125815.html">C99</a>で追加されたforのループ変数初期化部における<a href="/blog/20201217105308.html">変数宣言</a>の機能が便利です。
+  上記に当てはまらない場合は、while文を使って書きます。これは、絶対的な基準というわけでもないので、おおまかな目安としてください。
 </p>
-<pre>
-for (ループ変数の宣言と初期化;繰り返し条件;ループ変数の更新) {
-  
-}
-</pre>
 <p>
-  for文で合計を求めるサンプルです。C99の機能を使って、変数宣言と同時に初期化を行っています。
+  たとえば、文字列の終端文字「\0」を見つけるまでという処理は、whileが適しているように感じます。
 </p>
 <pre>
 #include &lt;stdint.h&gt;
@@ -101,43 +105,22 @@ for (ループ変数の宣言と初期化;繰り返し条件;ループ変数の�
 
 int main(void) {
   
-  // for文で合計を求める
-  int32_t total = 0;
-  for (int32_t i = 0; i &lt; 10; i++) {
-    total += i;
-  }
+  // 文字列定数
+  const char* string = "abc";
   
-  printf("%d\n", total);
-}
-</pre>
-<p>
-  意味的には次のコードのシンタックスシュガーとなっています。
-</p>
-<pre>
-#include &lt;stdint.h&gt;
-#include &lt;stdio.h&gt;
+  // 一文字(文字列定数の先頭)を指すポインタ
+  const char* buf_ptr = string;
 
-int main(void) {
-  
-  // for文で合計を求める
-  int32_t total = 0;
-  {
-    int32_t i;
-    for (i = 0; i &lt; 10; i++) {
-      total += i;
-    }
+  // 終端文字「\0」が現れるまで繰り返す
+  while (*buf_ptr != '\0') {
+    
+    // *で文字の実態を取り出して出力
+    printf("%c\n", *buf_ptr);
+    
+    // ポインタをインクリメントして文字位置を進める
+    buf_ptr++;
   }
-  
-  printf("%d\n", total);
 }
-</pre>
-<p>
-  新しめのgccであれば、オプションなしで動くと思います。古めのgccであれば次のオプションをつけます。
-</p>
-<pre>
-gcc -std=c99 -o a a.c &amp;&amp; ./a
-
-gcc -std=gnu99 -o a a.c &amp;&amp; ./a
 </pre>
 
   </div>
