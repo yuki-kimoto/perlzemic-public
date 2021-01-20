@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>enum - 列挙型 - C99対応のC言語入門</title>
+<meta name="description" content="列挙型enumを使うと、連続した整数定数を簡単に記述できます。定数名1は0、定数名2は1、定数名3は2になります。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210120133501.html">enum - 列挙型</a></h2>
+<p>
+  列挙型enumを使うと、連続した整数定数を簡単に記述できます。定数名1は0、定数名2は1、定数名3は2になります。
+</p>
+<pre>
+enum {
+  定数名1,
+  定数名2,
+  定数名3,
+  ...
+};
+</pre>
+<p>
+  列挙型enumを使ったサンプルです。enumは、switch文と組み合わせて使うことが多いので、switch文のサンプルにしました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+enum {
+  SPVM_OP_C_ID_IF,
+  SPVM_OP_C_ID_UNLESS,
+  SPVM_OP_C_ID_ELSIF,
+  SPVM_OP_C_ID_ELSE,
+  SPVM_OP_C_ID_FOR,
+};
+
+int main(void) {
+  
+  int32_t id = SPVM_OP_C_ID_UNLESS;
+  
+  switch (id) {
+    case SPVM_OP_C_ID_IF: {
+      printf("IF\n");
+      break;
+    }
+    case SPVM_OP_C_ID_UNLESS: {
+      printf("UNLESS\n");
+      break;
+    }
+    case SPVM_OP_C_ID_ELSIF: {
+      printf("ELSIF\n");
+      break;
+    }
+    case SPVM_OP_C_ID_ELSE: {
+      printf("ELSE\n");
+      break;
+    }
+    case SPVM_OP_C_ID_FOR: {
+      printf("FOR\n");
+      break;
+    }
+    default: {
+      printf("No Match\n");
+    }
+  }
+}
+</pre>
+<p>
+  列挙型の識別子は、識別子名であればなんでもよいですが、C言語には名前空間がないので、サンプルでは、名前空間を持っているかのような名前「SPVM_OP_C_XXX」(spvm_op.cのソースコードの中の定数「constant」定義という意味)を使用しています。
+</p>
+<h3>列挙型はマクロによる定数定義と意味的に同じ</h3>
+<p>
+  列挙型はマクロによる定数定義と意味的に同じです。
+</p>
+<pre>
+// 列挙型を使った整数定義
+enum {
+  SPVM_OP_C_ID_IF,
+  SPVM_OP_C_ID_UNLESS,
+  SPVM_OP_C_ID_ELSIF,
+}
+
+// マクロを使った整数定義
+#define SPVM_OP_C_ID_IF 0
+#define SPVM_OP_C_ID_UNLESS 1
+#define SPVM_OP_C_ID_ELSIF 2
+</pre>
+<p>
+  意味的には同じですが、列挙型は、マクロとことなりプリプロセッサではなく、コンパイラで処理されることが特徴です。コンパイラによって、定数に展開されます。
+</p>
+<p>
+  C言語のベストプラクティスは、マクロを必要な部分以外では使わないということですので、連続した整数定数が欲しい場合は、列挙型を使うのがお勧めです。
+</p>
+<h3>列挙型の疑問</h3>
+<p>
+  列挙型の疑問を列挙します。
+</p>
+<h4>列挙型で整数の開始値を変えることはできますか?</h4>
+<p>
+  はい、できます。整数の開始値を変えるには「定数名 = 数値」のように書きます。次の低数値は、インクリメントされた値になります。
+</p>
+<pre>
+enum {
+  SPVM_OP_C_ID_IF = 3,    # 3
+  SPVM_OP_C_ID_UNLESS,    # 4
+  SPVM_OP_C_ID_ELSIF,     # 5
+  SPVM_OP_C_ID_ELSE = 10, # 10
+  SPVM_OP_C_ID_FOR,       # 11
+};
+</pre>
+<h4>列挙型で浮動小数点を使うことはできますか?</h4>
+<p>
+  できません。浮動小数点の定数を定義したい場合は、マクロを使用してください。
+</p>
+<pre>
+#define SPVM_OP_C_ID_IF 5.23
+</pre>
+<h4>列挙型の識別子は大文字ですか?</h4>
+<p>
+  C言語の一般的な慣習として、定数は大文字で書くのがよいと思われます。
+</p>
+<h4>列挙型はどの辺が型なのですか?</h4>
+<p>
+  列挙型には、型のように名前をつけて、型のように扱うことができます。
+</p>
+<pre>
+enum SPVM_OP_C_ID_TYPE {
+  SPVM_OP_C_ID_IF,
+  SPVM_OP_C_ID_UNLESS,
+  SPVM_OP_C_ID_ELSIF,
+  SPVM_OP_C_ID_ELSE,
+  SPVM_OP_C_ID_FOR,
+};
+</pre>
+<p>
+  ただし列挙型に代入したときの挙動はC言語仕様では定義されておらず、処理系依存ですので、型としての列挙型は、あまり使わない方がよいのではないかと考えます。
+</p>
+<h4>列挙型ではなく文字列を使ってはいけないのですか?</h4>
+<p>
+  列挙型は、整数に対して識別子、つまり名前をつける機能です。それならば最初から、文字列を使ってはいけないのでしょうか?
+</p>
+<p>
+  動的な型を持つ<a href="https://tutorial.perlzemi.com/">Perl</a>のようなプログラミング言語であれば、この方法がベストだと思います。
+</p>
+<pre>
+if ($id eq 'if') {
+  
+}
+elsif ($id eq 'unless') {
+  
+}
+</pre>
+<p>
+  ただしC言語を使うのであれば、パフォーマンスを速くしたいという動機を持って使っているのでしょう。識別子がある数を超える場合(10個くらい?)は、switch文で整数判定して、ジャンプするのが、最速です。
+</p>
+<p>
+  またC言語の文字列比較は、strcmp関数を使う必要がありますし、バッファオーバーランの可能性もあります。
+</p>
+<p>
+  バッファオーバーランを防ぐために、比較文字数を制限するstrncmp関数を使っても、そもそも途中で文字列が切れるという可能性もあります。
+</p>
+<p>
+  このようにC言語の文字列では、考えるべきことがたくさんあるので、列挙型で整数を定義しておくのが、やりやすいです。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
