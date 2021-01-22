@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>switch文 - 整数の高速な条件分岐 - C99対応のC言語入門</title>
+<meta name="description" content="switch文を使うと、整数の高速な条件分岐を行うことができます。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210122133501.html">switch文 - 整数の高速な条件分岐</a></h2>
+<p>
+  switch文を使うと、整数の高速な条件分岐を行うことができます。
+</p>
+<pre>
+switch (値) {
+  case ケース1の値:
+    // 処理1
+    break;
+  case ケース2の値:
+    // 処理2
+    break;
+  case ケース3の値:
+    // 処理3
+    break;
+  default:
+    // 上記以外のケースの場合の処理
+}
+</pre>
+<p>
+  break文は必須ではありませんが、breakがない場合は、switch文の外には移動せずに、下の文が実行されます。
+</p>
+<pre>
+switch (値) {
+  case ケース1の値:
+  case ケース2の値:
+    // ケース1あるいはケース2の場合の処理
+    break;
+  case ケース3の値:
+    // 処理3
+    break;
+  default:
+    // 上記以外のケースの場合の処理
+}
+</pre>
+<p>
+  break文の記述のし忘れは、経験的に語ると、頻繁に発生します。あれ、おかしいな、と思ったらbreak書き忘れてたみたいな。
+</p>
+<p>
+  switch文のそれぞれの場合の処理では、変数宣言を行いたい場合も多いので、変数宣言を行いたい場合は、以下のようにスコープを作っておくとよいでしょう。
+</p>
+<pre>
+switch (値) {
+  case ケース1の値: {
+    // 処理1
+    break;
+  }
+  case ケース2の値: {
+    // 処理2
+    break;
+  }
+  case ケース3の値: {
+    // 処理3
+    break;
+  }
+  default: {
+    // 上記以外のケースの場合の処理
+  }
+}
+</pre>
+<p>
+  switch文を使ったサンプルです。<a href="/blog/20210120133501.html">列挙型</a>と組み合わせて使っています。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+enum {
+  SPVM_OP_C_ID_IF,
+  SPVM_OP_C_ID_UNLESS,
+  SPVM_OP_C_ID_ELSIF,
+  SPVM_OP_C_ID_ELSE,
+  SPVM_OP_C_ID_FOR,
+};
+
+int main(void) {
+  
+  int32_t id = SPVM_OP_C_ID_UNLESS;
+  
+  switch (id) {
+    case SPVM_OP_C_ID_IF: {
+      printf("IF\n");
+      break;
+    }
+    case SPVM_OP_C_ID_UNLESS: {
+      printf("UNLESS\n");
+      break;
+    }
+    case SPVM_OP_C_ID_ELSIF: {
+      printf("ELSIF\n");
+      break;
+    }
+    case SPVM_OP_C_ID_ELSE: {
+      printf("ELSE\n");
+      break;
+    }
+    case SPVM_OP_C_ID_FOR: {
+      printf("FOR\n");
+      break;
+    }
+    default: {
+      printf("No Match\n");
+    }
+  }
+}
+</pre>
+<h3>switch文の内部実装はどうなっていますか?</h3>
+<p>
+  整数のパターンによって、二種類のジャンプテーブルが選択的に使われていると想像します。
+</p>
+<h4>整数の範囲が小さい場合</h4>
+<p>
+  ジャンプ先のアドレスは、連続した整数位置に並べられ、計算量O(1)でジャンプできます。
+</p>
+<pre>
+5 0x1235
+6 0x4568
+7 NULL
+8 NULL
+9 0x3289
+</pre>
+<h4>整数の範囲が大きい場合</h4>
+<p>
+  ジャンプ先のアドレスは、二分探索が可能なように小さい順に並べられ、計算量O(n)でジャンプできます。
+</p>
+<pre>
+5     0x1237
+6     0x4563
+7000  0x8768
+10000 0x3284
+</pre>
+<h3>if文とswitch文はどのように使い分けますか?</h3>
+<p>
+  <a href="/blog/20201224090954.html">if文</a>とswitch文はどのように使い分けるでしょうか?
+</p>
+<p>
+  switch文は、整数にマッチする場合にだけ使います。switch文は、<a href="/blog/20210120133501.html">列挙型</a>との相性が非常によいです。
+</p>
+<p>
+  また、マッチさせる数が多い場合は、if文よりも速いです。たとえば、255個のIDで分岐したい場合は、switch文は高速で適しているといえます。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
