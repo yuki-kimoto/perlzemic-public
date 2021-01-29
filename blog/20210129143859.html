@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>配列 - C99対応のC言語入門</title>
+<meta name="description" content="C言語の配列についての解説です。C言語の配列は、長さが固定の静的な配列です。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210129143859.html">配列</a></h2>
+<p>
+  C言語の配列についての解説です。C言語の配列は、長さが固定の静的な配列です。
+</p>
+<pre>
+# 配列の宣言
+型 変数名[要素数];
+</pre>
+<p>
+  長さ3のint32_t型の配列を宣言するサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // 配列の宣言
+  int32_t nums[3];
+}
+</pre>
+<p>
+  配列の要素は、初期化されていません。0で初期化されるわけではないので注意しましょう。
+</p>
+<h3>配列の初期化</h3>
+<p>
+  宣言と同時に配列を初期化することができます。要素数は省略できます。
+</p>
+<pre>
+# 配列の宣言と初期化
+型 変数名[] = {要素0の初期値, 要素1の初期値, 要素2の初期値};
+</pre>
+<p>
+  int32_t型の配列を宣言と同時に初期化するサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // 配列の宣言
+  int32_t nums[] = {3, 5, 9};
+}
+</pre>
+<h3>配列の長さを管理する</h3>
+<p>
+  C言語では、配列の長さを取得することはできません。自分で管理する必要があります。C言語の配列は、メモリ上へのポインタであり、長さ情報を持たないからです。
+</p>
+<p>
+  ですので、自分で記述して管理します。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // 配列の宣言
+  int32_t nums[] = {3, 5, 9};
+  
+  // 配列の長さ
+  int32_t nums_length = 3;
+}
+</pre>
+<h3>配列の要素への取得と設定</h3>
+<p>
+  配列の要素への取得と設定は以下の構文で行います。要素番号は0から始まります。
+</p>
+<pre>
+# 配列の要素の取得
+配列[要素番号]
+
+# 配列の要素の設定
+配列[要素番号] = 値
+</pre>
+<p>
+  配列の要素の取得の設定のサンプルです。間違って、要素番号が、配列の最後の要素番号を超えた場合は、本来アクセスしてはいけないメモリ領域にアクセスしていることになりますので、注意しましょう。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // 配列の宣言
+  int32_t nums[] = {3, 5, 9};
+  
+  // 配列の要素の取得
+  int32_t num1 = nums[1];
+  printf("%d\n", num1);
+  
+  // 配列の要素の設定
+  nums[1] = 12;
+  printf("%d\n", nums[1]);
+}
+</pre>
+<h3>配列の要素をすべて処理する</h3>
+<p>
+  <a href="/blog/20210115151850.html">for文</a>を使って配列の要素をすべて出力してみましょう。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // 配列
+  int32_t nums[] = {3, 5, 9};
+  
+  // 配列の長さ
+  int32_t nums_length = 3;
+  
+  // 配列の要素をすべて出力
+  for (int32_t i = 0; i &lt; nums_length; i++) {
+    printf("%d\n", nums[i]);
+  }
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+3
+5
+9
+</pre>
+<h3>配列のデータは関数のコールスタック上に保存される</h3>
+<p>
+  配列のデータは、関数のコールスタック上に保存されます。関数呼び出しを行ったときに、ローカル変数のためにコールスタックが確保されますが、この領域が使われます。mallocを使って、ヒープを確保するのと対照的です。
+</p>
+<p>
+  コールスタック上のメモリアクセスは、局所性が高いので、ヒープよりも、パフォーマンスが良いです。
+</p>
+<h3>Perlの配列との違い</h3>
+<p>
+  C言語の配列は、静的な配列であり、関数のコールスタック上にメモリが確保されます。配列の要素のサイズは、要素の型のサイズ(構造体の場合はパディングを含むサイズ)です。
+</p>
+<p>
+  一方、<a href="https://tutorial.perlzemi.com/blog/20161012147627.html">Perlの配列</a>は、動的な配列であり、ヒープ上にメモリが確保されます。配列の要素のサイズは、SV型のサイズです。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
