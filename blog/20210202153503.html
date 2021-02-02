@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>型定義ヘッダ - ヘッダファイル間の読み込みを減らす - C99対応のC言語入門</title>
+<meta name="description" content="C言語でヘッダファイル間の読み込みを減らすためのテクニックとして、型定義ヘッダを紹介します。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210202153503.html">型定義ヘッダ - ヘッダファイル間の読み込みを減らす</a></h2>
+<p>
+  C言語でヘッダファイル間の読み込みを減らすためのテクニックとして、型定義ヘッダを紹介します。
+</p>
+<p>
+  型定義ヘッダとはtypedef文を使って、構造体の別名が定義されたヘッダファイルのことです。
+</p>
+<p>
+  このファイル名は「spvm_typedef.h」とします。
+</p>
+<h3>型定義ヘッダ</h3>
+<p>
+  型定義ヘッダで行っていることはtypedef文を使って「struct spvm_field」という構造体に「SPVM_FIELD」という型の別名をつけていることと、「struct spvm_package」という構造体に「SPVM_PACKAGE」という型の別名をつけていることです。ついでに、幅が保証された整数型を使える用にするために、「stdint.h」も読み込んでいます。
+</p>
+<p>
+  <b>spvm_typedef.h</b>
+</p>
+<pre>
+#ifndef SPVM_TYPEDEF_H
+#define SPVM_TYPEDEF_H
+
+#include &lt;stdint.h&gt;
+
+// spvm_field.h
+struct spvm_field;
+typedef struct spvm_field SPVM_FIELD;
+
+// spvm_package.h
+struct spvm_package;
+typedef struct spvm_package SPVM_PACKAGE;
+#endif
+</pre>
+<p>
+  構造体の定義は、一度しか定義してはいけませんが、構造体の名前は、単独で宣言でき、後で、構造体の定義を書くことができます。
+</p>
+<pre>
+// 構造体の名前は先に宣言してOK
+struct spvm_field;
+
+// 構造体定義を行う前に型の別名をつける
+typedef struct spvm_package SPVM_PACKAGE;
+
+// 構造体定義
+struct spvm_field {
+  int32_t id;
+  const char* name;
+  SPVM_PACKAGE* package;
+}
+</pre>
+<p>
+  このことを理解しておくと、構造体の定義を行う前に、構造体の名前を宣言して、typedef文で、別名をつけることができます。
+</p>
+<p>
+  以下の部分は、<a href="/blog/20210201153503.html">インクルードガード</a>です。
+</p>
+<pre>
+#ifndef SPVM_TYPEDEF_H
+#define SPVM_TYPEDEF_H
+
+#endif
+</pre>
+<p>
+  次に「spvm_filed.h」と「spvm_package.h」という個別のヘッダファイルを見てみましょう。
+</p>
+<h3>個別のヘッダファイル</h3>
+<h4>spvm_filed.h</h4>
+<p>
+  「spvm_filed.h」の中では、SPVM_PACKAGEという型を参照しています。
+</p>
+<pre>
+#ifndef SPVM_FIELD_H
+#define SPVM_FIELD_H
+
+#include "spvm_typedef.h"
+
+struct spvm_field {
+  int32_t id;
+  const char* name;
+  SPVM_PACKAGE* package;
+};
+
+#endif
+</pre>
+<p>
+  「spvm_package.h」を取り込んでいるのではなく「spvm_typedef.h」を取り込んでいるところに注目しましょう。
+</p>
+<h4>spvm_package.h</h4>
+<p>
+  「spvm_package.h」の中では、SPVM_FIELDという型を参照しています。
+</p>
+<pre>
+#ifndef SPVM_PACKAGE_H
+#define SPVM_PACKAGE_H
+
+#include "spvm_typedef.h"
+
+struct spvm_package {
+  int32_t id;
+  const char* name;
+  SPVM_FIELD* fields;
+};
+
+#endif
+</pre>
+<p>
+  「spvm_field.h」を取り込んでいるのではなく「spvm_typedef.h」を取り込んでいるところに注目しましょう。
+</p>
+<p>
+  このように、ヘッダファイルの取り込みあいをするのではなく、個別のヘッダファイルから型定義ファイルを読み込むことで、解決しています。
+</p>
+<p>
+  型定義ファイルをつかうと、コードの見通しが良くなり、循環参照の問題も気にする必要がなくなります。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
