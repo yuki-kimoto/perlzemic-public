@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>typedef文 - 型の別名を作成する - C99対応のC言語入門</title>
+<meta name="description" content="typedef文を使うと型の別名を作成できます。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210204153019.html">typedef文 - 型の別名を作成する</a></h2>
+<p>
+  typedef文を使うと型の別名を作成できます。
+</p>
+<pre>
+typedef 型名 型の別名
+</pre>
+<h4>構造体の別名を作成</h4>
+<p>
+  構造体の別名を作成してみましょう。「struct spvm_field」という構造体に「SPVM_FIELD」という名前をつけます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+// 構造体定義
+struct spvm_field {
+  int32_t id;
+  const char* name;
+};
+
+// 構造体の別名を作成
+typedef struct spvm_field SPVM_FIELD;
+
+</pre>
+<p>
+  構造体は、一つの型です。typedef文の型名として指定できます。
+</p>
+<h4>共用体型の別名を作成</h4>
+<p>
+  共用体型の別名を作成してみましょう。「union spvm_value」という共用体型に「SPVM_VALUE」という名前をつけます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+// 共用体定義
+union spvm_value {
+  int8_t bval;
+  int16_t sval;
+  int32_t ival;
+  int64_t lval;
+  float fval;
+  double dval;
+  void* oval;
+};
+
+// 共用体の別名を作成
+typedef union spvm_value SPVM_VALUE;
+</pre>
+<p>
+  共用体は、一つの型です。typedef文の型名として指定できます。
+</p>
+<h3>構造体や共用体の定義の前に、型の別名をつける方法</h3>
+<p>
+  上記の方法は、構造体や共用体の定義を行った後に、typedef文を使って型の別名を作成していました。
+</p>
+<p>
+  この順番を入れ替える方法があるのでしょうか? あります。
+</p>
+<p>
+  構造体や共用体の定義の前に、型の別名をつけてみましょう。
+</p>
+<p>
+  構造体や共用体の名前だけを先に宣言できるというC言語の仕様を利用します。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+// 構造体の別名を作成
+struct spvm_field;
+typedef struct spvm_field SPVM_FIELD;
+
+// 構造体定義
+struct spvm_field {
+  int32_t id;
+  const char* name;
+};
+
+// 共用体の別名を作成
+union spvm_value;
+typedef union spvm_value SPVM_VALUE;
+
+// 共用体定義
+union spvm_value {
+  int8_t bval;
+  int16_t sval;
+  int32_t ival;
+  int64_t lval;
+  float fval;
+  double dval;
+  void* oval;
+};
+</pre>
+<p>
+  さて、これに何の意味があるのでしょうか?
+</p>
+<p>
+  これは、ヘッダ間読み込みを減らすための、<a href="/blog/20210202153503.html">型宣言ヘッダ</a>を作成する場合に役に立ちます。
+</p>
+<h3>typedef文はどんなときに使われている?</h3>
+<p>
+  typedef文はどんなときに使われているでしょうか?
+</p>
+<h4>型を抽象化するため</h4>
+<p>
+  typedef文は、型を抽象化するために、使われることがあります。
+</p>
+<p>
+  たとえば、size_t型は、C言語で、長さを表現するために使われますが、32bit環境と64bit環境では定義が異なったりします。
+</p>
+<p>
+  size_tは、C言語仕様では、「少なくとも16bitの符号なし整数型」と定義されているためです。
+</p>
+<p>
+  C言語の仕様に従っていれば、処理系によって、定義を変えてよいのです。
+</p>
+<pre>
+typedef unsigned int size_t;
+
+typedef unsigned long size_t;
+
+typedef unsigned long long size_t;
+</pre>
+<p>
+  処理系によって、実際の定義は異なりますが、ソースコード上ではsize_tとして抽象化することができます。
+</p>
+<h4>structやunionを書くのがめんどくさいため</h4>
+<p>
+  統一的に、型名として扱いたい場合は「struct ほにゃ」「union ほにゃ」と書くのは、少し面倒に感じます。
+</p>
+<p>
+  typedefを使うと、一つの型名のように扱えます。
+</p>
+<h4>ヘッダの相互参照や循環参照をなくすため</h4>
+<p>
+  <a href="/blog/20210202153503.html">型宣言ヘッダ</a>を作成すると、ヘッダの相互参照や循環参照を回避することができます。
+</p>
+<p>
+  これはtypdef文の実用的な使用で非常に重要なものだと考えます。
+</p>
+<h3>typedef文はどこに書きますか?</h3>
+<p>
+  typedef文は、ヘッダファイルに書きます。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>

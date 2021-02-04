@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>型定義ヘッダ - ヘッダファイル間の読み込みを減らす - C99対応のC言語入門</title>
-<meta name="description" content="C言語でヘッダファイル間の読み込みを減らすためのテクニックとして、型定義ヘッダを紹介します。">
+<title>型宣言ヘッダ - ヘッダファイル間の読み込みを減らす - C99対応のC言語入門</title>
+<meta name="description" content="C言語でヘッダファイル間の読み込みを減らすためのテクニックとして、型宣言ヘッダを紹介します。">
   </head>
   <body>
     <div class="container">
@@ -29,19 +29,19 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210202153503.html">型定義ヘッダ - ヘッダファイル間の読み込みを減らす</a></h2>
+    <h2><a href="/blog/20210202153503.html">型宣言ヘッダ - ヘッダファイル間の読み込みを減らす</a></h2>
 <p>
-  C言語でヘッダファイル間の読み込みを減らすためのテクニックとして、型定義ヘッダを紹介します。
+  C言語でヘッダファイル間の読み込みを減らすためのテクニックとして、型宣言ヘッダを紹介します。
 </p>
 <p>
-  型定義ヘッダとはtypedef文を使って、構造体の別名が定義されたヘッダファイルのことです。
+  型宣言ヘッダとは<a href="/blog/20210204153019.html">typedef文</a>を使って、構造体の別名を作成したヘッダファイルのことです。
 </p>
 <p>
   このファイル名は「spvm_typedef.h」とします。
 </p>
-<h3>型定義ヘッダ</h3>
+<h3>型宣言ヘッダ</h3>
 <p>
-  型定義ヘッダで行っていることはtypedef文を使って「struct spvm_field」という構造体に「SPVM_FIELD」という型の別名をつけていることと、「struct spvm_package」という構造体に「SPVM_PACKAGE」という型の別名をつけていることです。ついでに、幅が保証された整数型を使える用にするために、「stdint.h」も読み込んでいます。
+  型宣言ヘッダで行っていることはtypedef文を使って「struct spvm_field」という構造体に「SPVM_FIELD」という型の別名をつけていることと、「struct spvm_package」という構造体に「SPVM_PACKAGE」という型の別名をつけていることです。ついでに、幅が保証された整数型を使える用にするために、「stdint.h」も読み込んでいます。
 </p>
 <p>
   <b>spvm_typedef.h</b>
@@ -76,7 +76,7 @@ struct spvm_field {
   int32_t id;
   const char* name;
   SPVM_PACKAGE* package;
-}
+};
 </pre>
 <p>
   このことを理解しておくと、構造体の定義を行う前に、構造体の名前を宣言して、typedef文で、別名をつけることができます。
@@ -137,10 +137,10 @@ struct spvm_package {
   「spvm_field.h」を取り込んでいるのではなく「spvm_typedef.h」を取り込んでいるところに注目しましょう。
 </p>
 <p>
-  このように、ヘッダファイルの取り込みあいをするのではなく、個別のヘッダファイルから型定義ファイルを読み込むことで、解決しています。
+  このように、ヘッダファイルの取り込みあいをするのではなく、個別のヘッダファイルから型宣言ヘッダを読み込むことで、解決しています。
 </p>
 <p>
-  型定義ファイルをつかうと、コードの見通しが良くなり、循環参照の問題も気にする必要がなくなります。
+  型宣言ヘッダをつかうと、コードの見通しが良くなり、循環参照の問題も気にする必要がなくなります。
 </p>
 
   </div>
