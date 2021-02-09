@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>sizeof演算子 - C99対応のC言語入門</title>
+<meta name="description" content="sizeof演算子は、その型を配列の要素とした場合の型のサイズを返します。単位はバイトです。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210207155548.html">sizeof演算子</a></h2>
+<p>
+  sizeof演算子は、その型を配列の要素とした場合の型のサイズを返します。単位はバイトです。
+</p>
+<pre>
+sizeof(型名)
+</pre>
+<p>
+  「その型を配列の要素とした場合の型のサイズ」とわかりにくい表現であるのは、sizeof演算子は、定義したサイズを必ずしも返すわけではないからです。これは、構造体のサイズをsizeof演算子で見た場合に、違いが確認できます。
+</p>
+<h3>数値型の型のサイズ</h3>
+<p>
+  まず、<a href="/blog/20201130082751.html">int32_t</a>、<a href="/blog/20201127082751.html">int64_t</a>、<a href="/blog/20201202133213.html">float</a>、<a href="/blog/20201203133213.html">double</a>の型のサイズを見てみましょう。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("int32_t: %d, int64_t: %d, float: %d, double: %d",
+    sizeof(int32_t), sizeof(int64_t), sizeof(float), sizeof(double));
+}
+</pre>
+<p>
+  出力結果です。int32_tは4バイト、int64_tは8バイト、floatは4バイト、doubleは8バイトです。
+</p>
+<pre>
+int32_t: 4, int64_t: 8, float: 4, double: 8
+</pre>
+<h3>void*型の型のサイズ</h3>
+<p>
+  汎用ポインタ型「void*」のサイズを見てみましょう。汎用ポインタ型と他のポインタ型のサイズは必ず一致します。
+</p>
+<p>
+  メモリ空間が32bitのCPUでは4バイト、メモリ空間が64bitのCPUでは8バイトになります。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("void*: %d\n", sizeof(void*));
+}
+</pre>
+<h3>共用体のサイズ</h3>
+<p>
+  共用体を定義した場合は、最も大きなメンバのサイズの型を配列の要素にした場合のサイズになります。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+union myapp_value {
+  int8_t int8_val;
+  int16_t int16_val;
+  int32_t int32_val;
+  int64_t int64_val;
+};
+
+int main(void) {
+  printf("union myapp_value: %d\n", sizeof(union myapp_value));
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+union myapp_value: 8
+</pre>
+<p>
+  一番大きなメンバのint64_tのサイズと同じになりました。
+</p>
+<h3>構造体のサイズ</h3>
+<p>
+  構造体のサイズを理解するのは、少し難しいです。さて以下のsizeof演算子は、どのような値を返すでしょうか?
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+struct myapp_data {
+  int64_t int64_val;
+  int8_t int8_val1;
+  int8_t int8_val2;
+};
+
+int main(void) {
+  printf("struct myapp_data: %d\n", sizeof(struct myapp_data));
+}
+</pre>
+<p>
+  int64_tは8バイト、int8_tが二つで2バイト、合わせて10バイトです。
+</p>
+<p>
+  出力結果は以下です。
+</p>
+<pre>
+struct myapp_data: 16
+</pre>
+<p>
+  あら、結果は16です。どうして?
+</p>
+<p>
+  最初に書いたようにsizeof演算子は、型のサイズというよりも「その型を配列の要素とした場合の型のサイズ」を返すからです。
+</p>
+<h3>構造体のアラインメント</h3>
+<p>
+  「その型を配列の要素とした場合の型のサイズ」はどのように決められるのでしょうか?
+</p>
+<p>
+  次の規則です。
+</p>
+<p>
+  sizeofが返す構造体のサイズは、必ずメンバ変数の最大サイズの倍数になります(上記の例では一番大きなint64_tは8バイトですので、8の倍数です)。それより小さなサイズのメンバは、メンバ変数の最大サイズの倍数を超えない位置に先頭からつめて、並べられます。ただし、メンバ変数は、そのメンバ変数のサイズの倍数の位置から、並べられます。
+</p>
+<p>
+  これらをデータのアラインメントと呼びます。これは、CPUの演算が速くなるような位置に、データを並べるための規則だと考えてください。
+</p>
+<p>
+  上記の規則によって並べられて空いた隙間をパディングと呼びます。
+</p>
+<pre>
+// sizeofは16を返す
+struct myapp_data {
+  int64_t int64_val; // 8バイト
+  int8_t int8_val1;  // 1バイト
+  int8_t int8_val2;  // 1バイト
+                     // 6バイトのパディング
+};
+</pre>
+<p>
+  後は、実際に例をいくつかみてみましょう。
+</p>
+<pre>
+// sizeofは16を返す
+struct myapp_data {
+  int64_t a; // 8バイト
+  int8_t b;  // 1バイト
+  int8_t c;  // 1バイト
+  int32_t d; // 4バイト
+             // 2バイトのパディング
+};
+</pre>
+<pre>
+// sizeofは24を返す
+struct myapp_data {
+  int64_t a; // 8バイト
+  int8_t b;  // 1バイト
+  int8_t c;  // 1バイト
+  int32_t d; // 4バイト
+             // 2バイトのパディング
+  int32_t e; // 4バイト
+             // 4バイトのパディング
+};
+</pre>
+<pre>
+// sizeofは12を返す
+struct myapp_data {
+  int32_t a; // 4バイト
+  int8_t b;  // 1バイト
+  int8_t c;  // 1バイト
+             // 2バイトのパディング
+  int32_t d; // 4バイト
+};
+</pre>
+<pre>
+// sizeofは16を返す
+struct myapp_data {
+  int32_t a; // 4バイト
+  int8_t b;  // 1バイト
+             // 1バイトのパディング
+  int16_t c; // 2バイト
+  int8_t d;  // 1バイト
+             // 3バイトのパディング
+  int32_t e; // 4バイト
+};
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
