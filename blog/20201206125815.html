@@ -74,6 +74,28 @@ int main(void) {
   <li><a href="/blog/20201111150850.html">uint32_t - 符号なし32bit整数型</a></li>
   <li><a href="/blog/20201109150850.html">uint64_t - 符号なし64bit整数型</a></li>
 </ul>
+<h3>構造体のメンバ変数名を指定して値を指定</h3>
+<p>
+  <a href="/blog/20210208155548.html">構造体</a>のメンバ変数名を指定して値を指定できるようになりました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体変数の宣言と初期化(メンバ変数名を指定して値を指定)
+  struct myapp_book book = {id : 1, name : "C99 Book", price : 2000};
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
 
   </div>
   <div class="bottom">
