@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>共用体 - データの共用 - C99対応のC言語入門</title>
+<meta name="description" content="共用体は、複数のデータを共用できる型です。共用するという意味は、メンバ変数が、同じメモリ領域を使うという意味です。データを共有するという点を除いては、共用体は、構造体と同じように使うことができます。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210206155548.html">共用体 - データの共用</a></h2>
+<p>
+  共用体は、複数のデータを共用できる型です。共用するという意味は、メンバ変数が、同じメモリ領域を使うという意味です。データを共有するという点を除いては、共用体は、<a href="/blog/20210208155548.html">構造体</a>と同じように使うことができます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+// 共用体
+union myapp_value {
+  int8_t i8_val;
+  int16_t i16_val;
+  int32_t i32_val;
+  int64_t i64_val;
+  float float_val;
+  double double_val;
+  void* ptr_val;
+};
+</pre>
+<p>
+  メンバ変数は、一つのメモリ領域を共有しています。つまり、一度に、どれか一つしか利用できないということです。
+</p>
+<p>
+  <a href="/blog/20210207155548.html">sizeof演算子</a>が返す共用体のサイズは、最も大きいメンバ変数の<a href="/blog/20210207155548.html">sizeof演算子</a>が返すサイズになります。
+</p>
+<h3>共用体の使用</h3>
+<p>
+  共用体を使用してみましょう。共用体は、型として利用できます。共用体を宣言して、メンバ変数に値を代入して、内容を出力しています。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する共用体の定義
+union myapp_value {
+  int8_t i8_val;
+  int16_t i16_val;
+  int32_t i32_val;
+  int64_t i64_val;
+  float float_val;
+  double double_val;
+  void* ptr_val;
+};
+
+int main(void) {
+  // 共用体変数の宣言
+  union myapp_value value;
+  
+  // メンバ変数i32_valueに値を代入
+  value.i32_val = 4;
+  printf("i32_val: %d\n", value.i32_val);
+  
+  // メンバ変数double_valに値を代入
+  value.double_val = 2.56;
+  printf("double_val: %f\n", value.double_val);
+
+  // あら、i32_valの値は、更新されている
+  printf("i32_val: %d\n", value.i32_val);
+  
+  // 共用体のサイズ
+  printf("size of union mypp_value: %d\n", sizeof(union myapp_value));
+}
+</pre>
+<h3>共用体は何のために存在していますか?</h3>
+<p>
+  メモリ領域を節約するためです。
+</p>
+<p>
+  「えっ、本当にそれだけ?」
+</p>
+<p>
+  はい。最適化のために、メモリを節約したい場合が実際にあり、その場合に使います。
+</p>
+<p>
+  省メモリであるということは、メモリの局所性が高まるため、パフォーマンスにも良い影響がでます。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
