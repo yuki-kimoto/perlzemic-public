@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>malloc関数 - メモリの動的確保 - C99対応のC言語入門</title>
+<meta name="description" content="malloc関数を使用するとメモリを動的に確保できます。「stdlib.h」を読み込む必要があります。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210210082644.html">malloc関数 - メモリの動的確保</a></h2>
+<p>
+  malloc関数を使用するとメモリを動的に確保できます。「stdlib.h」を読み込む必要があります。
+</p>
+<pre>
+#include &lt;stdlib.h&gt;
+
+void *malloc(size_t size);
+</pre>
+<p>
+  malloc関数はヒープ領域にメモリを確保します。
+</p>
+<p>
+  第一引数は、割り当てるサイズをバイト単位で指定します。型はsize_t型です。size_t型は、環境によって、幅が異なりますが、16bit以上の符号なし整数とC言語仕様で定義されています。現代的な環境であれば、0～<a href="/blog/20201129082751.html">符号あり32bit整数型の最大値</a>の範囲(0～2147483647)で、値を指定すれば安心だと想定します。(例外的な環境があれば、プリーズテルミー)。
+</p>
+<p>
+  戻り値は、確保されたメモリ領域の先頭のアドレスです。戻り値の型は、汎用ポインタ型「void*」です。どんなポインタ型にも代入できます。
+</p>
+<p>
+  malloc関数で割り当てられたメモリは、初期化されていないことに注意しましょう。
+</p>
+<p>
+  一般的なアプリケーションやライブラリで動的メモリ確保する場合は、0初期化される<a href="/blog/20210209082644.html">calloc関数</a>をお勧めしています。
+</p>
+<p>
+  mallocで確保したメモリ領域は、使い終わったら、free関数を使って解放しましょう。解放し忘れるとメモリリークになります。
+</p>
+<h3>malloc関数のサンプル</h3>
+<p>
+  malloc関数のサンプルを書いてみます。
+</p>
+<h4>配列の動的な生成</h4>
+<p>
+  <a href="/blog/20210129143859.html">配列</a>を動的に生成するサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // int32_tのサイズで、10の長さのメモリ領域を確保(4バイト*10=40バイト)
+  int32_t nums_length = 10;
+  int32_t* nums = malloc(sizeof(int32_t) * nums_length);
+  
+  // 配列の操作
+  nums[0] = 10;
+  printf("%d\n", nums[0]);
+  
+  // 解放
+  free(nums);
+}
+</pre>
+<h4>構造体データの動的な生成</h4>
+<p>
+  <a href="/blog/20210208155548.html">構造体</a>のデータを動的に生成するサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体の動的メモリ確保(malloc)
+  struct myapp_book* book = malloc(sizeof(struct myapp_book));
+  book-&gt;id = 1;
+  book-&gt;name = "C99 Book";
+  book-&gt;price = 2000;
+  
+  printf("id: %d, name: %s, price: %d\n", book-&gt;id, book-&gt;name, book-&gt;price);
+  
+  // メモリ解放
+  free(book);
+}
+</pre>
+<h4>構造体の配列の動的な生成</h4>
+<p>
+  <a href="/blog/20210208155548.html">構造体</a>の<a href="/blog/20210129143859.html">配列</a>を動的に生成するサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体の配列を動的メモリ確保
+  int32_t books_length = 10;
+  struct myapp_book* books = malloc(sizeof(struct myapp_book) * books_length);
+  books[0].id = 1;
+  books[0].name = "C99 Book";
+  books[0].price = 2000;
+  
+  printf("books[0] id: %d, name: %s, price: %d\n", books[0].id, books[0].name, books[0].price);
+  
+  // メモリ解放
+  free(books);
+}
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
