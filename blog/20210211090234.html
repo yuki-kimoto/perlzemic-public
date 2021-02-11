@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>ポインタとアドレス - C99対応のC言語入門</title>
+<meta name="description" content="ポインタとアドレスについて詳しく解説します。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210211090234.html">ポインタとアドレス</a></h2>
+<p>
+  ポインタとアドレスについて詳しく解説します。
+</p>
+<h3>アドレスとは</h3>
+<p>
+  アドレスとは、メモリ上の番地のことをいいます。メモリは、左から右に一直線に伸びている道路のようのものだと想像してみてください。そして、番地ごとに区画にわかれています。
+</p>
+<p>
+  64bitのアドレスが扱えるCPUでは、番地は「0」から「2の64乗 - 1」までです。単位はバイトです。0から始まります。
+</p>
+<pre>
+|    |    |    |     ...    |             |          |
+0    1    2    3           「2の64乗 - 2」「2の64乗 - 1」
+(単位はバイト)
+</pre>
+<p>
+  実際の物理メモリがこんなに広く利用可能かどうかはここではおいておいて、アプリケーションから見える仮想的なメモリは、このようなものだと想像してください。
+</p>
+<p>
+  これがアプリケーションのデータの保存できる領域です。作業をするためのとても大きな机のようなものですね。
+</p>
+<h3>ポインタとは</h3>
+<p>
+  ポインタとは、アドレスを保存するための変数のことです。ポインタ変数とも呼ばれます。
+</p>
+<p>
+  「えっ、それだけ?」
+</p>
+<p>
+  はい。解説終了ですね(笑)。あとは、文法を覚えるだけですね。
+</p>
+<h3>ポインタ変数の宣言</h3>
+<p>
+  ポインタ変数を宣言してみましょう。ポインタ変数を宣言するには「型名* 変数名;」とします。
+</p>
+<pre>
+// int32_tのポインタ型の変数の宣言
+int32_t* num_ptr;
+
+// int64_tのポインタ型の変数の宣言
+int64_t* num_ptr;
+
+// floatのポインタ型の変数の宣言
+float* num_ptr;
+
+// doubleのポインタ型の変数の宣言
+double* num_ptr;
+
+// struct myapp_bookのポインタ型の変数の宣言
+struct myapp_book* book_ptr;
+
+// union myapp_valueのポインタ型の変数の宣言
+union myapp_value* value;
+</pre>
+<p>
+  規則をみてください。実際の型名の後ろに「*」をつけます。
+</p>
+<p>
+  <a href="/blog/20201130082751.html">int32_t</a>のポインタ型, <a href="/blog/20201127082751.html">int64_t</a>のポインタ型、<a href="/blog/20201202133213.html">float</a>のポインタ型、<a href="/blog/20201203133213.html">double</a>のポインタ型、<a href="/blog/20210208155548.html">構造体</a>のポインタ型、<a href="/blog/20210206155548.html">共用体</a>のポインタ型のサンプルを書いてみました。
+</p>
+<p>
+  以下のように、「*」を変数名の直前に記述している参考書もあるかと思います。これは、これで正しいです。
+</p>
+<pre>
+int32_t *num_ptr;
+</pre>
+<p>
+  C99対応のC言語入門では「*」の理解を、一貫してポインタ型として扱います。これは、ある意味では、厳密に正しいC言語の解説ではないのではないかと感じる面もありますが、実用上で、矛盾が生じることはないですし、理解が簡単です。
+</p>
+<h3>アドレスの取得</h3>
+<p>
+  アドレスを取得するにはアドレス演算子「&」を使用します。
+</p>
+<pre>
+&amp;変数名
+</pre>
+<p>
+  アドレスを取得して、ポインタに代入してみましょう。int32_tのポインタ、doubleのポインタ、構造体のポインタの例を書いてみます。アドレスの値はprintf関数の「%p」フォーマット指定子で出力できます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 構造体
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // int32_tの実際の値
+  int32_t numi = 5;
+  
+  // int32_tのポインタ型のポインタを宣言して、アドレスを取得して代入
+  int32_t* numi_ptr = &amp;numi;
+
+  // アドレスを出力
+  printf("numi_ptr %p\n", numi_ptr);
+  
+  // doubleの実際の値
+  double numd = 2.5;
+
+  // doubleのポインタ型のポインタを宣言して、アドレスを取得して代入
+  double* numd_ptr = &amp;numd;
+
+  // アドレスを出力
+  printf("numd_ptr %p\n", numd_ptr);
+  
+  // myapp_bookの実際の値
+  struct myapp_book book = {id:1, name: "C99 Book", price : 1500};
+  
+  // myapp_bookのポインタ型のポインタを宣言して、アドレスを取得して代入
+  struct myapp_book* book_ptr = &amp;book;
+  
+  // アドレスを出力
+  printf("book_ptr %p\n", book_ptr);
+}
+</pre>
+<p>
+  僕の環境での出力結果です。16進数でアドレスが出力されています。
+</p>
+<pre>
+numi_ptr 0x7fff6d615824
+numd_ptr 0x7fff6d615818
+book_ptr 0x7fff6d615800
+</pre>
+<h3>ポインタから実体を取り出す</h3>
+<p>
+  ポインタから実際の値(実体と呼びます)を取り出してみましょう。これは、アドレスを取得する操作と逆の操作になります。
+</p>
+<p>
+  実体を取り出すには変数名の前に「*」をつけます。
+</p>
+<pre>
+*ポインタ変数
+</pre>
+<p>
+  実体を取得するサンプルを書いてみます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 構造体
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // int32_tの実際の値
+  int32_t numi = 5;
+  
+  // int32_tのポインタ型のポインタを宣言して、アドレスを取得して代入
+  int32_t* numi_ptr = &amp;numi;
+  
+  // 実体を取得して出力
+  int32_t numi_real = *numi_ptr;
+  printf("numi_real %d\n", numi_real);
+  
+  // doubleの実際の値
+  double numd = 2.5;
+
+  // doubleのポインタ型のポインタを宣言して、アドレスを取得して代入
+  double* numd_ptr = &amp;numd;
+
+  // 実体を取得して出力
+  double numd_real = *numd_ptr;
+  printf("numd_real %f\n", numd_real);
+  
+  // myapp_bookの実際の値
+  struct myapp_book book = {id:1, name: "C99 Book", price : 1500};
+  
+  // myapp_bookのポインタ型のポインタを宣言して、アドレスを取得して代入
+  struct myapp_book* book_ptr = &amp;book;
+  
+  // 実体を取得して出力
+  struct myapp_book book_real = *book_ptr;
+  printf("book_real id: %d, name: %s, price: %d\n", book_real.id, book_real.name, book_real.price);
+}
+</pre>
+<p>
+  出力結果です。実際の値になっています。
+</p>
+<pre>
+numi_real 5
+numd_real 2.500000
+book_real id: 1, name: C99 Book, price: 1500
+</pre>
+<h3>ポインタから直接、構造体のメンバ変数へアクセス</h3>
+<p>
+  ポインタから直接、構造体のメンバ変数へアクセスするには「.」の代わりに「->」を使用します。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 構造体
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  
+  // myapp_bookの実際の値
+  struct myapp_book book = {id:1, name: "C99 Book", price : 1500};
+  
+  // myapp_bookのポインタ型のポインタを宣言して、アドレスを取得して代入
+  struct myapp_book* book_ptr = &amp;book;
+  
+  // アドレスを出力
+  printf("id: %d, name: %s, price: %d", book_ptr-&gt;id, book_ptr-&gt;name, book_ptr-&gt;book_ptr %p\n", book_ptr);
+}
+</pre>
+<h3>実務で書く場合のポインタの変数名はどんな感じですか?</h3>
+<p>
+  実務で書く場合は「book_ptr」のように「_ptr」をつけることは、あまり多くありません。僕の場合は、明示的にポインタであることを示したい例外を除いて「_ptr」はつけないですね。
+</p>
+<pre>
+// 構造体を動的にメモリ確保する場合の変数名のサンプル
+struct myapp_book* book = calloc(sizeof(struct myapp_book), 1);
+</pre>
+<p>
+  <a href="/blog/20210209082644.html">calloc関数</a>と<a href="/blog/20210207155548.html">sizeof演算子</a>を使って、構造体のデータのメモリ確保を行って、構造体のポインタに代入しています。
+</p>
+<h3>ポインタ演算はどこで解説されていますか?</h3>
+<p>
+  ポインタ演算は、近く解説予定です。
+</p>
+<h3>汎用ポインタはどこで解説されていますか?</h3>
+<p>
+  汎用ポインタは、近く解説予定です。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
