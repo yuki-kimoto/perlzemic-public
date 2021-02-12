@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>ポインタ演算 - C99対応のC言語入門</title>
+<meta name="description" content="C言語にはポインタ演算と呼ばれる、データ型の幅を基準として、アドレスの位置を進めることができる機能があります。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210205090234.html">ポインタ演算</a></h2>
+<p>
+  C言語にはポインタ演算と呼ばれる、データ型の幅を基準として、アドレスの位置を進めることができる機能があります。
+</p>
+<p>
+  これは、実務では配列の要素の位置をひとつづつ、進めていくために使われることが多いので、まず<a href="/blog/20210211090234.html">ポインタ</a>と<a href="/blog/20210129143859.html">配列</a>の関係について書きます。
+</p>
+<h3>C言語での配列とポインタの関係性</h3>
+<p>
+  C言語では、配列の要素へのアクセスは、ポインタ演算のシンタックスシュガーです。<a href="/blog/20210209082644.html">calloc関数</a>で割り当てたメモリ領域に配列としてアクセスできることをまず感じてみてください。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  
+  // ポインタを使って配列を表現
+  int32_t nums_length = 10;
+  int32_t* nums = calloc(sizeof(int32_t), nums_length);
+  
+  // 配列の要素に代入
+  nums[2] = 5;
+  
+  // 配列の要素を出力
+  printf("nums[2]: %d\n", nums[2]);
+  
+  // ポインタ演算を使って要素の値を設定
+  *(nums + 2) = 7;
+
+  // 配列の要素を出力
+  printf("nums[2]: %d\n", nums[2]);
+  
+  // ポインタ演算を使って要素の値を出力
+  printf("*(num2 + 3): %d\n", *(nums + 2));
+  
+  free(nums);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+nums[2]: 5
+nums[2]: 7
+*(nums + 2): 7
+</pre>
+<p>
+  「nums[2]」が「*(nums + 2)」のシンタックスシュガーになっていることを、見てください。
+</p>
+<p>
+  numsはcallocで割り当てられたメモリの先頭のアドレスを表現しています。
+</p>
+<p>
+  「*(nums + 2)」で、実体を取得しています。実体の取得については、<a href="/blog/20210211090234.html">ポインタ</a>で解説しています。
+</p>
+<h3>ポインタ演算を見てみる</h3>
+<p>
+  ポインタ演算は、<a href="/blog/20210207155548.html">sizeof演算子</a>で取得できるサイズを単位とした値を、指定した値にかけて、アドレスを進めます。
+</p>
+<p>
+  「nums + 2」という演算は、3を足しているように見えますが、num2は<a href="/blog/20201130082751.html">int32_t</a>型ですので、実際には「sizeof(int32_t) * 3」増えます。
+</p>
+<p>
+  実際に出力してみましょう。アドレスは「%p」フォーマット指定子で、出力できます。16進数で出力されます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  
+  // ポインタを使って配列を表現
+  int32_t nums_length = 10;
+  int32_t* nums = calloc(sizeof(int32_t), nums_length);
+  
+  printf("nums: %p\n", nums);
+  printf("nums + 1: %p\n", nums + 1);
+  printf("nums + 2: %p\n", nums + 2);
+  printf("nums + 3: %p\n", nums + 3);
+  
+  free(nums);
+}
+</pre>
+<p>
+  僕の環境での出力結果です。sizeof演算子で得られるint32_tのサイズは4ですので、これを単位として、アドレスが増えます。
+</p>
+<pre>
+nums: 0x4538010
+nums + 1: 0x4538014
+nums + 2: 0x4538018
+nums + 3: 0x453801c
+</pre>
+<p>
+  違いを見るために<a href="/blog/20201127082751.html">int64_t</a>の場合も試しておきます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  
+  // ポインタを使って配列を表現
+  int64_t nums_length = 10;
+  int64_t* nums = calloc(sizeof(int64_t), nums_length);
+  
+  printf("nums: %p", nums);
+  printf("nums + 1: %p, nums + 1);
+  printf("nums + 2: %p, nums + 2);
+  printf("nums + 3: %p, nums + 3);
+  
+  free(nums);
+}
+</pre>
+<p>
+  出力結果です。sizeof演算子で得られるint64_tのサイズは8ですので、これを単位として、アドレスが増えます。
+</p>
+<pre>
+nums: 0x6c39010
+nums + 1: 0x6c39018
+nums + 2: 0x6c39020
+nums + 3: 0x6c39028
+</pre>
+<h3>配列としてアクセスできる場合に、ポインタ演算を使う理由はありますか?</h3>
+<p>
+  えーと、あまりないです。配列の方が直感的で、可読性が高いと思います。
+</p>
+<h3>ポインタ演算のサンプル</h3>
+<p>
+  よく使う場合のサンプルとして、文字列に含まれる文字に順番にアクセスするというものを書いておきます。
+</p>
+<p>
+  C言語の文字列は「\0」で終わるので、ポインタで、文字位置を指して、順番に処理していくということを時々書きます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // 文字列
+  const char* message = "Hello World!";
+  
+  // 文字列の先頭のアドレスを取得
+  const char* ch_ptr = message;
+  
+  // ポインタの指している値が、\0になるまで繰り返す
+  while (*ch_ptr != '\0') {
+    
+    // 1文字出力
+    printf("%c", *ch_ptr);
+    
+    // ポインタを進める
+    ch_ptr++;
+  }
+  printf("\n");
+}
+</pre>
+<p>
+  ただしこれは、文字列が「\0」で終わることが保証されている文字列に対してだけ行ってください。「\0」が発見できないと、バッファオーバーランが発生します。
+</p>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello World!
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    コンテンツ提供
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
