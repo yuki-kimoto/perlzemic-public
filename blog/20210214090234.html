@@ -7,7 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>C99対応のC言語入門</title>
+<title>関数の定義 - C99対応のC言語入門</title>
+<meta name="description" content="関数の定義について解説します。関数とは一つの機能をまとめたものです。関数名、引数名とその型と個数、戻り値の型、処理の内容を記述します。">
   </head>
   <body>
     <div class="container">
@@ -28,7 +29,304 @@
 
   </div>
   <div class="middle">
-    
+    <h2><a href="/blog/20210214090234.html">関数の定義</a></h2>
+<p>
+  関数の定義について解説します。関数とは一つの機能をまとめたものです。関数名、引数名とその型と個数、戻り値の型、処理の内容を記述します。
+</p>
+<pre>
+// 関数の定義
+戻り値の型 関数名(引数の型1 引数名1, 引数の型2 引数名2, ...) {
+  // 処理の内容
+}
+</pre>
+<p>
+  定義した関数を呼び出すときは、以下のように書きます。
+</p>
+<pre>
+// 関数呼び出し
+関数名(引数の型1 引数名1, 引数の型2 引数名2, ...);
+</pre>
+<p>
+  関数の呼び出しの前に、「関数の定義」あるいは「関数のプロトタイプ宣言」によって、関数名と引数の型と個数、戻り値の型がわかっている必要があります。
+</p>
+<h3>Hello World!と出力する関数</h3>
+<p>
+  まず最初に、引数も戻り値もない関数を定義して、関数を呼び出してみましょう。引数がない場合は「void」を指定します。戻り値がない場合は「void」を指定します。voidは、存在しないことを表現する特別な型です。もし、関数定義の引数の部分でで「print_hello()」のように、voidを書かなかった場合は「型が不明の任意の個数の引数」を意味するので注意してください。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+// 関数の定義
+void myapp_print_hello(void) {
+  printf("Hello World!\n");
+}
+
+int main (void) {
+  // 関数呼び出し
+  myapp_print_hello();
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello World!
+</pre>
+<h3>二つのint32_t型の数値を足す関数</h3>
+<p>
+  二つの<a href="/blog/20201130082751.html">int32_t</a>型の数値を足す関数を定義してみます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+// 関数の定義
+int32_t myapp_sum(int32_t num1, int32_t num2) {
+  int32_t total = num1 + num2;
+  return total;
+}
+
+int main (void) {
+  // 関数呼び出し
+  int32_t num1 = 1;
+  int32_t num2 = 5;
+  int32_t total = myapp_sum(num1, num2);
+  printf("%d\n", total);
+}
+</pre>
+<p>
+  出力結果
+</p>
+<pre>
+6
+</pre>
+<h3>動的に生成した配列の和を求める関数</h3>
+<p>
+  <a href="/blog/20210209082644.html">calloc関数</a>で動的に生成した<a href="/blog/20210129143859.html">配列</a>の和を求める関数です。<a href="/blog/20210211090234.html">ポインタ型</a>を引数にするのがポイントです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+// 関数の定義
+int32_t myapp_sum_array(int32_t* nums, int32_t nums_length) {
+  int32_t total = 0;
+  for (int32_t i = 0; i &lt; nums_length; i++) {
+    total += nums[i];
+  }
+  return total;
+}
+
+int main (void) {
+  // 関数呼び出し
+  int32_t nums_length = 3;
+  int32_t* nums = calloc(sizeof(int32_t), nums_length);
+  nums[0] = 1;
+  nums[1] = 2;
+  nums[2] = 3;
+  int32_t total = myapp_sum_array(nums, nums_length);
+  printf("%d\n", total);
+  
+  free(nums);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+6
+</pre>
+<h3>構造体の内容を引数に渡す</h3>
+<p>
+  動的に生成した<a href="/blog/20210208155548.html">構造体</a>の内容を変更する関数を書いてみます。ポインタ型で引数を定義するのがポイントです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+// 構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+};
+
+// 関数の定義
+void myapp_init_book(struct myapp_book* book) {
+  book-&gt;id = 1;
+  book-&gt;name = "C99 Tutorial";
+}
+
+int main (void) {
+  struct myapp_book* book = calloc(sizeof(struct myapp_book), 1);
+  
+  // 関数呼び出し
+  myapp_init_book(book);
+  
+  printf("id:%d, name:%s\n", book-&gt;id, book-&gt;name);
+  
+  free(book);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+id:1, name:C99 Tutorial
+</pre>
+<h3>関数のプロトタイプ宣言</h3>
+<p>
+  上記で関数定義について解説してきましたが、実務では、より推奨された書き方があります。
+</p>
+<p>
+  それは、関数のプロトタイプ宣言をヘッダで行い、関数定義をソースコードで行う分割コンパイルの手法です。
+</p>
+<p>
+  C言語では、関数定義は関数呼び出しより前にある必要があります。
+</p>
+<p>
+  関数定義が関数呼び出しより後ろにある場合は、コンパイルエラーになると想定しておくのがよいです。
+</p>
+<p>
+  gccは暗黙的に解決を行い、警告を出します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main (void) {
+  // 関数呼び出し
+  int32_t num1 = 1;
+  int32_t num2 = 5;
+  int32_t total = myapp_sum(num1, num2);
+  printf("%d\n", total);
+}
+
+// 関数の定義
+int32_t myapp_sum(int32_t num1, int32_t num2) {
+  int32_t total = num1 + num2;
+  return total;
+}
+</pre>
+<p>
+  gccでは警告が発生。
+</p>
+<pre>
+a.c:8: warning: implicit declaration of function ‘myapp_sum’
+</pre>
+<p>
+  関数のプロトタイプ宣言を関数呼び出しの前に追加してみましょう。警告がでなくなります。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+// 関数のプロトタイプ宣言
+int32_t myapp_sum(int32_t num1, int32_t num2);
+
+int main (void) {
+  // 関数呼び出し
+  int32_t num1 = 1;
+  int32_t num2 = 5;
+  int32_t total = myapp_sum(num1, num2);
+  printf("%d\n", total);
+}
+
+// 関数の定義
+int32_t myapp_sum(int32_t num1, int32_t num2) {
+  int32_t total = num1 + num2;
+  return total;
+}
+</pre>
+<p>
+  関数プロトタイプ宣言では、引数名を省略して、型と関数名だけにしておくのが、引数名のマクロ展開を回避できるため、より良いとされているようです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+// 関数のプロトタイプ宣言(より良いが、そのままコピペできぬ...グっ。)
+int32_t myapp_sum(int32_t, int32_t);
+
+int main (void) {
+  // 関数呼び出し
+  int32_t num1 = 1;
+  int32_t num2 = 5;
+  int32_t total = myapp_sum(num1, num2);
+  printf("%d\n", total);
+}
+
+// 関数の定義
+int32_t myapp_sum(int32_t num1, int32_t num2) {
+  int32_t total = num1 + num2;
+  return total;
+}
+</pre>
+<h3>分割コンパイルの例</h3>
+<p>
+  分割コンパイルの例を書いておきます。実務でC言語を書く場合は、この方法で記述することをお勧めします。
+</p>
+<h4>myapplib.h</h4>
+<p>
+  ヘッダファイルです。関数のプロトタイプ宣言を書きます。「#ifndef MYAPPLIB_H」の部分は<a href="/blog/20210201153503.html">インクルードガード</a>です。
+</p>
+<pre>
+#ifndef MYAPPLIB_H
+#define MYAPPLIB_H
+
+#include &lt;stdint.h&gt;
+
+// 関数のプロトタイプ宣言
+int32_t myapp_sum(int32_t num1, int32_t num2);
+
+#endif
+</pre>
+<h4>myapplib.c</h4>
+<p>
+  関数定義をしたC言語ソースファイルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+// 関数の定義
+int32_t myapp_sum(int32_t num1, int32_t num2) {
+  int32_t total = num1 + num2;
+  return total;
+}
+</pre>
+<h4>myapp.c</h4>
+<p>
+  アプリケーションの本体のC言語ソースコードです。「myapplib.h」を読み込んでいます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+#include "myapplib.h"
+
+int main (void) {
+  // 関数呼び出し
+  int32_t num1 = 1;
+  int32_t num2 = 5;
+  int32_t total = myapp_sum(num1, num2);
+  printf("%d\n", total);
+}
+</pre>
+<h4>コンパイルしてリンクして実行</h4>
+<pre>
+gcc -c myapplib.c
+gcc -c myapp.c
+gcc -o myapp myapp.o myapplib.o
+./myapp
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+6
+</pre>
+
   </div>
   <div class="bottom">
     <h3>C99対応のC言語入門のご紹介</h3>
