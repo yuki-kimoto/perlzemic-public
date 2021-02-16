@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>比較演算子 - C99対応のC言語入門</title>
+<meta name="description" content="C言語の比較演算子について解説します。C言語の比較演算子は、左辺と右辺の数値を比較します。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210216082204.html">比較演算子</a></h2>
+<p>
+  C言語の比較演算子について解説します。C言語の比較演算子は、左辺と右辺の数値を比較します。
+</p>
+<h3>比較演算子の一覧</h3>
+<p>
+  比較演算子の一覧です。
+</p>
+<table>
+  <tr><th>演算子</th><th>解説</th></tr>
+  <tr><td>==</td><td>左辺と右辺は等しい</td></tr>
+  <tr><td>!=</td><td>左辺と右辺は等しくない</td></tr>
+  <tr><td>&gt;</td><td>左辺は右辺より大きい</td></tr>
+  <tr><td>&gt;=</td><td>左辺は右辺より大きいまたは等しい</td></tr>
+  <tr><td>&lt;</td><td>左辺は右辺より小さい</td></tr>
+  <tr><td>&lt;=</td><td>左辺は右辺より小さいまたは等しい</td></tr>
+</table>
+<p>
+  比較演算子は、条件を満たした場合はint型の「1」、満たさなかった場合は「0」を返します。これはC言語の仕様で、どの処理系でも同じです。
+</p>
+<h3>数値の大小を比較する</h3>
+<p>
+  数値の大小を比較してみましょう。
+</p>
+<h4>int32_t型の数値の大小比較</h4>
+<p>
+  比較演算子を使って数値の大小を比較してみましょう。<a href="/blog/20201130082751.html">int32_t</a>型どうしの比較を行うサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  int32_t num1 = 15;
+  int32_t num2 = 10;
+  
+  if (num1 &gt; num2) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<h4>int64_t型の数値の大小比較</h4>
+<p>
+  比較演算子で、<a href="/blog/20201127082751.html">int64_t</a>型どうしの比較を行うサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  int64_t num1 = 15;
+  int64_t num2 = 10;
+  
+  if (num1 &gt; num2) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<h4>int32_t型とint8_t型の数値の大小比較</h4>
+<p>
+  比較演算子で、<a href="/blog/20201130082751.html">int32_t</a>型と<a href="/blog/20201117090747.html">int8_t</a>型の比較を行うサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  int32_t num1 = 15;
+  int8_t num2 = 10;
+  
+  if (num1 &gt; num2) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<p>
+  C言語では二項演算子の両辺は、int型よりも小さな型の場合は、int型に拡張されるという規則があります。また両辺の型の大きさが異なる場合は、小さな型の値が、大きな型の値に変換されます。
+</p>
+<p>
+  処理系のintのサイズが仮に16bitであったとして、上記の記述を、明示的な型キャストを使って書き直してみましょう。
+</p>
+<p>
+  まずint8_t(符号あり8bit整数)は、int(符号あり16bit整数)に変換され、さらにint32_t(符号あり32bit整数)に変換されます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  int32_t num1 = 15;
+  int8_t num2 = 10;
+  
+  // 明示的に型キャストを書くと
+  if (num1 &gt; (int32_t)(int)num2) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<p>
+  他の型の場合でも暗黙的な型変換の規則は同じです。型の大きさには順序があって「double」「float」「int64_t」「int32_t」「int16_t」「int8_t」の順番になることを覚えておきましょう。
+</p>
+<h4>uint32_t型の数値の大小比較</h4>
+<p>
+  比較演算子を使って数値の大小を比較してみましょう。<a href="/blog/20201111150850.html">uint32_t</a>型どうしの比較を行うサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  uint32_t num1 = 15;
+  uint32_t num2 = 10;
+  
+  if (num1 &gt; num2) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<h3>符号あり整数と符号なし整数の比較はお勧めしない理由</h3>
+<p>
+  符号なし整数と符号あり整数の比較は、お勧めしないです。意図していない暗黙の型変換が発生している場合があるので、明示的に型キャストして、比較することをお勧めします。
+</p>
+<h3>float型どうしの比較</h3>
+<p>
+  比較演算子で、<a href="/blog/20201202133213.html">float</a>型の比較を行うサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  float num1 = 15.5f;
+  float num2 = 10.2f;
+  
+  if (num1 &gt; num2) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<h3>double型どうしの比較</h3>
+<p>
+  比較演算子で、<a href="/blog/20201203133213.html">double</a>型の比較を行うサンプルです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  double num1 = 15.5;
+  double num2 = 10.2;
+  
+  if (num1 &gt; num2) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<h3>ポインタどうしの比較</h3>
+<p>
+  <a href="/blog/20210211090234.html">ポインタ</a>を比較してみましょう。ポインタにはアドレスが代入されていますが、アドレスというのは数値です。C言語の比較演算子は数値を比較しますが、アドレスが同じかどうかという判定も比較演算子で行うことができます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // ポインタ
+  int32_t* nums1 = calloc(sizeof(int32_t), 10);
+  int32_t* nums2 = nums1;
+  
+  if (nums1 == nums2) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+  free(nums1);
+}
+</pre>
+<h3>ポインタとNULLの比較</h3>
+<p>
+  ポインタとNULLを比較してみましょう。NULLは0と等価ですので、比較演算子で比較できます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // ポインタ
+  int32_t* nums1 = calloc(sizeof(int32_t), 10);
+  
+  // ポインタがNULLではない
+  if (nums1 != NULL) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+  free(nums1);
+}
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    目次
+  </div>
+  <ul>
+    <li><a href="/library.html">標準Cライブラリ</a></li>
+    <li><a href="/types.html">C言語の型</a></li>
+    <li><a href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    Perl総合研究所
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
