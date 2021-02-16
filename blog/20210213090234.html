@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>標準Cライブラリ - C99対応のC言語入門</title>
-<meta name="description" content="標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。">
+<title>NULL - ヌルポインタ定数 - C99対応のC言語入門</title>
+<meta name="description" content="NULLはヌルポインタ定数と呼ばれ「整数の0」または「(void*)にキャストした整数の0」として「stddef.h」で定義されています。">
   </head>
   <body>
     <div class="container">
@@ -29,54 +29,97 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/library.html">標準Cライブラリ</a></h2>
+    <h2><a href="/blog/20210213090234.html">NULL - ヌルポインタ定数</a></h2>
 <p>
-  標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。
+  <b>NULL</b>はヌルポインタ定数と呼ばれ「整数の0」または「(void*)にキャストした整数の0」として「stddef.h」で定義されています。
 </p>
-<h3>stdlib.h</h3>
 <p>
-  「stdlib.h」標準ヘッダをインクルードした場合に利用できる関数。
+  <a href="/blog/20210211090234.html">ポインタ</a>にNULLを代入したものはヌルポインタと呼ばれます。NULLはあらゆるポインタ型に代入できます。
 </p>
-<ul>
-  <li><a href="/blog/20210210082644.html">malloc関数 - メモリの動的確保</a></li>
-  <li><a href="/blog/20210209082644.html">calloc関数 - メモリの動的確保と0初期化</a></li>
-</ul>
-<h3>stdint.h</h3>
-<ul>
-  <li><a href="/blog/20201114090747.html">INT8_MIN - int8_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201115090747.html">INT8_MAX - int8_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201121084622.html">INT16_MIN - int16_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201125090559.html">INT16_MAX - int16_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201128082751.html">INT32_MIN - int32_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201129082751.html">INT32_MAX - int32_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201112150850.html">INT64_MIN - int64_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201118082751.html">INT64_MAX - int64_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201123084622.html">UINT8_MAX - uint8_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201113150850.html">UINT16_MAX - uint16_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201110150850.html">UINT32_MAX - uint32_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201108150850.html">UINT64_MAX - uint64_tの最大値を表す定数</a></li>
-</ul>
-<h3>float.h</h3>
-<ul>
-  <li><a href="/blog/20201210102403.html">DBL_MAX - doubleの最小値を表す定数</a></li>
-  <li><a href="/blog/20201205125815.html">FLT_MAX - doubleの正の最小値を表す定数</a></li>
-</ul>
-<h3>stddef.h</h3>
-<ul>
-  <li><a href="/blog/20210213090234.html">NULL - ヌルポインタ定数</a></li>
-</ul>
-<h3>assert.h</h3>
-<h3>stdio.h</h3>
-<h3>string.h</h3>
-<h3>inttypes.h</h3>
-<h3>stdint.h</h3>
-<h3>C言語関数辞典</h3>
+<pre>
+// ヌルポインタ
+void* ptr = NULL;
+int32_t* int32_ptr = NULL;
+float* float_ptr = NULL;
+</pre>
+<h3>NULLのサンプル</h3>
 <p>
-  C言語関数辞典のサイトの紹介です。C99対応のC言語入門では、実務で利用頻度の高い関数を中心に扱っているので、すべての関数を知りたい場合に、非常に参考になります。
+  NULLのサンプルです。
 </p>
-<ul>
-  <li><a target="_blank" href="http://www.c-tipsref.com/">C言語関数辞典</a></li>
-</ul>
+<h4>メモリ割り当てのチェック</h4>
+<p>
+  以下のサンプルでは、<a href="/blog/20210209082644.html">calloc関数</a>のメモリ割り当てに失敗した場合はNULLが返されます。ですので、メモリが割り当てられていることのチェックに利用できます。
+</p>
+<pre>
+#include &lt;stddef.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // ポインタ
+  int32_t* nums = calloc(sizeof(int32_t), 10);
+  
+  // ポインタがNULLではない
+  if (nums != NULL) {
+    printf("Success\n");
+  }
+  else {
+    printf("Fail\n");
+  }
+  free(nums);
+}
+</pre>
+<p>
+  出力結果
+</p>
+<pre>
+Success
+</pre>
+<h4>木のノードで子要素が存在するか</h4>
+<p>
+  木のノードで、子要素が存在するかどうかのチェックのサンプルです。
+</p>
+<pre>
+#include &lt;stddef.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct myapp_node {
+  struct myapp_node* first_child;
+  struct myapp_node* last_child;
+};
+
+int main(void) {
+  
+  // 親ノード
+  struct myapp_node* parent = calloc(sizeof(struct myapp_node), 1);
+  
+  // 子ノード
+  struct myapp_node* first_child = calloc(sizeof(struct myapp_node), 1);
+  
+  // 親ノードの最初の子に代入
+  parent-&gt;first_child = first_child;
+  
+  if (parent-&gt;first_child != NULL) {
+    printf("Have First Child\n");
+  }
+
+  if (parent-&gt;last_child == NULL) {
+    printf("Don't Have Last Child\n");
+  }
+  
+  free(parent);
+  free(first_child);
+}
+</pre>
+<p>
+  出力結果
+</p>
+<pre>
+Have First Child
+</pre>
 
   </div>
   <div class="bottom">
