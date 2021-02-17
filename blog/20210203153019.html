@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>#includeプリプロセッサ命令 - ファイルのインクルード - C99対応のC言語入門</title>
+<meta name="description" content="#includeプリプロセッサ命令は、他のソースコードをインクルードするためのプリプロセッサ命令です。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210203153019.html">#includeプリプロセッサ命令 - ファイルのインクルード</a></h2>
+<p>
+  #includeプリプロセッサ命令は、他のソースコードをインクルードするためのプリプロセッサ命令です。
+</p>
+<pre>
+#include &lt;ファイル名&gt;
+
+#include "ファイル名"
+</pre>
+<p>
+  ファイル名で指定されたファイルの内容を、現在のソースコードに、埋め込みます。
+</p>
+<p>
+  「<ファイル名>」と「"ファイル名"」の違いはどうやらプリプロセッサの実装に依存するようです。
+</p>
+<p>
+  gccで試してみた結果です。
+</p>
+<p>
+  「<ファイル名>」の場合は「-I オプションで指定されたディレクトリ」「システムのヘッダファイルのインクルードパス」の順にファイルを検索します。
+</p>
+<p>
+  「"ファイル名"」の場合は「カレントディレクトリ」「-I オプションで指定されたディレクトリ」「システムのヘッダファイルのインクルードパス」でファイルを検索します。
+</p>
+<p>
+  複数の「-I」オプションが指定された場合は、先に指定したIオプションから検索されます。
+</p>
+<p>
+  使い分けとしては、<a href="/library.html">標準ライブラリ</a>を使う場合や、システムのヘッダファイルのインクルードパスにインストールされているライブラリを使う場合は「<ファイル名>」、自作のアプリケーション用のヘッダファイルはは「"ファイル名"」くらいの感じでよいのではないでしょうか。
+</p>
+<h3>#includeプリプロセッサ命令のサンプル</h3>
+<p>
+  #includeプリプロセッサ命令のサンプルです。
+</p>
+<h4>標準ライブラリのヘッダを読み込む</h4>
+<p>
+  標準ライブラリのヘッダを読み込みます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("%s\n", "Hello World!");
+}
+</pre>
+<h4>自作のアプリケーションのヘッダファイルを読み込む</h4>
+<p>
+  自作のアプリケーションのヘッダファイルを読み込みます。
+</p>
+<pre>
+#include "myapp_lib.h"
+
+int main(void) {
+  // myapp_lib.hで宣言されている関数を使うなど
+}
+</pre>
+<h3>読み込むファイルの拡張子は「.h」でなくてもよいのですか?</h3>
+<p>
+  はい、拡張子名は関係ありません。たとえば「.c」でも読み込めます。読み込めますが、本当に特別な理由がない限りは、ヘッダファイル以外は読み込まない方がよいでしょう。
+</p>
+<h3>ファイル名は、絶対パスでも良いのですか?</h3>
+<p>
+  はい、ファイル名は絶対パスでもかまいません。ただし、本当に特別な理由がない限りは、相対パスで読み込むのがよいでしょう。
+</p>
+<h3>システムのヘッダファイルのインクルードパスを調べるにはどうすればよいですか?</h3>
+<p>
+  「いったいどうやってしらべりゃーいいのよ!」
+</p>
+<p>
+  これは、コンパイラのプリプロセッサに静的に書き込まれた情報ですので、プリプロセッサの情報を調べる必要があります。
+</p>
+<p>
+  Ubuntuの場合に、調べ方を記述した記事があるので、参考にしてください。
+</p>
+<ul>
+  <li><a href="https://www.ubuntu-perl-web.com/blog/20200429174004.html">ヘッダーファイルの読み込みパス - Ubuntu+PerlでWebシステム開発 環境構築</a></li>
+</ul>
+<h3>なぜヘッダファイルをインクルードするだけで、標準ライブラリが使えるのですか?</h3>
+<p>
+  「なぜヘッダファイルをインクルードするだけで、標準ライブラリが使えるのですか? libstdio.oのようなオブジェクトファイルをリンクしないで使えるのはなぜですか?」
+</p>
+<p>
+  gccの場合で説明しますが、「printf関数」など<a href="/library.html">標準ライブラリ</a>が実装された「libglibc.o(あるいはlibglibc.so)」というオブジェクトファイルが、暗黙的にリンクされるからです。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    目次
+  </div>
+  <ul>
+    <li><a href="/library.html">標準Cライブラリ</a></li>
+    <li><a href="/types.html">C言語の型</a></li>
+    <li><a href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    Perl総合研究所
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
