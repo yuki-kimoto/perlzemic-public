@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>オブジェクト指向C言語 - C99対応のC言語入門</title>
+<meta name="description" content="C言語をオブジェクト指向で書く方法を解説します。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210212090234.html">オブジェクト指向C言語</a></h2>
+<p>
+  C言語をオブジェクト指向で書く方法を解説します。
+</p>
+<p>
+  オブジェクト指向型言語とは、僕の解釈では、オブジェクト指向の考え方を使いやすくした言語のことです。
+</p>
+<p>
+  つまり、オブジェクト指向プログラミングは、どんなプログラミング言語でもできるのだけれど、それをやりやすくしたプログラミング言語が存在するというわけです。
+</p>
+<p>
+  結論を書くと「C言語でもオブジェクト指向できるよ! 記述はちょっと面倒だけどね。」
+</p>
+<h3>クラスに該当するのは構造体</h3>
+<p>
+  クラスに該当するのは<a href="/blog/20210208155548.html">構造体</a>です。フィールドに該当するのは構造体のメンバ変数です。ヘッダの相互参照などの問題を解決するために、typedef文で、別名をつけています(このテクニックについては<a href="/blog/20210202153503.html">型宣言ヘッダ</a>を参照してください)。
+</p>
+<pre>
+// strcut myapp_lib に MYAPP_LIBという別名をつける
+typedef struct myapp_lib MYAPP_LIB;
+
+// クラスに該当するのは構造体
+struct myapp_lib {
+  // フィールドに該当するのはメンバ変数
+  int32_t flag;
+};
+</pre>
+<h3>コンストラクタは関数</h3>
+<p>
+  コンストラクタはオブジェクトを返す関数です。このページでは、動的にメモリに割り当てられた構造体のメモリ領域を指すポインタを、オブジェクトと呼ぶことにします。
+</p>
+<pre>
+// コンストラクタは関数
+MYAPP_LIB* MYAPP_LIB_new() {
+  // 動的メモリ割り当てでオブジェクトを生成
+  MYAPP_LIB* self = calloc(sizeof(MYAPP_LIB), 1);
+  
+  // オブジェクトを返す
+  return self;
+}
+
+// フラグをセットできるコンストラクタ
+MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag) {
+  
+  MYAPP_LIB* self = MYAPP_LIB_new();
+  self-&gt;flag = flag;
+  
+  return self;
+}
+</pre>
+<h3>メソッドは、オブジェクトを第一引数に取る関数</h3>
+<p>
+  メソッドは、オブジェクトを第一引数に取る関数です。
+</p>
+<pre>
+// フラグをセット
+void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag) {
+  self-&gt;flag = flag;
+}
+
+// フラグをゲット
+int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
+  return self-&gt;flag;
+}
+</pre>
+<h3>デストラクタは関数</h3>
+<p>
+  デストラクタは関数です。これは、手動で呼ぶ必要があります。
+</p>
+<pre>
+void MYAPP_LIB_DESTROY(MYAPP_LIB* self) {
+  
+  // メモリ割り当て解放
+  free(self);
+}
+</pre>
+<h3>オブジェクト指向プログラミングのサンプル</h3>
+<p>
+  オブジェクト指向プログラミングのサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// strcut myapp_lib に MYAPP_LIBという別名をつける
+typedef struct myapp_lib MYAPP_LIB;
+
+// クラスに該当するのは構造体
+struct myapp_lib {
+  // フィールドに該当するのはメンバ変数
+  int32_t flag;
+};
+
+// コンストラクタは関数
+MYAPP_LIB* MYAPP_LIB_new() {
+  // 動的メモリ割り当てでオブジェクトを生成
+  MYAPP_LIB* self = calloc(sizeof(MYAPP_LIB), 1);
+  
+  // オブジェクトを返す
+  return self;
+}
+
+// フラグをセットできるコンストラクタ
+MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag) {
+  
+  MYAPP_LIB* self = MYAPP_LIB_new();
+  self-&gt;flag = flag;
+  
+  return self;
+}
+
+// フラグをセット
+void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag) {
+  self-&gt;flag = flag;
+}
+
+// フラグをゲット
+int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
+  return self-&gt;flag;
+}
+
+void MYAPP_LIB_DESTROY(MYAPP_LIB* self) {
+  
+  // メモリ割り当て解放
+  free(self);
+}
+
+int main(void) {
+  // オブジェクト生成
+  MYAPP_LIB* myapp_lib = MYAPP_LIB_new();
+  
+  // メソッド呼び出し
+  MYAPP_LIB_set_flag(myapp_lib, 5);
+  int32_t myapp_lib_flag = MYAPP_LIB_get_flag(myapp_lib);
+  printf("%d\n", myapp_lib_flag);
+  
+  // オブジェクトの解放
+  MYAPP_LIB_DESTROY(myapp_lib);
+}
+</pre>
+<h3>分割コンパイル対応 - オブジェクト指向プログラミングのサンプル</h3>
+<p>
+  オブジェクト指向プログラミングのサンプルを分割コンパイル対応してみましょう。これでC言語のプログラムが、実戦で大きなプログラムになってきた場合も安心です。
+</p>
+<h4>myapp_typedec.h</h4>
+<pre>
+#ifndef MYAPP_TYPEDEC_H
+#define MYAPP_TYPEDEC_H
+
+// strcut mylib に MYLIBという別名をつける
+typedef struct myapp_lib MYAPP_LIB;
+
+#endif
+</pre>
+<h4>myapp_lib.h</h4>
+<pre>
+#ifndef MYAPP_LIB_H
+#define MYAPP_LIB_H
+
+#include "myapp_typedec.h"
+
+struct myapp_lib {
+  int32_t flag;
+};
+
+MYAPP_LIB* MYAPP_LIB_new();
+MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag);
+void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag);
+int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self);
+void MYAPP_LIB_DESTROY(MYAPP_LIB* self);
+
+#endif
+</pre>
+<h4>myapp_lib.c</h4>
+<pre>
+#include &lt;stdlib.h&gt;
+
+#include "myapp_lib.h"
+
+// コンストラクタは関数
+MYAPP_LIB* MYAPP_LIB_new() {
+  // 動的メモリ割り当てでオブジェクトを生成
+  MYAPP_LIB* self = calloc(sizeof(MYAPP_LIB), 1);
+  
+  // オブジェクトを返す
+  return self;
+}
+
+// フラグをセットできるコンストラクタ
+MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag) {
+  
+  MYAPP_LIB* self = MYAPP_LIB_new();
+  self-&gt;flag = flag;
+  
+  return self;
+}
+
+// フラグをセット
+void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag) {
+  self-&gt;flag = flag;
+}
+
+// フラグをゲット
+int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
+  return self-&gt;flag;
+}
+
+void MYAPP_LIB_DESTROY(MYAPP_LIB* self) {
+  
+  // メモリ割り当て解放
+  free(self);
+}
+</pre>
+<h4>myapp.c</h4>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+#include "myapp_lib.h"
+
+int main(void) {
+  // オブジェクト生成
+  MYAPP_LIB* myapp_lib = MYAPP_LIB_new();
+  
+  // メソッド呼び出し
+  MYAPP_LIB_set_flag(myapp_lib, 5);
+  int32_t myapp_lib_flag = MYAPP_LIB_get_flag(myapp_lib);
+  printf("%d\n", myapp_lib_flag);
+  
+  // オブジェクトの解放
+  MYAPP_LIB_DESTROY(myapp_lib);
+}
+</pre>
+<h4>コンパイル・リンク・実行</h4>
+<pre>
+gcc -c myapp_lib.c
+gcc -c myapp.c
+gcc -o myapp myapp.o myapp_lib.o
+./myapp
+</pre>
+<h3>継承はできますか?</h3>
+<p>
+  C言語では、継承の機能を手動で実装することは容易ではないので、移譲を使いましょう。
+</p>
+<p>
+  移譲は、メンバ変数に、必要な機能を提供するオブジェクトを保存しておくテクニックのことです。
+</p>
+<p>
+  継承がないから、アプリケーションの機能を満たせないということはないので、安心してください。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    目次
+  </div>
+  <ul>
+    <li><a href="/library.html">標準Cライブラリ</a></li>
+    <li><a href="/types.html">C言語の型</a></li>
+    <li><a href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    Perl総合研究所
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
