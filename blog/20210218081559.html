@@ -7,8 +7,8 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>暗黙の型変換と型変換規則 - C99対応のC言語入門</title>
-<meta name="description" content="C言語における暗黙の型変換と型変換規則について解説します。">
+<title>暗黙の型変換 - C99対応のC言語入門</title>
+<meta name="description" content="C言語における暗黙の型変換について解説します。">
   </head>
   <body>
     <div class="container">
@@ -29,13 +29,9 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210218081559.html">暗黙の型変換と型変換規則</a></h2>
+    <h2><a href="/blog/20210218081559.html">暗黙の型変換</a></h2>
 <p>
-  C言語における暗黙の型変換と型変換規則について解説します。
-</p>
-<h2>暗黙の型変換</h2>
-<p>
-  暗黙の型変換について解説します。
+  C言語における暗黙の型変換について解説します。
 </p>
 <h3>異なる型への代入</h3>
 <p>
@@ -63,7 +59,7 @@ int main(void) {
 </p>
 <h3>異なる型の関数の引数に渡す</h3>
 <p>
-  関数の引数に渡すときも暗黙の型変換が行われます。
+  関数の引数に渡すときも、異なる型への代入と同じ暗黙の型変換が行われます。引数の型がint8_tで、呼び出し側で渡している値の型はint32_t型なので、これがint8_t型に変換されます。
 </p>
 <pre>
 #include &lt;stdint.h&gt;
@@ -78,15 +74,74 @@ int main(void) {
   print_i8(num_i32);
 }
 </pre>
-<h3>int型より小さな値の演算はint型へ変換される</h3>
+<h3>整数拡張 - int型より小さな値の演算はint型へ変換される</h3>
 <p>
-  int型より小さな値の演算はint型へ変換されます。これは、<a href="/blog/20210108153045.html">整数の四則演算</a>や<a href="/blog/20201218105336.html">浮動小数点の四則演算</a>を行う場合、単項の「-」を使う場合、<a href="/blog/20210216082204.html">比較演算子</a>を使う場合に発生します。
+  <a href="/blog/20210130143859.html">int型</a>より小さな値の演算はint型へ変換されます。これは整数拡張と呼ばれます。これは、<a href="/blog/20210108153045.html">整数の四則演算</a>や<a href="/blog/20201218105336.html">浮動小数点の四則演算</a>を行う場合、単項の「-」を使う場合、<a href="/blog/20210216082204.html">比較演算子</a>を使う場合に発生します。
 </p>
 <p>
-  たとえばint8_tの値の演算を行ったとしましょう。int8_tのサイズのまま
+  たとえばint8_tの値の演算を行ったとしましょう。int8_tのサイズのまま演算されるのではなく、int型へ型変換され、数値の計算が行われ、再びint8_tに型変換されます。
+</p>
+<p>
+  以下のサンプルでは、<a href="/blog/20210217081559.html">型キャスト</a>を使って明示的に書いてみました。
 </p>
 <pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
 
+int main(void) {
+  int8_t num1 = 5;
+  int8_t num2 = 10;
+
+  /*
+    int8_t num3 = num1 + num2;
+  */
+  // 上記の処理を型キャストを使って明示的に書く
+  int8_t num3 = (int8_t)((int)num1 + (int)num2);
+
+  /*
+    int8_t num4 = -num3;
+  */
+  
+  // 明示的に書くと上記の処理は以下の記述になる
+  int8_t num4 = (int8_t)(-(int)num3);
+}
+</pre>
+<h3>演算において型の順序が小さい方の型は大きい方の型に変換される</h3>
+<p>
+  <a href="/blog/20210108153045.html">整数の四則演算</a>や<a href="/blog/20201218105336.html">浮動小数点の四則演算</a>を行う場合、単項の「-」を使う場合、<a href="/blog/20210216082204.html">比較演算子</a>を使う場合には、型の順序が小さい方の型は大きい方の型に変換されます。
+</p>
+<p>
+  C言語のすべての型順序の規則を覚えておくのは、辛いので、以下の順序だけは、少なくとも覚えておきましょう。
+</p>
+<p>
+  符号あり整数と符号なし整数は、混ぜて使わず、日常的な計算は、符号あり整数と浮動小数点で行っていると想定します。
+</p>
+<table>
+  <tr><td>浮動小数点型と<br>符号あり整数型の型の順序<br>(左が大きい)</td><td><a href="/blog/20201203133213.html">double</a>, <a href="/blog/20201202133213.html">float</a>, <a href="/blog/20201127082751.html">int64_t</a>, <a href="/blog/20201130082751.html">int32_t</a>, <a href="/blog/20201126090559.html">int16_t</a>, <a href="/blog/20201117090747.html">int8_t</a></td></tr>
+  <tr><td>符号なし整数型の型の順序<br>(左が大きい)</td><td><a href="/blog/20201109150850.html">uint64_t</a>, <a href="/blog/20201111150850.html">uint32_t</a>, <a href="/blog/20201120084622.html">uint16_t</a>, <a href="/blog/20201122084622.html">uint8_t</a></td></tr>
+</table>
+<p>
+  浮動小数点型は、どの整数型よりも型の順序は大きいです。bit数の大きな整数型は、bit数の小さな整数型よりも大きいです。
+</p>
+<p>
+  以下のサンプルでは、<a href="/blog/20210217081559.html">型キャスト</a>を使って明示的に書いてみました。int32_t型の値は、型の順序が大きいdouble型に変換されます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num1 = 5;
+  double num2 = 10.5;
+
+  /*
+    double num3 = num1 + num2;
+  */
+  // 上記の処理を型キャストを使って明示的に書く
+  double num3 = (double)num1 + num2;
+  
+  printf("%f", num3);
+}
 </pre>
 
   </div>
