@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>C言語にGCってないの? - C99対応のC言語入門</title>
+<meta name="description" content="C言語にGCはありません。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210127140803.html">C言語にGCってないの?</a></h2>
+<p>
+  C言語にGCはありません。
+</p>
+<h3>C言語で自動的なGCを行うには?</h3>
+<p>
+  ソフトウェア技術としては、自動的なGCを行いたい場合は、リファレンスカウントGCであれ、世代別GCであれ、オブジェクトの生成・回収を行うランタイムが必要になります。
+</p>
+<p>
+  またメモリを手動で動的確保するのではなく、メモリの動的確保・解放は、ランタイムにすべて任せる必要があります。
+</p>
+<p>
+  純粋なC言語ソースコードをコンパイラの入力として与えることができるという条件を加えると、<a href="http://www.perlri.com/">Perl総合研究所</a>が開発している<a href="https://yuki-kimoto.github.io/spvmdoc-public/">SPVM</a>がひとつの選択肢となります。SPVMは、C言語へのトランスパイラで、リファレンスカウントGCを実装しています。ひとつの注意点として、実行ファイルは生成できますが、ライブラリを作成することはできません。
+</p>
+<p>
+  純粋なC言語ソースコードを出力できGCを実装している他のプロダクトは存在するかもしれません。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    目次
+  </div>
+  <ul>
+    <li><a href="/library.html">標準Cライブラリ</a></li>
+    <li><a href="/types.html">C言語の型</a></li>
+    <li><a href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    Perl総合研究所
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
