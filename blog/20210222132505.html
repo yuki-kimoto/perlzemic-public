@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>C言語の型変換規則 書きかけ - C99対応のC言語入門</title>
+<meta name="description" content="C言語の型変換規則について解説します。この解説では、よく使う型変換規則を中心にして、実用の観点から解説します。">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210222132505.html">C言語の型変換規則 書きかけ</a></h2>
+<p>
+  C言語の型変換規則について解説します。この解説では、よく使う型変換規則を中心にして、実用の観点から解説します。
+</p>
+<h3>ビット幅の小さい符号あり整数からビット幅の大きい符号あり整数への変換(情報喪失なし)</h3>
+<p>
+  ビット幅の小さい符号あり整数からビット幅の大きい符号あり整数への変換について解説します。
+</p>
+<p>
+  符号つき整数型として、<a href="/blog/20201117090747.html">int8_t</a>, <a href="/blog/20201126090559.html">int16_t</a>, <a href="/blog/20201130082751.html">int32_t</a>, <a href="/blog/20201127082751.html">int64_t</a>の場合を想定して解説します。
+</p>
+<p>
+  ビット幅の小さい符号あり整数からビット幅の大きい符号あり整数への変換は数値の絶対値と符号の情報は失われずに保持されます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // int8_tからint32_tへ変換
+  int8_t num_i8 = -15;
+  int32_t num_i32 = num_i8;
+  
+  printf("%d\n", num_i32);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+-15
+</pre>
+<p>
+  2の補数表現で、マイナスを表現していると想定すると、次のようなビットレベルの変換が行われていることになります。
+</p>
+<pre>
+// -15 8bit符号あり整数
+1001111
+
+// -15 32bit符号あり整数
+10000000 00000000 00000000 00001111
+</pre>
+<h3>ビット幅の小さい符号なし整数からビット幅の大きい符号なし整数への変換(情報喪失なし)</h3>
+<p>
+  ビット幅の小さい符号なし整数からビット幅の大きい符号なし整数への変換について解説します。
+</p>
+<p>
+  符号なし整数型として、<a href="/blog/20201122084622.html">uint8_t</a>, <a href="/blog/20201120084622.html">uint16_t</a>, <a href="/blog/20201111150850.html">uint32_t</a>, <a href="/blog/20201109150850.html">uint64_t</a>の場合を想定して解説します。
+</p>
+<p>
+  ビット幅の小さい符号なし整数からビット幅の大きい符号なし整数への変換は数値の情報は失われずに保持されます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // int8_tからint32_tへ変換
+  uint8_t num_ui8 = 15;
+  uint32_t num_ui32 = num_ui8;
+  
+  printf("%d\n", num_ui32);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+15
+</pre>
+<p>
+  次のようなビットレベルの変換が行われていることになります。
+</p>
+<pre>
+// 15 8bit符号なし整数
+0001111
+
+// 15 32bit符号なし整数
+00000000 00000000 00000000 00001111
+</pre>
+<h3>ビット幅の大きい符号あり整数からビット幅の小さい符号あり整数への変換(情報喪失あり)</h3>
+<p>
+  ビット幅の大きい符号あり整数からビット幅の小さい符号あり整数への変換について解説します。
+</p>
+<p>
+  符号あり整数型として、<a href="/blog/20201117090747.html">int8_t</a>, <a href="/blog/20201126090559.html">int16_t</a>, <a href="/blog/20201130082751.html">int32_t</a>, <a href="/blog/20201127082751.html">int64_t</a>の場合を想定して解説します。
+</p>
+<p>
+  ビット幅の大きい符号あり整数からビット幅の小さい符号あり整数への変換は、上位ビットが切り捨てられて解釈された値になります。
+</p>
+<p>
+  正しく変換できるのは、変換前の値が、変換後の型で表現できる数値の範囲に収まっていた場合です。
+</p>
+<p>
+  正しく変換できた場合のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // int16_tからint8_tへ変換
+  int16_t num_i16 = -128;
+  int8_t num_i8 = num_i16;
+  
+  printf("%d\n", num_i8);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+-128
+</pre>
+<p>
+  2の補数表現で、マイナスを表現していると想定すると、次のようなビットレベルの変換が行われていることになります。
+</p>
+<pre>
+// -128 16bit符号あり整数
+11111111 10000000
+
+// -128 8bit符号あり整数
+10000000
+</pre>
+<p>
+  情報喪失ありのサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // int16_tからint8_tへ変換
+  int16_t num_i16 = -257;
+  int8_t num_i8 = num_i16;
+  
+  printf("%d\n", num_i8);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+-1
+</pre>
+<p>
+  2の補数表現で、マイナスを表現していると想定すると、次のようなビットレベルの変換が行われていることになります。
+</p>
+<pre>
+// -257 16bit符号あり整数
+11111110 11111111
+
+// -1 8bit符号あり整数
+11111111
+</pre>
+<h3>ビット幅の大きい符号なし整数からビット幅の小さい符号なし整数への変換(情報喪失あり)</h3>
+<p>
+  ビット幅の大きい符号なし整数からビット幅の小さい符号なし整数への変換について解説します。
+</p>
+<p>
+  符号なし整数型として、<a href="/blog/20201122084622.html">uint8_t</a>, <a href="/blog/20201120084622.html">uint16_t</a>, <a href="/blog/20201111150850.html">uint32_t</a>, <a href="/blog/20201109150850.html">uint64_t</a>の場合を想定して解説します。
+</p>
+<p>
+  ビット幅の大きい符号なし整数からビット幅の小さい符号なし整数への変換は、上位ビットが切り捨てられて解釈された値になります。
+</p>
+<p>
+  正しく変換できるのは、変換前の値が、変換後の型で表現できる数値の範囲に収まっていた場合です。
+</p>
+<p>
+  正しく変換できた場合のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // int16_tからint8_tへ変換
+  uint16_t num_ui16 = 255;
+  uint8_t num_ui8 = num_ui16;
+  
+  printf("%d\n", num_ui8);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+255
+</pre>
+<p>
+  次のようなビットレベルの変換が行われていることになります。
+</p>
+<pre>
+// 255 16bit符号なし整数
+00000000 10000000
+
+// -128 8bit符号なし整数
+10000000
+</pre>
+<p>
+  情報喪失ありのサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // int16_tからint8_tへ変換
+  uint16_t num_ui16 = 257;
+  uint8_t num_ui8 = num_ui16;
+  
+  printf("%d\n", num_ui8);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+1
+</pre>
+<p>
+  次のようなビットレベルの変換が行われていることになります。
+</p>
+<pre>
+// 257 16bit符号なし整数
+00000001 00000001
+
+// 1 8bit符号なし整数
+00000001
+</pre>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    目次
+  </div>
+  <ul>
+    <li><a href="/library.html">標準Cライブラリ</a></li>
+    <li><a href="/types.html">C言語の型</a></li>
+    <li><a href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    Perl総合研究所
+  </div>
+  <ul>
+    <li><a href="http://www.perlri.com/">Perl総合研究所</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
