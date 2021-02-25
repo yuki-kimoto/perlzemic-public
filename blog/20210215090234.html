@@ -7,11 +7,11 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>汎用ポインタ型 void* - C99対応のC言語入門</title>
+<title>汎用ポインタ型 - void* - C99対応のC言語入門</title>
 <meta name="description" content="あらゆるポインタ型を代入できるポインタ型を汎用ポインタ型「void*」があります。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="汎用ポインタ型 void* - C99対応のC言語入門" />
+<meta name="twitter:title" content="汎用ポインタ型 - void* - C99対応のC言語入門" />
 <meta name="twitter:description" content="あらゆるポインタ型を代入できるポインタ型を汎用ポインタ型「void*」があります。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
@@ -36,7 +36,7 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210215090234.html">汎用ポインタ型 void*</a></h3>
+    <h2><a href="/blog/20210215090234.html">汎用ポインタ型 - void*</a></h3>
 <p>
   あらゆるポインタ型を代入できるポインタ型を汎用ポインタ型「void*」があります。
 </p>
@@ -100,7 +100,7 @@ int main(void) {
 }
 </pre>
 <p>
-  「void*型」と互換性があり、符号あり整数型とも互換性のあるintptr_t型のキャストを挟み込むのがポイントです。
+  「void*型」と互換性があり、符号あり整数型とも互換性のある<a href="/blog/20210225131724.html">intptr_t型</a>のキャストを挟み込むのがポイントです。
 </p>
 <p>
   この裏技的テクニックを使う場合は、32bit環境と64bit環境の両方で動作させるために、int32_tを使うことに注意してください。<a href="/blog/20201127082751.html">int64_t</a>を使うと、32bit環境では、正しく動きません。符号なし32bit整数型の<a href="/blog/20201111150850.html">uint32_t</a>は、問題なく使うことができます。
