@@ -115,6 +115,34 @@ int main(void) {
   printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
 }
 </pre>
+<h4>構造体のメンバ変数を0で初期化</h4>
+<p>
+  構造体を0で初期化するための簡単な構文があるので紹介します。これは、初期化の構文で、初期値が指定されなかった場合は、0(すべてのビットが0)が初期値として使われるというC言語仕様を利用したものです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体変数の宣言と0初期化
+  struct myapp_book book = {0};
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+id: 0, name: (null), price: 0
+</pre>
 <h4>構造体のメンバ変数名を指定して値を指定</h4>
 <p>
   構造体のメンバ変数名を指定して値を指定できます。これは<a href="/blog/20201206125815.html">C99</a>で追加された構文です。
