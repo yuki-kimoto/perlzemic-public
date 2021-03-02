@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>マクロの記述 - #define - C99対応のC言語入門</title>
+<meta name="description" content="マクロを定義して使用する方法について解説します。マクロとは、プリプロセッサの「#define」命令によって、ソースコードがコンパイルされる前に、ソースコード中に展開される文字列のことです。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="マクロの記述 - #define - C99対応のC言語入門" />
+<meta name="twitter:description" content="マクロを定義して使用する方法について解説します。マクロとは、プリプロセッサの「#define」命令によって、ソースコードがコンパイルされる前に、ソースコード中に展開される文字列のことです。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210302083009.html">マクロの記述 - #define</a></h2>
+<p>
+  マクロを定義して使用する方法について解説します。マクロとは、プリプロセッサの「#define」命令によって、ソースコードがコンパイルされる前に、ソースコード中に展開される文字列のことです。
+</p>
+<pre>
+#define マクロ名 文字列
+</pre>
+<p>
+  マクロ名は、C言語の識別子で使うことができる文字と同じ文字を使うことができます。文字列は、任意の文字列で、空白を含むこともできます。
+</p>
+<p>
+  マクロには、いくつかの想定される利用用途があるので、紹介していきます。
+</p>
+<h3>マクロ定数</h3>
+<p>
+  マクロの一つ目の用途は、定数定義です。ここでは、これを、マクロ定数と呼ぶことにします。
+</p>
+<p>
+  マクロ定数は、C言語の慣習的に、大文字で構成します。アンダースコアを含んでも構いません。
+</p>
+<pre>
+#define MYAPP_PI 3.14
+#define MYAPP_PARALLEL_PROCESS 10
+</pre>
+<p>
+  マクロ定数を、使用するサンプルプログラムです。「MYAPP_PI」は「3.14」に、コンパイルされる前に展開されます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+#define MYAPP_PI 3.14
+
+int main(void) {
+  double num = 3 * MYAPP_PI;
+  
+  printf("%f\n", num);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+9.420000
+</pre>
+<h3>整数定数の場合はenumを使う</h3>
+<p>
+  整数定数の場合は、マクロを使わず<a href="/blog/20210120133501.html">列挙型「enum」</a>を使うことをお勧めします。enumはコンパイラによって処理され副作用がありません。
+</p>
+<pre>
+enum {
+  MYAPP_PARALLEL_PROCESS = 10
+}
+</pre>
+<h3>マクロはできる限り使わない</h3>
+<p>
+  プログラムを作成する場合は、できる限りマクロを使わないという方針で、作ることをお勧めします。
+</p>
+<p>
+  マクロ展開は、意図しない副作用を引き起こしやすいからです。
+</p>
+<p>
+  たとえば以下の副作用。
+</p>
+<pre>
+#define FOO 2 + 3
+</pre>
+<p>
+  次の計算式の結果は?
+</p>
+<pre>
+1 * FOO * 3
+</pre>
+<p>
+  次のように展開されます。
+</p>
+<pre>
+1 * 2 + 3 * 3
+</pre>
+<p>
+  2 + 9 で 11 になります。FOOは、5であることを期待していたのではないでしょうか?
+</p>
+<pre>
+#define FOO (2 + 3)
+</pre>
+<p>
+  と書くと正しく動きます。
+</p>
+<p>
+  また、関数プロトタイプ宣言の引数名が、マクロで展開されてしまうなど、予想しにくい副作用が発生します。
+</p>
+<p>
+  すべての副作用を書いていくことはしないのですが、マクロを使うと、間違いを引き起こしやすい副作用が、プログラムに入り込んでしまいがちということを、覚えておきましょう。
+</p>
+<p>
+  副作用は、プログラムが大きくなっていくにしたがって、発見箇所を追うのが、難しくなっていきます。そして、プログラムは、機能要望に応じて、大きくなっていきがちです。
+</p>
+<p>
+  「今日のちょっとしんどいけど、大丈夫だろう」は、未来の「すげーしんどい、もうだめなんだけど」につながっていきます。
+</p>
+<h3>マクロはいつ使うのか?</h3>
+<p>
+  できる限り、使わないほうがよいというなら、それでは、マクロはいつ使うのか?
+</p>
+<p>
+  ひとつは、浮動小数点の定数定義ですね。
+</p>
+<p>
+  それ以外は?
+</p>
+<p>
+  たとえば、数値計算のあるライブラリが存在していることをチェックしたいとします。
+</p>
+<p>
+  そして、そのライブラリが存在していた場合は、パフォーマンスを速くできるなどの理由で、そのライブラリの機能を使うようにしたいとします。
+</p>
+<p>
+  このような場合は「#ifdef」とマクロを組み合わせて、記述することが、必須です。
+</p>
+<p>
+  一方で、どの環境でも動くような、C言語の限定した仕様だけを使ってポータブルなアプリケーションを作成しているとします。
+</p>
+<p>
+  このような場合は、浮動小数点の定数定義など、最小限のマクロ定義だけを使って、アプリケーションを構成できます。
+</p>
+<p>
+  このようなアプリケーションで、マクロが大量に使われていたとすると、何かが間違っている可能性が高いです。
+</p>
+<p>
+  一方、やはり、マクロがかなりの数、存在しなければならないアプリケーションもあります。それは、環境差を吸収するために作られたようなアプリケーションだったりします。たとえば、ユーザーから同じソケットAPIを見せるために、Windowsと<a href="https://linux.perlzemi.com/">Linux/UNIX</a>のソケット通信の違いを吸収しなければならないなど。
+</p>
+<p>
+  またパフォーマンスを最速にしたいという条件があるので、コンパイラのインライン展開には期待せずに、手動で展開したいという場合も、マクロの利用が考えられます。
+</p>
+<p>
+  ですので、一概には言えないのですが、必要ではない場合はマクロは使わない、必要になったタイミングで、他に代替手段がないかをよく考えて使うということを、お勧めします。
+</p>
+
+  </div>
+  <div class="bottom">
+    <h3>C99対応のC言語入門のご紹介</h3>
+
+<!-- bottom -->
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/library.html">標準Cライブラリ</a></li>
+    <li><a href="/types.html">C言語の型</a></li>
+    <li><a href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
