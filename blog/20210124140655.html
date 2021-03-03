@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>関数マクロ - C99対応のC言語入門</title>
+<meta name="description" content="関数マクロについて解説します。関数マクロは、プリプロセッサによってコンパイル前に展開される疑似的な関数です。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="関数マクロ - C99対応のC言語入門" />
+<meta name="twitter:description" content="関数マクロについて解説します。関数マクロは、プリプロセッサによってコンパイル前に展開される疑似的な関数です。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210124140655.html">関数マクロ</a></h2>
+<p>
+  関数マクロについて解説します。関数マクロは、プリプロセッサによってコンパイル前に展開される疑似的な関数です。
+</p>
+<pre>
+#define マクロ関数名(引数1, 引数2, ...) 処理の内容
+</pre>
+<p>
+  <a href="http://www.dd.e-mansion.com/~kumada/laboratory/column/c_macro.html">関数マクロは副作用をもたらす危険性</a>がとても大きいので、まず使わないことを推奨します。
+</p>
+<p>
+  ただし、最速にチューニングしたい場合に、コンパイラのインライン展開に依存するのが、どうしても嫌だという場合もあるでしょうし、また、どうしても関数マクロを使いたいエッジなケースもあるでしょう。
+</p>
+<p>
+  そのような場合は「do { } while (0)」で処理を囲むと副作用を減らすことができます。この場合は、戻り値を戻せません。マクロ関数では、直接値を書き換えることもできますが、変更したい値がある場合は、C言語の関数の仕様に合わせるために、ポインタで渡すのをお勧めします。
+</p>
+<h3>関数マクロのサンプルプログラム</h3>
+<p>
+  関数マクロを使った、二つの数を足し算するサンプルです。処理が複数行にわたるときは改行を「\」でエスケープしましょう。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+// 関数マクロの定義
+#define MYAPP_ADD(in1, in2, out_ptr) \
+do {\
+  *out_ptr = in1 + in2;\
+} while (0)\
+
+int main(void) {
+  int32_t num1 = 3;
+  int32_t num2 = 2;
+  int32_t total = 0;
+  
+  // 関数マクロの使用
+  MYAPP_ADD(num1, num2, &amp;total);
+  
+  printf("%d\n", total);
+}
+</pre>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a href="/library.html">標準Cライブラリ</a></li>
+    <li><a href="/types.html">C言語の型</a></li>
+    <li><a href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a href="/list.html">新着記事</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
