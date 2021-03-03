@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>int8_t - 符号あり8bit整数型 - C99対応のC言語入門</title>
-<meta name="description" content="「int8_t」は符号あり8bit整数型です。「stdint.h」をインクルードすることで使えます。">
+<title>stdint.h - サイズ保証がある整数型などが定義される標準ヘッダ - C99対応のC言語入門</title>
+<meta name="description" content="サイズの保証がある整数型やある整数型の最大値・最小値の定数マクロなどが定義されているヘッダです。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="int8_t - 符号あり8bit整数型 - C99対応のC言語入門" />
-<meta name="twitter:description" content="「int8_t」は符号あり8bit整数型です。「stdint.h」をインクルードすることで使えます。" />
+<meta name="twitter:title" content="stdint.h - サイズ保証がある整数型などが定義される標準ヘッダ - C99対応のC言語入門" />
+<meta name="twitter:description" content="サイズの保証がある整数型やある整数型の最大値・最小値の定数マクロなどが定義されているヘッダです。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,40 +36,25 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a></h2>
+    <h2><a href="/blog/20210220132505.html">stdint.h - サイズ保証がある整数型などが定義される標準ヘッダ</a></h2>
 <p>
-  「int8_t」は符号あり8bit整数型です。「stdint.h」をインクルードすることで使えます。
+  サイズの保証がある整数型やある整数型の最大値・最小値の定数マクロなどが定義されているヘッダです。
 </p>
-<pre>
-# 符号あり8bit整数型
-int8_t
-</pre>
-<p>
-  符号あり8bit整数型が表現できる整数の最大値は「127」、最小値は「-128」です。
-</p>
-<p>
-  最大値は「<a href="/blog/20201115090747.html">INT8_MAX</a>」、最小値は「<a href="/blog/20201114090747.html">INT8_MIN</a>」というマクロで定義されています。
-</p>
-<h3>int8_tのサンプルコード</h3>
-<p>
-  int8_tを使ったサンプルコードです。
-</p>
-<pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdint.h&gt;
-
-int main(void) {
-  int8_t num = 5;
-  
-  printf("%d\n", num);
-}
-</pre>
-<p>
-  出力結果。
-</p>
-<pre>
-5
-</pre>
+<ul>
+  <li><a href="/blog/20201114090747.html">INT8_MIN - int8_tの最小値を表す定数</a></li>
+  <li><a href="/blog/20201115090747.html">INT8_MAX - int8_tの最大値を表す定数</a></li>
+  <li><a href="/blog/20201121084622.html">INT16_MIN - int16_tの最小値を表す定数</a></li>
+  <li><a href="/blog/20201125090559.html">INT16_MAX - int16_tの最大値を表す定数</a></li>
+  <li><a href="/blog/20201128082751.html">INT32_MIN - int32_tの最小値を表す定数</a></li>
+  <li><a href="/blog/20201129082751.html">INT32_MAX - int32_tの最大値を表す定数</a></li>
+  <li><a href="/blog/20201112150850.html">INT64_MIN - int64_tの最小値を表す定数</a></li>
+  <li><a href="/blog/20201118082751.html">INT64_MAX - int64_tの最大値を表す定数</a></li>
+  <li><a href="/blog/20201123084622.html">UINT8_MAX - uint8_tの最大値を表す定数</a></li>
+  <li><a href="/blog/20201113150850.html">UINT16_MAX - uint16_tの最大値を表す定数</a></li>
+  <li><a href="/blog/20201110150850.html">UINT32_MAX - uint32_tの最大値を表す定数</a></li>
+  <li><a href="/blog/20201108150850.html">UINT64_MAX - uint64_tの最大値を表す定数</a></li>
+  <li><a href="/blog/20210228091654.html">SIZE_MAX - size_t型の最大値</a></li>
+</ul>
 
   </div>
   <div class="bottom">

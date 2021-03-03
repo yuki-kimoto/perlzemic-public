@@ -40,50 +40,43 @@
 <p>
   標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。
 </p>
-<h3>string.h</h3>
-<ul>
-  <li><a href="/blog/20210221132505.html">memcpy関数 - メモリ領域をバイト単位でコピーする</a></li>
-</ul>
-<h3>stdlib.h</h3>
 <p>
-  「stdlib.h」標準ヘッダをインクルードした場合に利用できる関数。
+  標準Cライブラリは、標準ヘッダを<a href="/blog/20210203153019.html">インクルード</a>すると使えるようになります。
 </p>
-<ul>
-  <li><a href="/blog/20210210082644.html">malloc関数 - メモリの動的確保</a></li>
-  <li><a href="/blog/20210209082644.html">calloc関数 - メモリの動的確保と0初期化</a></li>
-</ul>
-<h3>stdint.h</h3>
+<pre>
+#include &lt;string.h&gt;
+</pre>
+<h3>標準Cライブラリの一覧</h3>
 <p>
-  サイズの保証がある整数型やある整数型の最大値・最小値の定数マクロなどが定義されているヘッダです。
+  よく使う標準Cライブラリの一覧です。ヘッダ名で紹介しています。
 </p>
-<ul>
-  <li><a href="/blog/20201114090747.html">INT8_MIN - int8_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201115090747.html">INT8_MAX - int8_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201121084622.html">INT16_MIN - int16_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201125090559.html">INT16_MAX - int16_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201128082751.html">INT32_MIN - int32_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201129082751.html">INT32_MAX - int32_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201112150850.html">INT64_MIN - int64_tの最小値を表す定数</a></li>
-  <li><a href="/blog/20201118082751.html">INT64_MAX - int64_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201123084622.html">UINT8_MAX - uint8_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201113150850.html">UINT16_MAX - uint16_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201110150850.html">UINT32_MAX - uint32_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20201108150850.html">UINT64_MAX - uint64_tの最大値を表す定数</a></li>
-  <li><a href="/blog/20210228091654.html">SIZE_MAX - size_t型の最大値</a></li>
-</ul>
-<h3>float.h</h3>
-<ul>
-  <li><a href="/blog/20201210102403.html">DBL_MAX - doubleの最小値を表す定数</a></li>
-  <li><a href="/blog/20201205125815.html">FLT_MAX - doubleの正の最小値を表す定数</a></li>
-</ul>
-<h3>stddef.h</h3>
-<ul>
-  <li><a href="/blog/20210213090234.html">NULL - ヌルポインタ定数</a></li>
-</ul>
-<h3>assert.h</h3>
-<h3>stdio.h</h3>
-<h3>inttypes.h</h3>
-<h3>stdint.h</h3>
+<table>
+  <tr><td><a href="/blog/20210303101711.html">string.h</a></td><td>文字列操作やメモリコピーの関数など</td></tr>
+  <tr><td><a href="/blog/20210227091654.html">stdlib.h</a></td><td>メモリ確保関数など</td></tr>
+  <tr><td><a href="/blog/20210220132505.html">stdint.h</a></td><td>サイズ保証がある整数型などを定義</td></tr>
+  <tr><td><a href="/blog/20210219132505.html">float.h</a></td><td>浮動小数点型の最大値・最小値など</td></tr>
+  <tr><td><a href="/blog/20210125140655.html">stddef.h</a></td><td>NULLの定義など</td></tr>
+</table>
+<!--
+<p>
+  stdio.h
+</p>
+<p>
+  assert.h
+</p>
+<p>
+  inttypes.h
+</p>
+<p>
+  -->
+</p>
+<h3>標準Cライブラリの実装はどこにあるの?</h3>
+<p>
+  標準Cライブラリの実装は、それぞれの処理系で実装されており、Cコンパイラはデフォルトで、それをリンクするので、ヘッダファイルを読み込むだけで利用できます。
+</p>
+<p>
+  <a href="https://linux.perlzemi.com/blog/20201216103956.html">gcc</a>の場合は、glibcというライブラリで標準Cライブラリが実装されています。
+</p>
 <h3>C言語関数辞典</h3>
 <p>
   C言語関数辞典のサイトの紹介です。C99対応のC言語入門では、実務で利用頻度の高い関数を中心に扱っているので、すべての関数を知りたい場合に、非常に参考になります。
@@ -94,14 +87,18 @@
 
   </div>
   <div class="bottom">
-    <h3>C99対応のC言語入門のご紹介</h3>
+    <!--
 
-<!-- bottom -->
+<h3>C99対応のC言語入門のご紹介</h3>
+
 <div class="youtube_block">
   <div class="youtube">
     <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
 </div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
 
   </div>
 </div>
@@ -124,6 +121,22 @@
     <li><a href="/types.html">C言語の型</a></li>
     <li><a href="/blog/20201206125815.html">C99の新機能</a></li>
     <li><a href="/list.html">新着記事</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
   </ul>
 </div>
 
