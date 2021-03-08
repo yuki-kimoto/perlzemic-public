@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>ビット演算子 - C99対応のC言語入門</title>
+<meta name="description" content="C言語のビット演算について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="ビット演算子 - C99対応のC言語入門" />
+<meta name="twitter:description" content="C言語のビット演算について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210308101711.html">ビット演算子</a></h2>
+<p>
+  C言語のビット演算について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。
+</p>
+<table>
+  <tr><th>ビットAND演算子</th><td>&</td></tr>
+  <tr><th>ビットOR演算子</th><td>|</td></tr>
+  <tr><th>ビットXOR演算子</th><td>^</td></tr>
+  <tr><th>ビットNOT演算子</th><td>~</td></tr>
+</table>
+<h3>ビットAND演算子</h3>
+<p>
+  ビットAND演算子「&」は、二つのオペランドに含まれるあるビットが両方とも1の場合に、返却する値の対応する位置に1に設定し、あるビットのどちらかが0の場合は0を設定します。
+</p>
+<pre>
+# ビットAND
+x &amp; y
+</pre>
+<p>
+  xとyが両方とも<a href="/blog/20201122084622.html">8bit符号なし整数型</a>であるとしましょう。zがビットAND演算子の結果の値です。xとyのある位置の両方のビットが1の場合に、対応するzのビットも1になり、それ以外の場合は0になります。
+</p>
+<pre>
+x 01001100
+y 01000101
+
+z 01000100
+</pre>
+<p>
+  ビットAND演算子のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 01001100
+  uint8_t x = 0x4C;
+  
+  // 01000101
+  uint8_t y = 0x45;
+  
+  // 01000100
+  uint8_t z = x &amp; y;
+  
+  printf("%X\n", z);
+}
+</pre>
+<p>
+  出力結果です。16進数での出力ですが、2進数であれば「01000100」です。
+</p>
+<pre>
+44
+</pre>
+<h3>ビットOR演算子</h3>
+<p>
+  ビットOR演算子「|」は、二つのオペランドに含まれるあるビットのどちらかが1(どちらも1でもよい)の場合に、返却する値の対応する位置に1に設定し、あるビットの両方が0の場合は0を設定します。
+</p>
+<pre>
+# ビットOR
+x | y
+</pre>
+<p>
+  xとyが両方とも<a href="/blog/20201122084622.html">8bit符号なし整数型</a>であるとしましょう。zがビットOR演算子の結果の値です。xとyのある位置のどちらかのビットが1の場合に、対応するzのビットも1になり、両方とも0の場合は0になります。
+</p>
+<pre>
+x 01001100
+y 01000101
+
+z 01001101
+</pre>
+<p>
+  ビットOR演算子のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 01001100
+  uint8_t x = 0x4C;
+  
+  // 01000101
+  uint8_t y = 0x45;
+  
+  // 01001101
+  uint8_t z = x | y;
+  
+  printf("%X\n", z);
+}
+</pre>
+<p>
+  出力結果です。16進数での出力ですが、2進数であれば「01001101」です。
+</p>
+<pre>
+4D
+</pre>
+<h3>ビットXOR演算子</h3>
+<p>
+  ビットXOR演算子「^」は、二つのオペランドに含まれるあるビットがのどちらかだけが1の場合に、返却する値の対応する位置に1に設定し、あるビットの両方が0あるいは1の場合は0を設定します。
+</p>
+<pre>
+# ビットXOR
+x ^ y
+</pre>
+<p>
+  xとyが両方とも<a href="/blog/20201122084622.html">8bit符号なし整数型</a>であるとしましょう。zがビットXOR演算子の結果の値です。xとyのある位置のどちらかだけのビットが1の場合に、対応するzのビットも1になり、両方とも0または1の場合は0になります。
+</p>
+<pre>
+x 01001100
+y 01000101
+
+z 00001001
+</pre>
+<p>
+  ビットXOR演算子のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 01001100
+  uint8_t x = 0x4C;
+  
+  // 01000101
+  uint8_t y = 0x45;
+  
+  // 0001001
+  uint8_t z = x ^ y;
+  
+  printf("%X\n", z);
+}
+</pre>
+<p>
+  出力結果です。16進数での出力ですが、2進数であれば「0001001」です。
+</p>
+<pre>
+9
+</pre>
+<h3>ビットNOT演算子</h3>
+<p>
+  ビットNOT演算子「~」は、オペランドに含まれるあるビットを反転させます。
+</p>
+<pre>
+# ビットNOT
+~x
+</pre>
+<p>
+  xとyが両方とも<a href="/blog/20201122084622.html">8bit符号なし整数型</a>であるとしましょう。zがビットNOT演算子の結果の値です。xのビットが反転しています。
+</p>
+<pre>
+x 01001100
+
+z 10110011
+</pre>
+<p>
+  ビットNOT演算子のサンプルです。出力結果は、<a href="http://59.106.185.196:3000/blog/20210218081559.html">整数型拡張</a>の影響をなくすために「0xFF」とのビットANDをとっています。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 01001100
+  uint8_t x = 0x4C;
+  
+  // 01000101
+  uint8_t y = 0x45;
+  
+  // 10110011
+  uint8_t z = ~x;
+  
+  printf("%X\n", z);
+}
+</pre>
+<p>
+  出力結果です。16進数での出力で、すが、2進数であれば「01000100」です。
+</p>
+<pre>
+B3
+</pre>
+<h3>ビット演算子と「=」を組み合わせた特殊演算子</h3>
+<p>
+  ビット演算子と「=」を組み合わせた特殊演算子があります。
+</p>
+<pre>
+# 「x = x &amp; y」 と同じ意味
+x &amp;= y
+
+# 「x = x | y」 と同じ意味
+x |= y
+
+# 「x = x ^ y」 と同じ意味
+x ^= y
+</pre>
+<h3>ビット演算子は実務ではどのような場合に使用しますか?</h3>
+<p>
+  ビット演算子を一番使う場面は、フラグを関数の引数に渡す場合です。C言語では、フラグを、整数で渡すことが多いのですが、その場合に、ビットの位置で意味を定めます。<a href="/blog/20210120133501.html">列挙型enum</a>を使って、各ビットのフラグを定義します。1(二進で1), 2(二進で10), 4(二進で100), 8(二進で1000)。
+</p>
+<p>
+  各ビットを立てるときはビットOR「|=」、落とすときはビットXOR「^=」です。
+</p>
+<p>
+  関数の引数に渡すフラグを作成するサンプルコードです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+enum {
+  MYAPP_FLAG1 = 1,
+  MYAPP_FLAG2 = 2,
+  MYAPP_FLAG3 = 4,
+  MYAPP_FLAG4 = 8,
+  MYAPP_FLAG5 = 16,
+  MYAPP_FLAG6 = 32,
+  MYAPP_FLAG7 = 64,
+  MYAPP_FLAG8 = 128,
+  MYAPP_FLAG9 = 256,
+  MYAPP_FLAG10 = 512,
+};
+
+int main(void) {
+  uint32_t flag = 0;
+  
+  // MYAPP_FLAG4をたてる
+  flag |= MYAPP_FLAG4;
+  
+  // 00000000 00000000 00000000 00001000
+  printf("%X\n", flag);
+  
+  // MYAPP_FLAG10をたてる
+  flag |= MYAPP_FLAG10;
+
+  // 00000000 00000000 00000010 00001000
+  printf("%X\n", flag);
+  
+  // MyAPP_FLAG4を落とす
+  flag ^= MYAPP_FLAG4;
+  
+  // 00000000 00000000 00000010 00000000
+  printf("%X\n", flag);
+}
+</pre>
+<p>
+  (書き換け。シフト演算を書く予定)
+</p>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
