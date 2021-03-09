@@ -8,11 +8,11 @@
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
 <title>ビット演算子 - C99対応のC言語入門</title>
-<meta name="description" content="C言語のビット演算について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。">
+<meta name="description" content="C言語のビット演算子について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
 <meta name="twitter:title" content="ビット演算子 - C99対応のC言語入門" />
-<meta name="twitter:description" content="C言語のビット演算について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。" />
+<meta name="twitter:description" content="C言語のビット演算子について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -38,7 +38,7 @@
   <div class="middle">
     <h2><a href="/blog/20210308101711.html">ビット演算子</a></h2>
 <p>
-  C言語のビット演算について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。
+  C言語のビット演算子について解説します。ビット演算とは、1ビット単位で行われる演算のことをいいます。
 </p>
 <table>
   <tr><th>ビットAND演算子</th><td>&</td></tr>
@@ -239,6 +239,9 @@ x ^= y
   各ビットを立てるときはビットOR「|=」、落とすときはビットXOR「^=」です。
 </p>
 <p>
+  ビットが立っているかをチェックするときは「&」を使います。
+</p>
+<p>
   関数の引数に渡すフラグを作成するサンプルコードです。
 </p>
 <pre>
@@ -278,11 +281,13 @@ int main(void) {
   
   // 00000000 00000000 00000010 00000000
   printf("%X\n", flag);
+  
+  // ビットが立っているかチェック
+  if (flag &amp; MYAPP_FLAG10) {
+    printf("MYAPP_FLAG10 ok\n");
+  }
 }
 </pre>
-<p>
-  (書き換け。シフト演算を書く予定)
-</p>
 
   </div>
   <div class="bottom">

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>シフト演算子 - C99対応のC言語入門</title>
+<meta name="description" content="C言語のシフト演算子について解説します。シフト演算は、ビット位置を右あるいは、左に移動させる演算のことです。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="シフト演算子 - C99対応のC言語入門" />
+<meta name="twitter:description" content="C言語のシフト演算子について解説します。シフト演算は、ビット位置を右あるいは、左に移動させる演算のことです。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210309085419.html">シフト演算子</a></h2>
+<p>
+  C言語のシフト演算子について解説します。シフト演算は、ビット位置を右あるいは、左に移動させる演算のことです。
+</p>
+<p>
+  C言語仕様上では、定義されていませんが、デファクトスタンダードとして、論理シフト演算は、符号なし整数に対して、算術シフト演算は、符号あり整数に対して実装されていると想定してください。VC++や<a href="https://linux.perlzemi.com/blog/20201216103956.html">gcc</a>はどちらもこの動作をします。
+</p>
+<p>
+  ただし、これは処理系依存ですので、動かない処理系がある可能性はありますが、このように実装しない限り、C言語で論理シフト演算と算術シフト演算を定義できず、移植性のあるライブラリを書けないので、時間がたつにつれて、デファクトスタンダード側の実装で、そろうと想像します。
+</p>
+<p>
+  このような前提に立ちつつ、解説をします。
+</p>
+<h3>左論理シフト演算</h3>
+<p>
+  左論理シフト演算は、指定した回数、左に論理シフトさせます。xは、符号なし整数です。
+</p>
+<pre>
+// 左論理シフト演算
+x &lt;&lt; count
+</pre>
+<p>
+  値が<a href="/blog/20201122084622.html">符号なし8bit整数</a>であるとします。これを2bit左へシフト演算すると、次のようになります。8bitを超えた部分は、切り捨てられます。右側は0で埋められます。
+</p>
+<pre>
+// これを左へ2bitシフトさせると
+  10101101
+
+// このようになる
+10101101
+
+// 8bitを超えた部分は切り捨て、右側は0で埋めます
+  10110100
+</pre>
+<p>
+  左論理シフト演算のサンプルプログラムです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 10101101
+  uint8_t x = 0xAD;
+  
+  // 2bit左論理シフト
+  uint8_t y = x &lt;&lt; 2;
+  
+  printf("%X\n", y);
+}
+</pre>
+<p>
+  出力結果です。2進数にすると「10110100」です。
+</p>
+<pre>
+B4
+</pre>
+<h3>右論理シフト演算</h3>
+<p>
+  右論理シフト演算は、指定した回数、右に論理シフトさせます。xは、符号なし整数です。
+</p>
+<pre>
+// 右論理シフト演算
+x &lt;&lt; count
+</pre>
+<p>
+  値が<a href="/blog/20201122084622.html">符号なし8bit整数</a>であるとします。これを2bit右へシフト演算すると、次のようになります。1bitより下の部分は、切り捨てられます。左側は0で埋められます。
+</p>
+<pre>
+// これを右へ2bitシフトさせると
+10101101
+
+// このようになる
+  10101101
+
+// 1bitより下の部分は切り捨て、左側は0で埋めます
+00101011
+</pre>
+<p>
+  右論理シフト演算のサンプルプログラムです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 10101101
+  uint8_t x = 0xAD;
+  
+  // 2bit右論理シフト
+  uint8_t y = x &gt;&gt; 2;
+  
+  printf("%X\n", y);
+}
+</pre>
+<p>
+  出力結果です。2進数にすると「00101011」です。
+</p>
+<pre>
+2B
+</pre>
+<p>
+  (書き換え、算術シフトを追加予定)
+</p>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
