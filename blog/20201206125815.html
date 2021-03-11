@@ -108,6 +108,24 @@ int main(void) {
   printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
 }
 </pre>
+<h3>どの位置でもローカル変数宣言が可能</h3>
+<p>
+  <a href="/blog/20201206125815.html">C99</a>からはどの位置でもローカル変数宣言が可能になりました。ローカル変数の宣言は、ブロックの先頭でなければならないという制約はなくなりました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main (void) {
+  {
+    int32_t num1 = 5;
+    
+    1 + 1;
+    
+    // どの位置でもローカル変数の宣言が可能
+    int32_t num2 = 4;
+  }
+}
+</pre>
 
   </div>
   <div class="bottom">
