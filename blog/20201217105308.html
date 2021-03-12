@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>ローカル変数の宣言 - C99対応のC言語入門</title>
-<meta name="description" content="変数の宣言は以下の構文で行います。">
+<title>ローカル変数 - C99対応のC言語入門</title>
+<meta name="description" content="C言語のローカル変数について解説します。ローカル変数は、関数の内部で宣言された変数のことです。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="ローカル変数の宣言 - C99対応のC言語入門" />
-<meta name="twitter:description" content="変数の宣言は以下の構文で行います。" />
+<meta name="twitter:title" content="ローカル変数 - C99対応のC言語入門" />
+<meta name="twitter:description" content="C言語のローカル変数について解説します。ローカル変数は、関数の内部で宣言された変数のことです。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,7 +36,11 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20201217105308.html">ローカル変数の宣言</a></h2>
+    <h2><a href="/blog/20201217105308.html">ローカル変数</a></h2>
+<p>
+  C言語のローカル変数について解説します。ローカル変数は、関数の内部で宣言された変数のことです。
+</p>
+<h3>ローカル変数の宣言</h3>
 <p>
   変数の宣言は以下の構文で行います。
 </p>
@@ -114,6 +118,93 @@ int main (void) {
   }
 }
 </pre>
+<h3>静的ローカル変数</h3>
+<p>
+  C言語では、ローカル変数にstatic修飾子をつけることで、静的ローカル変数を宣言できます。
+</p>
+<pre>
+int foo (void) {
+  // 静的ローカル変数
+  static foo = 1
+}
+</pre>
+<p>
+  静的ローカル変数という名前ですが、実際の役割について考えると、スコープのあるグローバル変数と考えるのがよいです。
+</p>
+<p>
+  寿命は、プログラムの開始から最後までですが、スコープを持たせて、スコープ外から直接アクセスさせないようにできます。
+</p>
+<p>
+  静的ローカル変数は、グローバル変数と同じく0(すべてのビットが0)で初期化されます。
+</p>
+<p>
+  静的ローカル変数は、式が実行され代入が行われると、その値は、プログラムの最後まで変わりません。
+</p>
+<p>
+  代入される前は0、代入された後は、プログラム終了まで代入された値になります。
+</p>
+<h4>静的ローカル変数のサンプル</h4>
+<p>
+  静的ローカル変数のサンプルです。
+</p>
+<p>
+  静的ローカル変数なんて「いったい、どこで使うんじゃ～。<a href="/blog/20210120133501.html">enum</a>や<a href="/blog/20210302083009.html">マクロ定数</a>使ったら、いいだろ～」。はい、ごもっともです。enumやマクロ定数が使える場合はそれを使ってください。
+</p>
+<p>
+  ここでのサンプルでは、グローバル変数を使わないで、文字列定数と文字列定数の配列を定義する方法を紹介します。この記述は、グローバル変数を使いたくないが、文字列定数や文字列定数の配列を定義したい場合に活用できます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+const char* const_string (void);
+const char* const* const_strings (void);
+
+int main(void) {
+  // 文字列定数を取得
+  const char* string = const_string();
+  
+  printf("%s\n", string);
+  
+  // 文字列定数の配列を取得
+  const char* const* strings = const_strings();
+
+  printf("%s %s\n", strings[0], strings[1]);
+}
+
+// 文字列定数
+const char* const_string (void) {
+  static const char* string = "Hello";
+  
+  return string;
+}
+
+// 文字列定数の配列
+const char* const* const_strings (void) {
+  static const char* const strings[] = {
+    "Apple",
+    "Orange",
+    "Grape",
+  };
+  
+  return strings;
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+Apple Orange
+</pre>
+<p>
+  「const char* const*」とconstが二回書かれているのは、配列の要素の書き換えを防ぐと同時に、文字列の要素(文字)の書き換えを防ぐためです。
+</p>
+<p>
+  C言語においては、constは、型キャストによって外すことができるので、これは、完全な定数ではなく、間違いが起こりにくくなる手法だと考えてください。
+</p>
+<p>
+  気が利く処理系では、静的領域を書き換えようとした場合は、メモリアクセス違反が起こります。
+</p>
 
   </div>
   <div class="bottom">
