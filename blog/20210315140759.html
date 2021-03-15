@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>グローバル変数 書き始め - C99対応のC言語入門</title>
+<meta name="description" content="C言語のグローバル変数についての解説です。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="グローバル変数 書き始め - C99対応のC言語入門" />
+<meta name="twitter:description" content="C言語のグローバル変数についての解説です。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210315140759.html">グローバル変数 書き始め</a></h2>
+<p>
+  C言語のグローバル変数についての解説です。
+</p>
+<h3>グローバル変数を使わないC言語プログラミングを推奨</h3>
+<p>
+  最初に書いておくと、グローバル変数は使わないでC言語プログラミングを行うことを強く推奨します。
+</p>
+<p>
+  自分でライブブラリやアプリケーションを作成する場合は、グローバル変数を使わずに、プログラミングできます。
+</p>
+<p>
+  自分で作成していないライブラリが、ライブラリンのインターフェースとして、グローバル変数を使うことを要求していた場合は、グローバル変数を使う必要がありますが、自作のC言語プログラミングであれば、グローバル変数を使わずに、プログラミングできます。そのような場合でも、グローバル変数へのアクセスを、極力さけるための工夫をします。
+</p>
+<h4>グローバル変数の危険性</h4>
+<p>
+  グローバル変数の危険性というのは、一言で書くと、グローバル変数はどこからでも変更可能だということです。
+</p>
+<p>
+  さて、プログラミングが100万行あったとして、何かの間違いで、どこかの場所でグローバル変数が変更されました。
+</p>
+<p>
+  さて、皆さんは、この箇所を、苦労して探したいですか? それとも、最初からリスクをなくしておきますでしょうか?
+</p>
+<p>
+  C99対応のC言語入門では、最初からリスクをなくしておく方法を強くお勧めしています。
+</p>
+<h4>でもどうしてグローバル変数があふれているの?</h4>
+<p>
+  でも、どうして、結局のところ、世の中に出回っているプログラミングは、こんなにもグローバル変数にあふれているのでしょうか?
+</p>
+<p>
+  500行のときは、グローバル変数でも、確認するのは簡単でした。次の担当の人は、前に書いてあったものを、コピーして、真似しました。その場しのぎとして、とても楽です。プログラムは、次第にどんどん大きくなっていきます。
+</p>
+<p>
+  気づけば、1万行に達しています。
+</p>
+<p>
+  書き換えようと思っても、リファクタリングの時間は与えてもらえません。そのような交渉をする権限も雰囲気もありません。
+</p>
+<p>
+  次の要件を達成するための現実的な策は、前のものをコピペして、少し変えて使うことです。そして、あまりにもリファクタリングを怠っていたので、プログラミングを書く作業時間は、どんどん伸び、試験の期間に到達しています。試験の期間のぎりぎりで、夜10時までの残業をこなして、やっと、プログラムが書き終わりました。さて、そのようなシステムは、信頼性の高いシステムでしょうか?
+</p>
+<h3>グローバル変数を使わないでプログラミングする手法</h3>
+<p>
+  グローバル変数を使わないでプログラミングする手法について紹介します。
+</p>
+<h4>整数定数はenum</h4>
+<p>
+  整数定数を使いたい場合は、<a href="/blog/20210120133501.html">列挙型enum</a>を使います。
+</p>
+<h4>浮動小数点定数は定数マクロ</h4>
+<p>
+  浮動小数点定数を使いたい場合は、<a href="/blog/20210302083009.html">#defineによるマクロの記述</a>を行います。
+</p>
+<h4>文字列定数は静的ローカル変数</h4>
+<p>
+  文字列定数を使いたい場合のテクニックをローカル変数の解説の静的ローカル変数の部分に書いています。
+</p>
+<ul>
+  <li>
+    <a href="/blog/20201217105308.html">ローカル変数の記事の「静的ローカル変数」の部分</a>
+  </li>
+</ul>
+<h4>文字列定数の配列は静的ローカル変数</h4>
+<p>
+  文字列定数の配列を使いたい場合のテクニックをローカル変数の解説の静的ローカル変数の部分に書いています。
+</p>
+<ul>
+  <li>
+    <a href="/blog/20201217105308.html">ローカル変数の記事の「静的ローカル変数」の部分</a>
+  </li>
+</ul>
+<h4>複数の関数からまとまったデータにアクセスしたい</h4>
+<p>
+  グローバル変数を使いたくなる動機は、必要なデータだけ関数を引数に渡すのがめんどうで、複数の関数からまとまったデータにアクセスしたい場合があるからです。
+</p>
+<p>
+  必要なデータだけを関数に渡すのは、リエントラントで最も安全な方法ですが、少し大きなアプリケーションを作る場合には、面倒で現実的ではないのです。
+</p>
+<p>
+  このような場合は、C言語にオブジェクト指向の考え方を取り入れましょう。オブジェクトにデータを保存して、アクセスするようにします。
+</p>
+<ul>
+  <li><a href="/blog/20210212090234.html">オブジェクト指向C言語</a></li>
+</ul>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
