@@ -7,11 +7,11 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>グローバル変数 書き始め - C99対応のC言語入門</title>
+<title>グローバル変数 - C99対応のC言語入門</title>
 <meta name="description" content="C言語のグローバル変数についての解説です。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="グローバル変数 書き始め - C99対応のC言語入門" />
+<meta name="twitter:title" content="グローバル変数 - C99対応のC言語入門" />
 <meta name="twitter:description" content="C言語のグローバル変数についての解説です。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
@@ -36,7 +36,7 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210315140759.html">グローバル変数 書き始め</a></h2>
+    <h2><a href="/blog/20210315140759.html">グローバル変数</a></h2>
 <p>
   C言語のグローバル変数についての解説です。
 </p>
@@ -109,6 +109,15 @@
     <a href="/blog/20201217105308.html">ローカル変数の記事の「静的ローカル変数」の部分</a>
   </li>
 </ul>
+<h4>プログラムの開始から終わりまで同じ値を保持したい</h4>
+<p>
+  この場合も静的ローカル変数が使えます。
+</p>
+<ul>
+  <li>
+    <a href="/blog/20201217105308.html">ローカル変数の記事の「静的ローカル変数」の部分</a>
+  </li>
+</ul>
 <h4>複数の関数からまとまったデータにアクセスしたい</h4>
 <p>
   グローバル変数を使いたくなる動機は、必要なデータだけ関数を引数に渡すのがめんどうで、複数の関数からまとまったデータにアクセスしたい場合があるからです。
@@ -122,6 +131,95 @@
 <ul>
   <li><a href="/blog/20210212090234.html">オブジェクト指向C言語</a></li>
 </ul>
+<h3>グローバル変数の文法の解説</h3>
+<p>
+  ここまでにグローバル変数の「ヒヤリ、はっと」を感じてもらって、文法の解説をします。
+</p>
+<h4>グローバル変数の宣言</h4>
+<p>
+  関数外で宣言した変数は、グローバル変数になります。グローバル変数は0(すべてのビットが0)で初期化されます。値が不定である<a href="/blog/20201217105308.html">ローカル変数</a>とは、この点で異なります。
+</p>
+<p>
+  グローバル変数は、プログラムは始まりから、終わりまで有効です。グローバル変数は、プログラムのすべての位置から見えます(ファイル外の場合は、externすれば)。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+// グローバル変数の宣言
+int32_t MYAPP_GLOBAL_VAR;
+
+// 中身を出力
+int main(void) {
+  printf("%d\n", MYAPP_GLOBAL_VAR);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+0
+</pre>
+<p>
+  C言語には、関数の外には、式を書くことはできませんが、グローバル変数を初期化するための右辺の項が書けるという仕様があります。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+// グローバル変数の宣言と初期化
+int32_t MYAPP_GLOBAL_VAR_CONST1 = 5;
+int32_t MYAPP_GLOBAL_VAR_CONST2 = sizeof(6);
+int32_t MYAPP_GLOBAL_VAR_NO_CONST = strlen("AAABBB");
+
+// 式を書いた場合は文法エラー
+// strlen("AAABBB");
+
+// 中身を出力
+int main(void) {
+  printf("%d\n", MYAPP_GLOBAL_VAR_CONST1);
+  printf("%d\n", MYAPP_GLOBAL_VAR_CONST2);
+  printf("%d\n", MYAPP_GLOBAL_VAR_NO_CONST);
+}
+</pre>
+<p>
+  <a href="https://linux.perlzemi.com/blog/20201216103956.html">gcc</a>での出力結果です。初期化が、定数でなかった場合は、警告がでます。
+</p>
+<pre>
+a.c:8: warning: initializer element is not constant
+a.c:8: warning: (near initialization for ‘MYAPP_GLOBAL_VAR_NO_CONST’)
+5
+4
+6
+</pre>
+<p>
+  これは、仕様として覚えておいて、もし定数を使いたい場合は、上記で紹介したグローバル変数を使わない方法をお勧めします。
+</p>
+<h3>他のオブジェクトファイルで定義されたグローバル変数にアクセスする</h3>
+<p>
+  C言語にはファイルスコープという概念があり、他のオブジェクトファイルに記述されているグローバル変数は、そのままでは見えません。他のオブジェクトファイルにあるグローバル変数にアクセスしたい場合は、extern宣言を使用します。
+</p>
+<pre>
+# 他のファイルに記述されているグローバル変数にアクセスできるようにする
+extern OUTER_GLOBAL_VAR;
+</pre>
+<h3>グローバル変数を他のオブジェクトファイルからアクセスできなくする</h3>
+<p>
+  グローバル変数を他のオブジェクトファイルからアクセスできなくするにはstatic修飾子を使います。static修飾子を使うと、このファイル(オブジェクトファイルになったと想像して)の中だけで、使用できます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+// このファイル(オブジェクトファイルになったと想像して)の中だけで有効なグローバル変数の宣言
+static int32_t MYAPP_GLOBAL_VAR;
+
+// 中身を出力
+int main(void) {
+  printf("%d\n", MYAPP_GLOBAL_VAR);
+}
+</pre>
 
   </div>
   <div class="bottom">
