@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>標準Cライブラリ - C99対応のC言語入門</title>
-<meta name="description" content="標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。">
+<title>アサーション - assertマクロ - C99対応のC言語入門</title>
+<meta name="description" content="assertマクロを使うとアサーションをソースコードに挿入できます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="標準Cライブラリ - C99対応のC言語入門" />
-<meta name="twitter:description" content="標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。" />
+<meta name="twitter:title" content="アサーション - assertマクロ - C99対応のC言語入門" />
+<meta name="twitter:description" content="assertマクロを使うとアサーションをソースコードに挿入できます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,52 +36,94 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/library.html">標準Cライブラリ</a></h2>
+    <h2><a href="/blog/20210317082708.html">アサーション - assertマクロ</a></h2>
 <p>
-  標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。
-</p>
-<p>
-  標準Cライブラリは、標準ヘッダを<a href="/blog/20210203153019.html">インクルード</a>すると使えるようになります。
+  assertマクロを使うとアサーションをソースコードに挿入できます。
 </p>
 <pre>
-#include &lt;string.h&gt;
+assert(条件)
 </pre>
-<h3>標準Cライブラリの一覧</h3>
 <p>
-  よく使う標準Cライブラリの一覧です。ヘッダ名で紹介しています。
+  assertマクロの条件が真であるときは、何も起こりません。条件が偽である場合は、エラーメッセージを出力し、プログラムが終了します。コアダンプ出力を有効にしている場合は、コアダンプも出力されます。ある値が、期待している値であることをチェックしたい場合に便利です。
 </p>
-<table>
-  <tr><td><a href="/blog/20210303101711.html">string.h</a></td><td>文字列操作やメモリコピーの関数など</td></tr>
-  <tr><td><a href="/blog/20210227091654.html">stdlib.h</a></td><td>メモリ確保関数など</td></tr>
-  <tr><td><a href="/blog/20210220132505.html">stdint.h</a></td><td>サイズ保証がある整数型などを定義</td></tr>
-  <tr><td><a href="/blog/20210219132505.html">float.h</a></td><td>浮動小数点型の最大値・最小値など</td></tr>
-  <tr><td><a href="/blog/20210125140655.html">stddef.h</a></td><td>NULLの定義など</td></tr>
-  <tr><td><a href="/blog/20210316082708.html">assert.h</a></td><td>アサーション関数</td></tr>
-</table>
-<!--
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;assert.h&gt;
+
+int main(void) {
+  int32_t num = 3;
+  
+  // numが1より大きいことをチェック
+  assert(num &gt; 1);
+  
+  printf("%d\n", num);
+}
+</pre>
 <p>
-  stdio.h
+  出力結果です。「num」が「1」より大きいので普通に実行されます。
 </p>
+<pre>
+3
+</pre>
 <p>
-  inttypes.h
+  「num」を「-1」にしてみましょう。
 </p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;assert.h&gt;
+
+int main(void) {
+  int32_t num = -1;
+  
+  // numが1より大きいことをチェック
+  assert(num &gt; 1);
+  
+  printf("%d\n", num);
+}
+</pre>
 <p>
-  -->
+  <a href="https://linux.perlzemi.com/blog/20201216103956.html">gcc</a>の場合の出力結果です。
 </p>
-<h3>標準Cライブラリの実装はどこにあるの?</h3>
+<pre>
+a: a.c:9: main: Assertion `num &gt; 1' failed.
+Aborted (core dumped)
+</pre>
 <p>
-  標準Cライブラリの実装は、それぞれの処理系で実装されており、Cコンパイラはデフォルトで、それをリンクするので、ヘッダファイルを読み込むだけで利用できます。
+  <a href="https://linux.perlzemi.com/blog/20191126082723.html">lsコマンド</a>と<a href="https://linux.perlzemi.com/blog/20200602093211.html">grepコマンド</a>で確認すると、コアダンプも出力されています。
 </p>
+<pre>
+$ ls | grep core
+core.28560
+</pre>
 <p>
-  <a href="https://linux.perlzemi.com/blog/20201216103956.html">gcc</a>の場合は、glibcというライブラリで標準Cライブラリが実装されています。
+  コアダンプは、プログラムのデバッグに関する情報が格納されているファイルだと考えてください。コアダンプを使ってプログラムをデバッグする方法については、別の箇所で解説します。
 </p>
-<h3>C言語関数辞典</h3>
+<h3>assertマクロを取り除く</h3>
 <p>
-  C言語関数辞典のサイトの紹介です。C99対応のC言語入門では、実務で利用頻度の高い関数を中心に扱っているので、すべての関数を知りたい場合に、非常に参考になります。
+  assertマクロは、NDEBUGマクロを、コンパイル時に指定することで、取り除くことができます。デバッグするときにだけassertマクロを使い、最終的な製品の出力にはassertマクロを入れたくないという場合に便利です。
 </p>
-<ul>
-  <li><a target="_blank" href="http://www.c-tipsref.com/">C言語関数辞典</a></li>
-</ul>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;assert.h&gt;
+
+int main(void) {
+  int32_t num = -1;
+  
+  // numが1より大きいことをチェック
+  assert(num &gt; 1);
+  
+  printf("%d\n", num);
+}
+</pre>
+<p>
+  次のようにgccの「-D」オプションで「NDEBUGマクロ」を定義して、実行してみましょう。assertマクロの部分が実行されません。
+</p>
+<pre>
+gcc -DNDEBUG -o a a.c &amp;&amp; ./a
+</pre>
 
   </div>
   <div class="bottom">
