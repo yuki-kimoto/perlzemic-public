@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>C言語の型 - C99対応のC言語入門</title>
-<meta name="description" content="C言語で使う型の紹介です。">
+<title>void型 - 存在しないことを意味する特別な型 - C99対応のC言語入門</title>
+<meta name="description" content="void型は存在しないことを意味する特別な型です。関数の戻り値、関数の引数で使うことができます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="C言語の型 - C99対応のC言語入門" />
-<meta name="twitter:description" content="C言語で使う型の紹介です。" />
+<meta name="twitter:title" content="void型 - 存在しないことを意味する特別な型 - C99対応のC言語入門" />
+<meta name="twitter:description" content="void型は存在しないことを意味する特別な型です。関数の戻り値、関数の引数で使うことができます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,53 +36,19 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/types.html">C言語の型</a></h2>
+    <h2><a href="/blog/20210313140759.html">void型 - 存在しないことを意味する特別な型</a></h2>
 <p>
-  C言語で使う型の紹介です。
+  void型は存在しないことを意味する特別な型です。関数の戻り値、関数の引数で使うことができます。
 </p>
-<h4>文字を表現する型</h4>
-<ul>
-  <li><a href="/blog/20201204103322.html">char - 文字を表現する型</a></li>
-  <li><a href="/blog/20201208125815.html">char* - 文字列を表現する型</a></li>
-</ul>
-<h4>伝統的な整数型</h4>
-<ul>
-  <li><a href="/blog/20201209105820.html">C言語の伝統的な整数型</a></li>
-  <li><a href="/blog/20210130143859.html">int型 - 16bit以上の符号あり整数型</a></li>
-</ul>
-<h4>C99で導入された幅と符号あり・なしが保証される整数型</h4>
-<ul>
-  <li><a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a></li>
-  <li><a href="/blog/20201126090559.html">int16_t - 符号あり16bit整数型</a></li>
-  <li><a href="/blog/20201130082751.html">int32_t - 符号あり32bit整数型</a></li>
-  <li><a href="/blog/20201127082751.html">int64_t - 符号あり64bit整数型</a></li>
-  <li><a href="/blog/20201122084622.html">uint8_t - 符号なし8bit整数型</a></li>
-  <li><a href="/blog/20201120084622.html">uint16_t - 符号なし16bit整数型</a></li>
-  <li><a href="/blog/20201111150850.html">uint32_t - 符号なし32bit整数型</a></li>
-  <li><a href="/blog/20201109150850.html">uint64_t - 符号なし64bit整数型</a></li>
-</ul>
-<h4>浮動小数点型</h4>
-<ul>
-  <li><a href="/blog/20201202133213.html">float - 単精度(32bit)浮動小数点型</a></li>
-  <li><a href="/blog/20201203133213.html">double - 倍精度(64bit)浮動小数点型</a></li>
-</ul>
-<h4>サイズを表す型</h4>
-<ul>
-  <li><a href="/blog/20210301091654.html">size_t型 - サイズを表す型</a></li>
-</ul>
-<h4>汎用ポインタ型</h4>
-<ul>
-  <li><a href="/blog/20210215090234.html">汎用ポインタ型 - void*</a></li>
-</ul>
-<h3>ポインタと相互変換可能な整数型</h3>
-<ul>
-  <li><a href="/blog/20210225131724.html">intptr_t - ポインタ型のサイズの符号あり整数型</a></li>
-  <li><a href="/blog/20210223131724.html">uintptr_t - ポインタ型のサイズの符号なし整数型</a></li>
-</ul>
-<h4>存在しないことを意味する特別な型</h4>
-<ul>
-  <li><a href="/blog/20210313140759.html">void型 - 存在しないことを意味する特別な型</a></li>
-</ul>
+<pre>
+# 戻り値はなし、引数なし
+void foo(void) {
+  
+}
+</pre>
+<p>
+  void型は、<a href="/blog/20210215090234.html">汎用ポインタ型「void*」</a>とは、意味の関連性がまったくないので注意してください。
+</p>
 
   </div>
   <div class="bottom">

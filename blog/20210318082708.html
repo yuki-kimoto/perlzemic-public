@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>C言語の型 - C99対応のC言語入門</title>
-<meta name="description" content="C言語で使う型の紹介です。">
+<title>コマンドライン引数 - C99対応のC言語入門</title>
+<meta name="description" content="C言語でコマンドライン引数を受け取る方法についての解説です。コマンドライン引数は、main関数の引数として受け取ることができます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="C言語の型 - C99対応のC言語入門" />
-<meta name="twitter:description" content="C言語で使う型の紹介です。" />
+<meta name="twitter:title" content="コマンドライン引数 - C99対応のC言語入門" />
+<meta name="twitter:description" content="C言語でコマンドライン引数を受け取る方法についての解説です。コマンドライン引数は、main関数の引数として受け取ることができます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,53 +36,69 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/types.html">C言語の型</a></h2>
+    <h2><a href="/blog/20210318082708.html">コマンドライン引数</a></h2>
 <p>
-  C言語で使う型の紹介です。
+  C言語でコマンドライン引数を受け取る方法についての解説です。コマンドライン引数は、<a href="/blog/20210314140759.html">main関数</a>の引数として受け取ることができます。
 </p>
-<h4>文字を表現する型</h4>
-<ul>
-  <li><a href="/blog/20201204103322.html">char - 文字を表現する型</a></li>
-  <li><a href="/blog/20201208125815.html">char* - 文字列を表現する型</a></li>
-</ul>
-<h4>伝統的な整数型</h4>
-<ul>
-  <li><a href="/blog/20201209105820.html">C言語の伝統的な整数型</a></li>
-  <li><a href="/blog/20210130143859.html">int型 - 16bit以上の符号あり整数型</a></li>
-</ul>
-<h4>C99で導入された幅と符号あり・なしが保証される整数型</h4>
-<ul>
-  <li><a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a></li>
-  <li><a href="/blog/20201126090559.html">int16_t - 符号あり16bit整数型</a></li>
-  <li><a href="/blog/20201130082751.html">int32_t - 符号あり32bit整数型</a></li>
-  <li><a href="/blog/20201127082751.html">int64_t - 符号あり64bit整数型</a></li>
-  <li><a href="/blog/20201122084622.html">uint8_t - 符号なし8bit整数型</a></li>
-  <li><a href="/blog/20201120084622.html">uint16_t - 符号なし16bit整数型</a></li>
-  <li><a href="/blog/20201111150850.html">uint32_t - 符号なし32bit整数型</a></li>
-  <li><a href="/blog/20201109150850.html">uint64_t - 符号なし64bit整数型</a></li>
-</ul>
-<h4>浮動小数点型</h4>
-<ul>
-  <li><a href="/blog/20201202133213.html">float - 単精度(32bit)浮動小数点型</a></li>
-  <li><a href="/blog/20201203133213.html">double - 倍精度(64bit)浮動小数点型</a></li>
-</ul>
-<h4>サイズを表す型</h4>
-<ul>
-  <li><a href="/blog/20210301091654.html">size_t型 - サイズを表す型</a></li>
-</ul>
-<h4>汎用ポインタ型</h4>
-<ul>
-  <li><a href="/blog/20210215090234.html">汎用ポインタ型 - void*</a></li>
-</ul>
-<h3>ポインタと相互変換可能な整数型</h3>
-<ul>
-  <li><a href="/blog/20210225131724.html">intptr_t - ポインタ型のサイズの符号あり整数型</a></li>
-  <li><a href="/blog/20210223131724.html">uintptr_t - ポインタ型のサイズの符号なし整数型</a></li>
-</ul>
-<h4>存在しないことを意味する特別な型</h4>
-<ul>
-  <li><a href="/blog/20210313140759.html">void型 - 存在しないことを意味する特別な型</a></li>
-</ul>
+<pre>
+int main(int argc, char *argv[]) {
+
+}
+</pre>
+<p>
+  第一引数は、コマンドライン引数の個数です。int型です。
+</p>
+<p>
+  第二引数は「char*」の<a href="/blog/20210129143859.html">配列</a>型です。コマンドライン引数が文字列の配列で渡されます。
+</p>
+<p>
+  C言語では、実行したプログラム名も、コマンドライン引数の一部として入ってくることに注意しましょう。
+</p>
+<p>
+  たとえば
+</p>
+<pre>
+./test apple orange banana
+</pre>
+<p>
+  で実行されるとargvは以下のようになります。
+</p>
+<pre>
+"./test", "apple", "orange", "banana"
+</pre>
+<p>
+  argcとargvという名前は何でもよいですが、C言語仕様で記述されている名前で紹介しておきます。
+</p>
+<h3>コマンドライン引数のサンプル</h3>
+<p>
+  コマンドライン引数を受け取って、内容をそのまま出力しています。
+</p>
+<pre>
+// test.c
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(int argc, char *argv[]) {
+  for (int32_t i = 0; i &lt; argc; i++) {
+    printf("%s\n", argv[i]);
+  }
+}
+</pre>
+<p>
+  コンパイルして次のように実行してみましょう。
+</p>
+<pre>
+gcc -o test test.c &amp;&amp; ./test apple orange banana
+</pre>
+<p>
+  出力結果は以下のようになります。
+</p>
+<pre>
+./test
+apple
+orange
+banana
+</pre>
 
   </div>
   <div class="bottom">
