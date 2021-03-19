@@ -106,7 +106,7 @@ int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
   デストラクタは関数です。これは、手動で呼ぶ必要があります。
 </p>
 <pre>
-void MYAPP_LIB_DESTROY(MYAPP_LIB* self) {
+void MYAPP_LIB_free(MYAPP_LIB* self) {
   
   // メモリ割り当て解放
   free(self);
@@ -157,7 +157,7 @@ int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
   return self-&gt;flag;
 }
 
-void MYAPP_LIB_DESTROY(MYAPP_LIB* self) {
+void MYAPP_LIB_free(MYAPP_LIB* self) {
   
   // メモリ割り当て解放
   free(self);
@@ -173,17 +173,17 @@ int main(void) {
   printf("%d\n", myapp_lib_flag);
   
   // オブジェクトの解放
-  MYAPP_LIB_DESTROY(myapp_lib);
+  MYAPP_LIB_free(myapp_lib);
 }
 </pre>
 <h3>分割コンパイル対応 - オブジェクト指向プログラミングのサンプル</h3>
 <p>
   オブジェクト指向プログラミングのサンプルを分割コンパイル対応してみましょう。これでC言語のプログラムが、実戦で大きなプログラムになってきた場合も安心です。
 </p>
-<h4>myapp_typedec.h</h4>
+<h4>myapp_typedecl.h</h4>
 <pre>
-#ifndef MYAPP_TYPEDEC_H
-#define MYAPP_TYPEDEC_H
+#ifndef MYAPP_TYPEDECL_H
+#define MYAPP_TYPEDECL_H
 
 // strcut mylib に MYLIBという別名をつける
 typedef struct myapp_lib MYAPP_LIB;
@@ -195,7 +195,7 @@ typedef struct myapp_lib MYAPP_LIB;
 #ifndef MYAPP_LIB_H
 #define MYAPP_LIB_H
 
-#include "myapp_typedec.h"
+#include "myapp_typedecl.h"
 
 struct myapp_lib {
   int32_t flag;
@@ -205,7 +205,7 @@ MYAPP_LIB* MYAPP_LIB_new();
 MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag);
 void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag);
 int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self);
-void MYAPP_LIB_DESTROY(MYAPP_LIB* self);
+void MYAPP_LIB_free(MYAPP_LIB* self);
 
 #endif
 </pre>
@@ -243,7 +243,7 @@ int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
   return self-&gt;flag;
 }
 
-void MYAPP_LIB_DESTROY(MYAPP_LIB* self) {
+void MYAPP_LIB_free(MYAPP_LIB* self) {
   
   // メモリ割り当て解放
   free(self);
@@ -266,7 +266,7 @@ int main(void) {
   printf("%d\n", myapp_lib_flag);
   
   // オブジェクトの解放
-  MYAPP_LIB_DESTROY(myapp_lib);
+  MYAPP_LIB_free(myapp_lib);
 }
 </pre>
 <h4>コンパイル・リンク・実行</h4>

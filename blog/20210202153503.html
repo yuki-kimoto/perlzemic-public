@@ -44,20 +44,21 @@
   型宣言ヘッダとは<a href="/blog/20210204153019.html">typedef文</a>を使って、構造体の別名を作成したヘッダファイルのことです。
 </p>
 <p>
-  このファイル名は「spvm_typedef.h」とします。
+  このファイル名は「spvm_typedecl.h」とします。
 </p>
 <h3>型宣言ヘッダ</h3>
 <p>
-  型宣言ヘッダで行っていることはtypedef文を使って「struct spvm_field」という構造体に「SPVM_FIELD」という型の別名をつけていることと、「struct spvm_package」という構造体に「SPVM_PACKAGE」という型の別名をつけていることです。ついでに、幅が保証された整数型を使える用にするために、「stdint.h」も読み込んでいます。
+  型宣言ヘッダで行っていることはtypedef文を使って「struct spvm_field」という構造体に「SPVM_FIELD」という型の別名をつけていることと、「struct spvm_package」という構造体に「SPVM_PACKAGE」という型の別名をつけていることです。ついでに、幅が保証された整数型を使える用にするために、「<a href="/blog/20210220132505.html">stdint.h</a>」を読み込んでいます。NULLを使えるようにするために、<a href="/blog/20210125140655.html">stddef.h</a>を読み込んでいます。
 </p>
 <p>
-  <b>spvm_typedef.h</b>
+  <b>spvm_typedecl.h</b>
 </p>
 <pre>
-#ifndef SPVM_TYPEDEF_H
-#define SPVM_TYPEDEF_H
+#ifndef SPVM_TYPEDECL_H
+#define SPVM_TYPEDECL_H
 
 #include &lt;stdint.h&gt;
+#include &lt;stddef.h&gt;
 
 // spvm_field.h
 struct spvm_field;
@@ -92,8 +93,8 @@ struct spvm_field {
   以下の部分は、<a href="/blog/20210201153503.html">インクルードガード</a>です。
 </p>
 <pre>
-#ifndef SPVM_TYPEDEF_H
-#define SPVM_TYPEDEF_H
+#ifndef SPVM_TYPEDECL_H
+#define SPVM_TYPEDECL_H
 
 #endif
 </pre>
@@ -109,7 +110,7 @@ struct spvm_field {
 #ifndef SPVM_FIELD_H
 #define SPVM_FIELD_H
 
-#include "spvm_typedef.h"
+#include "spvm_typedecl.h"
 
 struct spvm_field {
   int32_t id;
@@ -120,7 +121,7 @@ struct spvm_field {
 #endif
 </pre>
 <p>
-  「spvm_package.h」を取り込んでいるのではなく「spvm_typedef.h」を取り込んでいるところに注目しましょう。
+  「spvm_package.h」を取り込んでいるのではなく「spvm_typedecl.h」を取り込んでいるところに注目しましょう。
 </p>
 <h4>spvm_package.h</h4>
 <p>
@@ -130,7 +131,7 @@ struct spvm_field {
 #ifndef SPVM_PACKAGE_H
 #define SPVM_PACKAGE_H
 
-#include "spvm_typedef.h"
+#include "spvm_typedecl.h"
 
 struct spvm_package {
   int32_t id;
@@ -141,7 +142,7 @@ struct spvm_package {
 #endif
 </pre>
 <p>
-  「spvm_field.h」を取り込んでいるのではなく「spvm_typedef.h」を取り込んでいるところに注目しましょう。
+  「spvm_field.h」を取り込んでいるのではなく「spvm_typedecl.h」を取り込んでいるところに注目しましょう。
 </p>
 <p>
   このように、ヘッダファイルの取り込みあいをするのではなく、個別のヘッダファイルから型宣言ヘッダを読み込むことで、解決しています。
