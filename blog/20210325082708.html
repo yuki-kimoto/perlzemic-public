@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>動的にメモリを確保する - 書き始め - C99対応のC言語入門</title>
+<meta name="description" content="C言語で動的にメモリを確保する方法の紹介です。C言語では、実行時にしかサイズがわからないデータ構造を表現するのに、動的なメモリ確保を行う必要があります。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="動的にメモリを確保する - 書き始め - C99対応のC言語入門" />
+<meta name="twitter:description" content="C言語で動的にメモリを確保する方法の紹介です。C言語では、実行時にしかサイズがわからないデータ構造を表現するのに、動的なメモリ確保を行う必要があります。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210325082708.html">動的にメモリを確保する - 書き始め</a></h2>
+<p>
+  C言語で動的にメモリを確保する方法の紹介です。C言語では、実行時にしかサイズがわからないデータ構造を表現するのに、動的なメモリ確保を行う必要があります。
+</p>
+<p>
+  C言語の<a href="/blog/20210129143859.html">配列</a>は静的な配列で、コンパイル時にサイズが決定されます。文字列リテラルもコンパイル時にサイズが決定されます。
+</p>
+<p>
+  実務のプログラミングでは、実行時にしかサイズがわからない動的なデータを求められることがほとんどです。要素数を実行時に決定したい場合は動的な配列を作成する必要がありますし、文字数を実行時に決定したい動的文字列を作成するには、基本として動的なメモリ確保を覚える必要があります。
+</p>
+<h3>動的にメモリを確保する</h3>
+<p>
+  動的にメモリを確保するには、<a href="/blog/20210227091654.html">stdlib.h</a>ヘッダで定義されている<a href="/blog/20210210082644.html">malloc関数</a>または<a href="/blog/20210209082644.html">calloc関数</a>を使用します。
+</p>
+<p>
+  C99によるC言語入門では、メモリ領域の0初期化を行ってくれる<a href="/blog/20210209082644.html">calloc関数</a>をお勧めしています。calloc関数を使って、動的にメモリを確保する方法を解説します。
+</p>
+<h3>動的にメモリを確保する</h3>
+<p>
+  calloc関数で動的にメモリを確保してみましょう。char型(1バイト)で、4の長さのメモリ領域を確保します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // 動的なメモリの確保
+  int32_t capacity = 4;
+  char* bytes = calloc(sizeof(char), capacity);
+  
+  // 確保されたメモリ領域を使用。確保した領域を超えないように注意。最初はゼロ初期化されている。
+  bytes[2] = 5;
+  printf("%d %d %d\n", bytes[0], bytes[1], bytes[2]);
+}
+</pre>
+<!--
+<h3>動的な配列の作成</h3>
+<p>
+  動的にメモリを確保して、要素を追加できる動的な配列を作成してみましょう。要素のデータ型は<a href="/blog/20201130082751.html">int32_t型</a>にします。配列の最初のメモリ領域の長さは4にします。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // 配列のメモリ領域の長さ
+  int32_t capacity = 4;
+  
+  // 配列の長さ
+  int32_t length = 0;
+  
+  // 動的にメモリ確保
+  int32_t nums = calloc(capacity, sizeof(int32_t));
+  
+  // 配列に要素を追加。長さを1増やす
+  nums[0] = 3;
+  length++;
+  
+  // 配列に要素を追加。長さを1増やす
+  nums[1] = 8;
+  length++;
+  
+  // 配列に要素を追加。長さを1増やす
+  nums[2] = 7;
+  length++;
+  
+  // 配列に要素を追加。長さを1増やす
+  nums[3] = 15;
+  length++;
+  
+  // 次に要素を足すとメモリ領域をこの位置でメモリ領域
+  
+}
+</pre>
+<p>
+  -->
+</p>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
