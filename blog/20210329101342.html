@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>stdlib.h - メモリ確保関数などの標準ヘッダ - C99対応のC言語入門</title>
-<meta name="description" content="「stdlib.h」標準ヘッダをインクルードした場合に利用できる関数。">
+<title>free関数 - 確保したメモリを解放する - C99対応のC言語入門</title>
+<meta name="description" content="free関数で、確保したメモリ領域を解放できます。stdlib.hヘッダをインクルードする必要があります。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="stdlib.h - メモリ確保関数などの標準ヘッダ - C99対応のC言語入門" />
-<meta name="twitter:description" content="「stdlib.h」標準ヘッダをインクルードした場合に利用できる関数。" />
+<meta name="twitter:title" content="free関数 - 確保したメモリを解放する - C99対応のC言語入門" />
+<meta name="twitter:description" content="free関数で、確保したメモリ領域を解放できます。stdlib.hヘッダをインクルードする必要があります。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,15 +36,34 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210227091654.html">stdlib.h - メモリ確保関数などの標準ヘッダ</a></h2>
+    <h2><a href="/blog/20210329101342.html">free関数 - 確保したメモリを解放する</a></h2>
 <p>
-  「stdlib.h」標準ヘッダをインクルードした場合に利用できる関数。
+  <b>free関数</b>で、確保したメモリ領域を解放できます。<a href="/blog/20210227091654.html">stdlib.h</a>ヘッダを<a href="/blog/20210203153019.html">インクルード</a>する必要があります。
 </p>
-<ul>
-  <li><a href="/blog/20210210082644.html">malloc関数 - メモリの動的確保</a></li>
-  <li><a href="/blog/20210209082644.html">calloc関数 - メモリの動的確保と0初期化</a></li>
-  <li><a href="/blog/20210329101342.html">free関数 - 確保したメモリを解放する</a></li>
-</ul>
+<pre>
+#include &lt;stdlib.h&gt;
+void free(void *ptr);
+</pre>
+<h3>free関数のサンプル</h3>
+<p>
+  free関数を使ってメモリを開放するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // 動的なメモリの確保
+  int32_t length = 4;
+  int32_t* nums = calloc(sizeof(int32_t), capacity);
+  
+  // 処理
+  
+  // 不要になったらfreeで解放
+  free(bytes);
+}
+</pre>
 
   </div>
   <div class="bottom">
