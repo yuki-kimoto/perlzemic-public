@@ -220,7 +220,9 @@ const char* const strings[]
 <pre>
 int foo (void) {
   // 静的ローカル変数
-  static foo = 1
+  static int32_t foo;
+  
+  static int32_t bar = -5;
 }
 </pre>
 <p>
@@ -230,79 +232,47 @@ int foo (void) {
   寿命は、プログラムの開始から最後までですが、スコープを持たせて、スコープ外から直接アクセスさせないようにできます。
 </p>
 <p>
-  静的ローカル変数は、グローバル変数と同じく0(すべてのビットが0)で初期化されます。
+  静的ローカル変数は、グローバル変数と同じく0(すべてのビットが0)で初期化されます。代入演算子の右辺に定数を記述すると、その値で初期化されます。
 </p>
 <p>
-  静的ローカル変数は、式が実行され代入が行われると、その値は、プログラムの最後まで変わりません。
-</p>
-<p>
-  代入される前は0、代入された後は、プログラム終了まで代入された値になります。
+  static宣言の初期化における代入は、プログラムの最初に一度だけおこなわれるということに注意してください。関数が実行されるたびに、初期値が代入されるわけではありません。
 </p>
 <h4>静的ローカル変数のサンプル</h4>
 <p>
-  静的ローカル変数のサンプルです。
-</p>
-<p>
-  静的ローカル変数なんて「いったい、どこで使うんじゃ～。<a href="/blog/20210120133501.html">enum</a>や<a href="/blog/20210302083009.html">マクロ定数</a>使ったら、いいだろ～」。はい、ごもっともです。enumやマクロ定数が使える場合はそれを使ってください。
-</p>
-<p>
-  ここでのサンプルでは、グローバル変数を使わないで、文字列定数と文字列定数の配列を定義する方法を紹介します。この記述は、グローバル変数を使いたくないが、文字列定数や文字列定数の配列を定義したい場合に活用できます。
+  静的ローカル変数のサンプルです。静的ローカル変数は、プログラムの最初から最後まで存在しているところに注目してみてください。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
 
-const char* const_string (void);
-const char* const* const_strings (void);
+void foo(void) {
+  static int32_t num = -5;
+  
+  num++;
+  
+  printf("%d\n", num);
+}
 
 int main(void) {
-  // 文字列定数を取得
-  const char* string = const_string();
-  
-  printf("%s\n", string);
-  
-  // 文字列定数の配列を取得
-  const char* const* strings = const_strings();
-
-  printf("%s %s\n", strings[0], strings[1]);
-}
-
-// 文字列定数
-const char* const_string (void) {
-  static const char* string = "Hello";
-  
-  return string;
-}
-
-// 文字列定数の配列
-const char* const* const_strings (void) {
-  static const char* const strings[] = {
-    "Apple",
-    "Orange",
-    "Grape",
-  };
-  
-  return strings;
+  foo();
+  foo();
+  foo();
+  foo();
+  foo();
 }
 </pre>
 <p>
   出力結果です。
 </p>
 <pre>
-Hello
-Apple Orange
+-4
+-3
+-2
+-1
+0
 </pre>
-<p>
-  「const char* const*」とconstが二回書かれているのは、配列の要素の書き換えを防ぐと同時に、文字列の要素(文字)の書き換えを防ぐためです。
-</p>
-<p>
-  C言語においては、constは、型キャストによって外すことができるので、これは、完全な定数ではなく、間違いが起こりにくくなる手法だと考えてください。
-</p>
-<p>
-  気が利く処理系では、静的領域を書き換えようとした場合は、メモリアクセス違反が起こります。
-</p>
-<p>
-  前に紹介したconstとstaticは全く機能が違うので、注意してください。雰囲気が似ているので、混同してしまいがちです。
-</p>
 
   </div>
   <div class="bottom">
