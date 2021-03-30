@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>C言語の文字列 書き始め - C99対応のC言語入門</title>
+<meta name="description" content="C言語の文字列について解説します。C言語には、文字列という型はなく、文字の配列を使って文字列を表現します。C言語の文字列は「\0」で終わります。printf関数の「%s」というフォーマットで文字列を出力できます。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="C言語の文字列 書き始め - C99対応のC言語入門" />
+<meta name="twitter:description" content="C言語の文字列について解説します。C言語には、文字列という型はなく、文字の配列を使って文字列を表現します。C言語の文字列は「\0」で終わります。printf関数の「%s」というフォーマットで文字列を出力できます。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210331101342.html">C言語の文字列 書き始め</a></h2>
+<p>
+  C言語の文字列について解説します。C言語には、文字列という型はなく、文字の<a href="/blog/20210129143859.html">配列</a>を使って文字列を表現します。C言語の文字列は「\0」で終わります。printf関数の「%s」というフォーマットで文字列を出力できます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  // 文字列は、文字の配列で表現し、「\0」で終わる。
+  char string[4];
+  string[0] = 'a';
+  string[1] = 'b';
+  string[2] = 'c';
+  string[3] = '\0';
+  
+  // 文字列を出力
+  printf("%s\n", string);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+abc
+</pre>
+<h4>char型は文字を表現する型</h4>
+<p>
+  <a href="/blog/20201204103322.html">char型</a>はC言語で文字を表現する型で「符号あり、または符号なしの8bit整数」として定義されています。ASCII文字コードを代入することを想定していると考えられます。
+</p>
+<h4>文字リテラル</h4>
+<p>
+  「'a'」は文字リテラルです。対応するASCIIコードに変換されます。「'a'」の場合は、97に変換されます。
+</p>
+<h4>文字列リテラル</h4>
+<p>
+  文字列リテラルを使って、文字列を簡単に表現することができます。文字列リテラルは、文字配列の先頭の<a href="/blog/20210211090234.html">アドレス</a>を返すので<a href="/blog/20201208125815.html">char*型</a>で受け取ります。文字列が変更されないようにconst修飾子をつけておくのがよいでしょう。以下が、文字列を表現するC言語のお勧めの表現です。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  // 文字列リテラル
+  const char* string = "abc";
+  
+  // 文字列を出力
+  printf("%s\n", string);
+}
+</pre>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
