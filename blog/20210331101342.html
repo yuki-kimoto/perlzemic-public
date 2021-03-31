@@ -84,6 +84,119 @@ int main(void) {
   printf("%s\n", string);
 }
 </pre>
+<h3>動的に文字列を作成</h3>
+<p>
+  動的に文字列を作成するには、<a href="/blog/20210209082644.html">calloc関数</a>を使って、メモリを確保します。使い終わったら、<a href="/blog/20210329101342.html">free関数</a>で解放します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // 長さが3の文字列のためにメモリを確保。
+  // C言語の文字列の末尾は「\0」である必要があるため、1バイト多く確保する
+  char* string = calloc(4, sizeof(char));
+  
+  string[0] = 'a';
+  string[1] = 'b';
+  string[2] = 'c';
+  string[3] = '\0';
+  
+  printf("%s\n", string);
+
+  // 使い終わったら解放
+  free(string);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+abc
+</pre>
+<p>
+  C言語の文字列は「\0」で終わるので、余分にメモリを確保しておいても特に問題はありません。定数文字列ではなく、追加する必要があるのであれば、多くメモリ領域をとることもできます。100バイトのメモリ領域を確保する例です。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // 長さが3の文字列のためにメモリを確保。
+  // C言語の文字列の末尾は「\0」である必要があるため、1バイト多く確保する
+  char* string = calloc(100, sizeof(char));
+  
+  string[0] = 'a';
+  string[1] = 'b';
+  string[2] = 'c';
+  string[3] = '\0';
+  
+  printf("%s\n", string);
+  
+  // 使い終わったら解放
+  free(string);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+abc
+</pre>
+<h3>文字列のメモリ領域の再割り当て</h3>
+<p>
+  文字列のメモリ領域の再割り当てをするには、新しくメモリを確保し、<a href="/blog/20210221132505.html">memcpy関数</a>で、前の文字列をコピーします。以前のメモリ領域を解放し、新しい文字列を再代入します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+int main(void) {
+  // 長さが3の文字列のためにメモリを確保。
+  // C言語の文字列の末尾は「\0」である必要があるため、1バイト多く確保する
+  int32_t capacity = 4;
+  char* string = calloc(capacity, sizeof(char));
+  
+  string[0] = 'a';
+  string[1] = 'b';
+  string[2] = 'c';
+  string[3] = '\0';
+  
+  printf("Before %s\n", string);
+
+  // 長さを5にしたい
+  int32_t new_capacity = 6;
+  char* new_string = calloc(new_capacity, sizeof(char));
+  
+  // 前の文字列をコピー
+  memcpy(new_string, string, capacity - 1);
+  
+  // 新しい文字を追加
+  new_string[3] = 'd';
+  new_string[4] = 'e';
+  new_string[5] = '\0';
+  
+  // 古い文字列を解放
+  free(string);
+  
+  // 新しい文字列と入れ替え
+  string = new_string;
+  new_string = NULL;
+  
+  printf("After  %s\n", string);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+
+</pre>
+<p>
+  メモリ領域の再割り当ては<a href="http://www.c-tipsref.com/reference/stdlib/realloc.html">realloc関数</a>を使ってもでき、高速ですが、reallocは、処理系によって実装が異なり、バグが再現しにくいという経験があるので、パフォーマンスに問題がなければ、callocを使ってメモリの再割り当てを行う方が安心と感じます。
+</p>
 
   </div>
   <div class="bottom">
