@@ -192,7 +192,8 @@ int main(void) {
   出力結果です。
 </p>
 <pre>
-
+Before abc
+After  abcde
 </pre>
 <p>
   メモリ領域の再割り当ては<a href="http://www.c-tipsref.com/reference/stdlib/realloc.html">realloc関数</a>を使ってもでき、高速ですが、reallocは、処理系によって実装が異なり、バグが再現しにくいという経験があるので、パフォーマンスに問題がなければ、callocを使ってメモリの再割り当てを行う方が安心と感じます。
