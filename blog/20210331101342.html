@@ -7,11 +7,11 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>C言語の文字列 書き始め - C99対応のC言語入門</title>
+<title>C言語の文字列 - C99対応のC言語入門</title>
 <meta name="description" content="C言語の文字列について解説します。C言語には、文字列という型はなく、文字の配列を使って文字列を表現します。C言語の文字列は「\0」で終わります。printf関数の「%s」というフォーマットで文字列を出力できます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="C言語の文字列 書き始め - C99対応のC言語入門" />
+<meta name="twitter:title" content="C言語の文字列 - C99対応のC言語入門" />
 <meta name="twitter:description" content="C言語の文字列について解説します。C言語には、文字列という型はなく、文字の配列を使って文字列を表現します。C言語の文字列は「\0」で終わります。printf関数の「%s」というフォーマットで文字列を出力できます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
@@ -36,7 +36,7 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210331101342.html">C言語の文字列 書き始め</a></h2>
+    <h2><a href="/blog/20210331101342.html">C言語の文字列</a></h2>
 <p>
   C言語の文字列について解説します。C言語には、文字列という型はなく、文字の<a href="/blog/20210129143859.html">配列</a>を使って文字列を表現します。C言語の文字列は「\0」で終わります。printf関数の「%s」というフォーマットで文字列を出力できます。
 </p>
@@ -199,6 +199,186 @@ After  abcde
 </pre>
 <p>
   メモリ領域の再割り当ては<a href="http://www.c-tipsref.com/reference/stdlib/realloc.html">realloc関数</a>を使ってもでき、高速ですが、reallocは、処理系によって実装が異なり、バグが再現しにくいという経験があるので、パフォーマンスに問題がなければ、callocを使ってメモリの再割り当てを行う方が安心と感じます。
+</p>
+<h3>文字列の長さ</h3>
+<p>
+  文字列の長さを取得するにはstrlen関数を使用します。<a href="/blog/20210303101711.html">string.h</a>を読み込むと、strlen関数を使用できます。
+</p>
+<pre>
+#include &lt;string.h&gt;
+size_t strlen(const char *s);
+</pre>
+<p>
+  C言語では文字列は「\0」で終わるという約束事があります。strlen関数は、この約束事を前提として、文字列の長さを計算します。つまり、「\0」が見つかるまで、ループして、文字数をカウントしていくということです。逆にいえば、文字列が「\0」で終わっていない場合は、意図しないメモリ領域まで進み、バッファオーバーランが起こります。
+</p>
+<p>
+  strlenを使う場合は、文字列が「\0」で終わる文字列に対して使用していることを必ず確認してください。
+</p>
+<p>
+  strlen関数で、文字列の長さを求めるサンプルです。
+</p>
+<pre>
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* string = "Hello";
+  
+  int32_t string_length = strlen(string);
+  
+  printf("%d\n", string_length);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+5
+</pre>
+<h3>文字列の連結</h3>
+<p>
+  文字列の連結ってC言語でどうやるんでしょう? うーん、悩みますね。「えっ、自前でやれってこと?」。はい。そうです。
+</p>
+<pre>
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  const char* string1 = "ab";
+  const char* string2 = "cde";
+  
+  int32_t string1_length = strlen(string1);
+  int32_t string2_length = strlen(string2);
+  
+  int32_t string3_length = string1_length + string2_length;
+  char* string3_tmp = calloc(string3_length + 1, sizeof(char));
+  
+  memcpy(string3_tmp, string1, string1_length);
+  memcpy(string3_tmp + string1_length, string2, string2_length);
+  
+  const char* string3 = string3_tmp;
+  string3_tmp = NULL;
+  
+  printf("%s\n", string3);
+  
+  free((void*)string3);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+abcde
+</pre>
+<p>
+  「毎回、これやるんですか?」「はい。必要になれば。」「こういう処理って、何回もでてきませんか?」「何回もでてきます(笑)。」
+</p>
+<h3>文字列の置換</h3>
+<p>
+  文字列の置換ってC言語でどうやるんでしょう? 「えっ、これもまた、自前?」。
+</p>
+<p>
+  「Foo::Bar::Baz」を「Foo/Bar/Baz」に置換する処理を書いてみましょう。
+</p>
+<pre>
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  const char* module_name = "Foo::Bar::Baz";
+  int32_t module_name_length = strlen(module_name);
+  
+  // 多めに確保するのはOK
+  char* module_path_tmp = calloc(module_name_length, module_name_length);
+  
+  int32_t module_path_tmp_index = 0;
+  for (int32_t i = 0; i &lt; module_name_length; i++) {
+    
+    if (module_name[i] == ':' &amp;&amp; module_name[i + 1] == ':') {
+      module_path_tmp[module_path_tmp_index] = '/';
+      i++;
+      module_path_tmp_index++;
+    }
+    else {
+      module_path_tmp[module_path_tmp_index] = module_name[i];
+      module_path_tmp_index++;
+    }
+  }
+  
+  const char* module_path = module_path_tmp;
+  module_path_tmp = NULL;
+
+  printf("%s\n", module_path);
+  
+  free((void*)module_path);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Foo/Bar/Baz
+</pre>
+<h3>文字列関数</h3>
+<p>
+  C言語の文字列に関する関数は<a href="/blog/20210303101711.html">string.h</a>にあります。
+</p>
+<h3>C言語でUnicodeって扱えるの?</h3>
+<p>
+  C言語でUnicodeを扱えるライブラリとしてutf8procを紹介しておきます。UTF-8, UTF-16, UTF-32の変換が可能です。
+</p>
+<ul>
+  <li><a href="https://github.com/JuliaStrings/utf8proc">utf8proc</a></li>
+</ul>
+<p>
+  Unicodeの扱いについては、詳しくは書かないですが、ざっと、僕が考えていることを書いておきます。
+</p>
+<p>
+  C言語標準関数やC言語仕様だけでは、Unicodeを扱うことは難しいです。
+</p>
+<h4>UTF-8について</h4>
+<p>
+  文字列の出力は、ソースコードの文字列ががUTF-8であって、UNIX/Linux/Macの環境であれば、そのまま出力できます。
+</p>
+<p>
+  UTF-8はASCIIコードの上位互換ですので、過去に作られたC言語のライブラリは、そのまま使うことができます。
+</p>
+<p>
+  Webの用途として、C言語を使う場合は、UTF-8で文字列を扱うのがよさそうです。UTF-8は、単なるバイト列であり、エンディアンを意識する必要がありません。
+</p>
+<p>
+  単なるバイト列ということは、C言語では、UTF-8の文字列を以下のように表現できるということです。ソースコードはUTF-8で保存したとします。
+</p>
+<pre>
+// C言語におけるUTF-8の表現
+const char* string = "あいうえお";
+</pre>
+<h4>マルチバイト文字、UTF-16、UTF-32について</h4>
+<p>
+  C言語には、マルチバイト文字を扱う仕組みが用意されています。マルチバイト文字には、2種類あって、2バイト文字と4バイト文字です。
+</p>
+<p>
+  2バイト文字というのは、たとえば、Shift_JISのような1文字を2バイトで表現するコードと、UTF-16LEやUTF-16BEのような原則2バイトで1文字を表現するUnicodeの符号化方式での利用が想定されています。
+</p>
+<p>
+  4バイト文字というのは、Unicodeの一つの符号化体系のUTF-32あるいは、Unicodeのコードポイントを保存することが想定されています。UTF-32は、Unicodeのコードポイントと、1対1で対応します。つまり、UTF-32とは、Unicodeのコードポイントのことです。
+</p>
+<p>
+  2バイト文字は、Windowsで使わざるをえません。Windowsの内部文字コードは、UTF-16LEで、Unicode環境でコンパイルされたWindows APIは、UTF-16LEの文字列を受け取るからです。
+</p>
+<p>
+  2バイト文字と、4バイト文字は、UTF-8と異なり、簡単に出力できません。「中身を、み、みたい。でも、みれない。」みたいな。
+</p>
+<p>
+  UTF-8がいいんだ。でも、現実は、それだけじゃないんだ、変換が、必要なんだ。これが現実なんだ～。みたいな。
+</p>
+<p>
+  マルチバイト文字は、UTF-8を表現するために、使うものではないので、頭の中で、こんがらないようにしておきましょう。
 </p>
 
   </div>
