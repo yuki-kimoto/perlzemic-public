@@ -7,11 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>string.h - 文字列操作やメモリコピーの関数の標準ヘッダ - C99対応のC言語入門</title>
+<title>strstr関数 - 文字列が含まれているかをチェックする - C99対応のC言語入門</title>
+<meta name="description" content="文字列が含まれているかをチェックするにはstrstr関数を使用します。string.hを読み込むと、strstr関数を使用できます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="string.h - 文字列操作やメモリコピーの関数の標準ヘッダ - C99対応のC言語入門" />
-<meta name="twitter:description" content="" />
+<meta name="twitter:title" content="strstr関数 - 文字列が含まれているかをチェックする - C99対応のC言語入門" />
+<meta name="twitter:description" content="文字列が含まれているかをチェックするにはstrstr関数を使用します。string.hを読み込むと、strstr関数を使用できます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -35,12 +36,90 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210303101711.html">string.h - 文字列操作やメモリコピーの関数の標準ヘッダ</a></h2>
-<ul>
-  <li><a href="/blog/20210221132505.html">memcpy関数 - メモリ領域をバイト単位でコピーする</a></li>
-  <li><a href="/blog/20210405101342.html">strlen関数 - 文字列の長さを取得する</a></li>
-  <li><a href="/blog/20210406101342.html">strstr関数 - 文字列が含まれているかをチェックする</a></li>
-</ul>
+    <h2><a href="/blog/20210406101342.html">strstr関数 - 文字列が含まれているかをチェックする</a></h2>
+<p>
+  文字列が含まれているかをチェックするにはstrstr関数を使用します。<a href="/blog/20210303101711.html">string.h</a>を読み込むと、strstr関数を使用できます。
+</p>
+<pre>
+#include &lt;string.h&gt;
+char * strstr(const char *str1, const char *str2);
+</pre>
+<p>
+  str1の中にstr2が含まれている場合は、マッチした最初のアドレスを返します。見つからなかった場合は、NULLを返します。
+</p>
+<p>
+  C言語では文字列は「\0」で終わるという約束事があります。strstr関数は、この約束事を前提として、文字列の検索を行います。つまり、「\0」が見つかるまで、ループするということです。逆にいえば、文字列が「\0」で終わっていない場合は、意図しないメモリ領域まで進み、バッファオーバーランが起こります。
+</p>
+<p>
+  strstrを使う場合は、引数の二つの文字列が「\0」で終わっていることを必ず確認してください。
+</p>
+<h3>文字列が含まれているかどうかをチェックする</h3>
+<p>
+  strstr関数で、文字列が含まれているかをチェックするサンプルです。NULLでないことを確認すればOKです。
+</p>
+<pre>
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* message = "I like orange\n";
+  const char* match = "orange";
+  
+  if (strstr(message, match) != NULL) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Match
+</pre>
+<h3>文字列が含まれている個数を数える</h3>
+<p>
+  strstr関数は、マッチした場合に、その位置を返すので、このことを利用して、文字列が含まれている個数を数えてみましょう。
+</p>
+<pre>
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* message = "I like orangeorange and orange.\n";
+  const char* match = "orange";
+  int32_t match_length = strlen(match);
+  
+  int32_t match_count = 0;
+  const char* message_ptr = message;
+  while (1) {
+    message_ptr = strstr(message_ptr, match);
+    if (message_ptr != NULL) {
+      match_count++;
+      message_ptr += match_length;
+    }
+    else {
+      break;
+    }
+  }
+  
+  printf("Match Count %d\n", match_count);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Match Count 3
+</pre>
+<h3>後ろから文字列を検索したい</h3>
+<p>
+  後ろから文字列を検索したいは、strrstr関数があります。
+</p>
 
   </div>
   <div class="bottom">
