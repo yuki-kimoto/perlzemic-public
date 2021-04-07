@@ -202,7 +202,7 @@ After  abcde
 </p>
 <h3>文字列の長さ</h3>
 <p>
-  文字列の長さを取得するにはstrlen関数を使用します。<a href="/blog/20210303101711.html">string.h</a>を読み込むと、strlen関数を使用できます。
+  文字列の長さを取得するには<a href="/blog/20210405101342.html">strlen関数</a>を使用します。<a href="/blog/20210303101711.html">string.h</a>を読み込むと、strlen関数を使用できます。
 </p>
 <pre>
 #include &lt;string.h&gt;
@@ -236,9 +236,76 @@ int main(void) {
 <pre>
 5
 </pre>
+<h3>文字の検索</h3>
+<p>
+  文字を検索するにはstrchr関数を使います。文字を後ろから検索するstrrchr関数もあります。
+</p>
+<h3>文字列の検索</h3>
+<p>
+  文字列を検索するには<a href="/blog/20210406101342.html">strstr関数</a>を使用します。strstr関数で、文字列が含まれているかをチェックするサンプルです。戻り値がNULLでないことを確認すればOKです。
+</p>
+<pre>
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* message = "I like orange\n";
+  const char* match = "orange";
+  
+  if (strstr(message, match) != NULL) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Match
+</pre>
+<h3>文字列のコピー</h3>
+<p>
+  文字列をコピーしてみましょう。<a href="/blog/20210405101342.html">strlen関数</a>で文字列の長さを計算、<a href="/blog/20210209082644.html">calloc関数</a>でメモリ領域を確保、<a href="/blog/20210221132505.html">memcpy関数</a>で文字列をコピーします。
+</p>
+<pre>
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  const char* string1 = "Hello";
+  
+  int32_t string1_length = strlen(string1);
+  
+  char* string2_tmp = calloc(string1_length + 1, sizeof(char));
+  memcpy(string2_tmp, string1, string1_length);
+  
+  const char* string2 = string2_tmp;
+  string2_tmp = NULL;
+  
+  printf("%s\n", string2);
+  
+  free((void*)string2);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+</pre>
+<h4>文字列のコピーを行う他の方法</h4>
+<p>
+  文字列のコピーを行うのに、<a href="http://www9.plala.or.jp/sgwr-t/lib/strcpy.html">strcpy関数</a>や<a href="http://www9.plala.or.jp/sgwr-t/lib/strncpy.html">strncpy関数</a>を使う方法もあります。
+</p>
 <h3>文字列の連結</h3>
 <p>
-  文字列の連結ってC言語でどうやるんでしょう? うーん、悩みますね。「えっ、自前でやれってこと?」。はい。そうです。
+  文字列の連結ってC言語でどうやるんでしょう? 二つの文字列を連結して、結果を返す。うーん、悩みますね。「えっ、自前でやれってこと?」。はい。そうです。二つの文字列の長さを計算して、連結後の文字列の長さを計算して、元の文字列を順番にコピーします。
 </p>
 <pre>
 #include &lt;string.h&gt;
@@ -276,9 +343,13 @@ abcde
 <p>
   「毎回、これやるんですか?」「はい。必要になれば。」「こういう処理って、何回もでてきませんか?」「何回もでてきます(笑)。」
 </p>
+<h4>文字列の連結を行う他の方法</h4>
+<p>
+  自分自身の末尾に、文字列を追加する場合は、<a href="http://www9.plala.or.jp/sgwr-t/lib/strcat.html">strcat関数</a>や<a href="http://www9.plala.or.jp/sgwr-t/lib/strncat.html">strncat関数</a>も使えます。
+</p>
 <h3>文字列の置換</h3>
 <p>
-  文字列の置換ってC言語でどうやるんでしょう? 「えっ、これもまた、自前?」。
+  文字列の置換ってC言語でどうやるんでしょう? うーん、悩みますね。「えっ、自前でやれってこと?」。はい。そうです。
 </p>
 <p>
   「Foo::Bar::Baz」を「Foo/Bar/Baz」に置換する処理を書いてみましょう。
@@ -327,10 +398,6 @@ Foo/Bar/Baz
 <h3>文字列関数</h3>
 <p>
   C言語の文字列に関する関数は<a href="/blog/20210303101711.html">string.h</a>にあります。
-</p>
-<h4>文字列の検索</h4>
-<p>
-  文字列を検索するにはstrstr関数、strrstr関数を使用します。文字の検索にはstrchr関数、strrchr関数が使えます。
 </p>
 <h3>C言語でUnicodeって扱えるの?</h3>
 <p>
