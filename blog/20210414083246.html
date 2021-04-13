@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>string.h - 文字列操作やメモリコピーの関数の標準ヘッダ - C99対応のC言語入門</title>
-<meta name="description" content="文字列操作の関数の紹介です。">
+<title>strncmp関数 - 部分文字列を比較する - C99対応のC言語入門</title>
+<meta name="description" content="strncmp関数は文字列を部分的に比較する関数です。指定した文字数「n」で、辞書順で「s1」が「s2」より大きい場合は、正の数を、同じ場合は0を、小さい場合は負の数を返します。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="string.h - 文字列操作やメモリコピーの関数の標準ヘッダ - C99対応のC言語入門" />
-<meta name="twitter:description" content="文字列操作の関数の紹介です。" />
+<meta name="twitter:title" content="strncmp関数 - 部分文字列を比較する - C99対応のC言語入門" />
+<meta name="twitter:description" content="strncmp関数は文字列を部分的に比較する関数です。指定した文字数「n」で、辞書順で「s1」が「s2」より大きい場合は、正の数を、同じ場合は0を、小さい場合は負の数を返します。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,29 +36,43 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210303101711.html">string.h - 文字列操作やメモリコピーの関数の標準ヘッダ</a></h2>
+    <h2><a href="/blog/20210414083246.html">strncmp関数 - 部分文字列を比較する</a></h2>
 <p>
-  文字列操作の関数の紹介です。
+  <b>strncmp関数</b>は<a href="/blog/20210331101342.html">文字列</a>を部分的に比較する関数です。指定した文字数「n」で、辞書順で「s1」が「s2」より大きい場合は、正の数を、同じ場合は0を、小さい場合は負の数を返します。
 </p>
-<h4>文字列のコピー</h4>
-<ul>
-  <li><a href="/blog/20210221132505.html">memcpy関数 - メモリ領域をバイト単位でコピーする</a></li>
-  <li><a href="/blog/20210412082820.html">memmove関数 - メモリ領域をバイト単位でコピーする(重なりOK)</a></li>
-</ul>
-<h4>文字列の長さ</h4>
-<ul>
-  <li><a href="/blog/20210405101342.html">strlen関数 - 文字列の長さを取得する</a></li>
-</ul>
-<h4>文字列の検索</h4>
-<ul>
-  <li><a href="/blog/20210406101342.html">strstr関数 - 文字列が含まれているかをチェックする</a></li>
-  <li><a href="/blog/20210408081817.html">strchr関数 - 文字が含まれているかをチェックする</a></li>
-  <li><a href="/blog/20210409081817.html">strrchr関数 - 文字が含まれているかを後ろから調べる</a></li>
-</ul>
-<h4>文字列の比較</h4>
+<p>
+  「<a href="/blog/20210303101711.html">string.h</a>」をインクルードすると使えます。
+</p>
+<pre>
+#include &lt;string.h&gt;
+int strncmp(const char *s1, const char *s2, size_t n);
+</pre>
+<h3>strncmp関数のサンプル</h3>
+<p>
+  strncmp関数で文字列を比較するサンプルです。一致した場合に、Matchと表示します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(void) {
+  const char* module_name = "Foo::Bar::Baz";
+  
+  // 先頭がFoo::Barで始まっているか調べる
+  if (strncmp(module_name, "Foo::Bar", strlen("Foo::Bar")) == 0) {
+    printf("Match\n");
+  }
+  else {
+    printf("Not Match\n");
+  }
+}
+</pre>
+<h3>文字列の全体を比較するには?</h3>
+<p>
+  文字列の全体を比較するにはstrcmp関数を使用します。
+</p>
 <ul>
   <li><a href="/blog/20210413090615.html">strcmp関数 - 文字列を比較する</a></li>
-  <li><a href="/blog/20210414083246.html">strncmp関数 - 部分文字列を比較する</a></li>
 </ul>
 
   </div>
