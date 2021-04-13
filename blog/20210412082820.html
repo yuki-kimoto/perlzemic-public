@@ -38,7 +38,7 @@
   <div class="middle">
     <h2><a href="/blog/20210412082820.html">memmove関数 - メモリ領域をバイト単位でコピーする</a></h2>
 <p>
-  <b>memmove関数</b>は、メモリ領域をバイト単位でコピーする関数です。「string.h」をインクルードします。<a href="/blog/20210221132505.html">memcpy関数</a>は、コピー先とコピー元のデータ領域が重なっていた場合には、動作は保証されませんが、memmove関数は保証されます。
+  <b>memmove関数</b>は、メモリ領域をバイト単位でコピーする関数です。「<a href="/blog/20210303101711.html">string.h</a>」をインクルードします。<a href="/blog/20210221132505.html">memcpy関数</a>は、コピー先とコピー元のデータ領域が重なっていた場合には、動作は保証されませんが、memmove関数は保証されます。
 </p>
 <pre>
 #include &lt;string.h&gt;
@@ -56,7 +56,7 @@ void *memmove(void *buf1, const void *buf2, size_t n);
 </p>
 <h3>文字列をの先頭の文字を削除する</h3>
 <p>
-  memmove関数で文字列をの先頭の文字を削除するするサンプルです。領域が重なっているのでmemmove関数を使います。<a href="/blog/20210405101342.html">strlen関数</a>で文字列の長さを取得しています。
+  memmove関数で<a href="/blog/20210331101342.html">文字列</a>をの先頭の文字を削除するするサンプルです。領域が重なっているのでmemmove関数を使います。<a href="/blog/20210405101342.html">strlen関数</a>で文字列の長さを取得しています。
 </p>
 <pre>
 #include &lt;string.h&gt;
