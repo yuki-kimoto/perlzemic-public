@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>標準Cライブラリ - C99対応のC言語入門</title>
-<meta name="description" content="標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。">
+<title>stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門</title>
+<meta name="description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="標準Cライブラリ - C99対応のC言語入門" />
-<meta name="twitter:description" content="標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。" />
+<meta name="twitter:title" content="stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門" />
+<meta name="twitter:description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,49 +36,13 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/library.html">標準Cライブラリ</a></h2>
+    <h2><a href="/blog/20210418083246.html">stdio.hヘッダー - 標準入出力の関数など</a></h2>
 <p>
-  標準Cライブラリの紹介です。よく使う関数を中心に紹介しています。
+  stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。
 </p>
-<p>
-  標準Cライブラリは、標準ヘッダを<a href="/blog/20210203153019.html">インクルード</a>すると使えるようになります。
-</p>
-<pre>
-#include &lt;string.h&gt;
-</pre>
-<h3>標準Cライブラリの一覧</h3>
-<p>
-  よく使う標準Cライブラリの一覧です。ヘッダ名で紹介しています。
-</p>
-<table>
-  <tr><td><a href="/blog/20210418083246.html">stdio.h</a></td><td>標準入出力の関数など</td></tr>
-  <tr><td><a href="/blog/20210303101711.html">string.h</a></td><td>文字列操作やメモリコピーの関数など</td></tr>
-  <tr><td><a href="/blog/20210227091654.html">stdlib.h</a></td><td>メモリ確保関数など</td></tr>
-  <tr><td><a href="/blog/20210220132505.html">stdint.h</a></td><td>サイズ保証がある整数型などを定義</td></tr>
-  <tr><td><a href="/blog/20210219132505.html">float.h</a></td><td>浮動小数点型の最大値・最小値など</td></tr>
-  <tr><td><a href="/blog/20210125140655.html">stddef.h</a></td><td>NULLの定義など</td></tr>
-  <tr><td><a href="/blog/20210316082708.html">assert.h</a></td><td>アサーション関数</td></tr>
-</table>
-<!--
-<p>
-  inttypes.h
-</p>
-<p>
-  -->
-</p>
-<h3>標準Cライブラリの実装はどこにあるの?</h3>
-<p>
-  標準Cライブラリの実装は、それぞれの処理系で実装されており、Cコンパイラはデフォルトで、それをリンクするので、ヘッダファイルを読み込むだけで利用できます。
-</p>
-<p>
-  <a href="https://linux.perlzemi.com/blog/20201216103956.html">gcc</a>の場合は、glibcというライブラリで標準Cライブラリが実装されています。
-</p>
-<h3>C言語関数辞典</h3>
-<p>
-  C言語関数辞典のサイトの紹介です。C99対応のC言語入門では、実務で利用頻度の高い関数を中心に扱っているので、すべての関数を知りたい場合に、非常に参考になります。
-</p>
+<h3>文字列を出力する関数</h3>
 <ul>
-  <li><a target="_blank" href="http://www.c-tipsref.com/">C言語関数辞典</a></li>
+  <li><a href="/blog/20210419083246.html">printf関数</a></li>
 </ul>
 
   </div>
