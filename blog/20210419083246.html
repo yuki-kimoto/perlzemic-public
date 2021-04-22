@@ -146,6 +146,38 @@ int main(void) {
 <p>
   <a href="/blog/20201109150850.html">uint64_t</a>(符号なし64bit整数型)のフォーマットには「%llu」を使います。理由はint64_t型のフォーマットで解説したものと同じです。
 </p>
+<h3>サイズが保証された整数型のフォーマット</h3>
+<p>
+  サイズが保証された整数型のフォーマットを正しく出力する方法があります。int32_t型の値を、正しくフォーマットしてみましょう。inttypes.hヘッダで定義されているPRId32マクロを使用します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;inttypes.h&gt;
+
+int main(void) {
+  int32_t num = INT32_MIN;
+  
+  printf("%" PRId32 "\n", num);
+}
+</pre>
+<p>
+  「なんだこの書き方は...」と感じますね。C言語では、文字列リテラルは「"Foo" "Bar"」のように並べると、コンパイル時に結合されます。PRId32はマクロです。処理系の定義に応じて、適切なフォーマットの置換されます。たとえば「"%" "d" "\n"」のように置換されます。
+</p>
+<h4>サイズが保証された整数型のフォーマット</h4>
+<p>
+  サイズが保証された整数型のフォーマットのよく使うであろうものの一覧です。
+</p>
+<table>
+  <tr><th>PRId8</th><td>int8_tのフォーマット</td></tr>
+  <tr><th>PRId16</th><td>int16_tのフォーマット</td></tr>
+  <tr><th>PRId32</th><td>int32_tのフォーマット</td></tr>
+  <tr><th>PRId64</th><td>int64_tのフォーマット</td></tr>
+  <tr><th>PRIu8</th><td>uint8_tのフォーマット</td></tr>
+  <tr><th>PRIu16</th><td>uint16_tのフォーマット</td></tr>
+  <tr><th>PRIu32</th><td>uint32_tのフォーマット</td></tr>
+  <tr><th>PRIu64</th><td>uint64_tのフォーマット</td></tr>
+</table>
 
   </div>
   <div class="bottom">
