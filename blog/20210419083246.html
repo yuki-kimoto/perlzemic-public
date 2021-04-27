@@ -199,7 +199,7 @@ int main(void) {
 int main(void) {
   int32_t num = 123;
   
-  // 表示幅を5桁に指定
+  // 表示幅を5桁に指定 右寄せ
   printf("foo,%5d,bar\n", num);
 }
 </pre>
@@ -227,7 +227,7 @@ foo,  123,bar
 int main(void) {
   int32_t num = 123;
   
-  // 桁数を5桁に指定
+  // 桁数を5桁に指定 左寄せ
   printf("foo,%-5d,bar\n", num);
 }
 </pre>
@@ -255,7 +255,7 @@ foo,123  ,bar
 int main(void) {
   int32_t num = 123;
   
-  // 桁数を5桁に指定
+  // 桁数を5桁に指定 - 0埋め
   printf("foo,%05d,bar\n", num);
 }
 </pre>
@@ -264,6 +264,84 @@ int main(void) {
 </p>
 <pre>
 foo,00123,bar
+</pre>
+<h3>浮動小数点型のフォーマット</h3>
+<p>
+  printf関数の浮動小数点型のフォーマットの解説です。
+</p>
+<h4>浮動小数点型のフォーマット</h4>
+<p>
+  printf関数の浮動小数点型のフォーマットは「%f」です。<a href="/blog/20201202133213.html">float型</a>も<a href="/blog/20201203133213.html">double型</a>も両方「%f」で大丈夫です。
+</p>
+<pre>
+%f
+</pre>
+<p>
+  printf関数で浮動小数点を出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  double num = 123.56;
+  
+  printf("%f\n", num);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+123.560000
+</pre>
+<h4>浮動小数の小数点以下の桁数を指定する</h4>
+<p>
+  浮動小数の小数点以下の桁数を指定するには「%.2f」のように書きます。
+</p>
+<p>
+  printf関数で浮動小数点を小数点以下2桁で出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  double num = 123.56;
+  
+  // 小数点以下の桁数を2桁に指定
+  printf("%.2f\n", num);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+123.56
+</pre>
+<h4>浮動小数点をいい感じに表示する</h4>
+<p>
+  浮動小数点をいい感じに表示するには「%g」を使用します。指数表記で桁数が多い場合は、自動的に指数表記にしてくれます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  double num1 = 123.56;
+  double num2 = 2.56e40;
+  
+  // 浮動小数点をいい感じに表示
+  printf("%g\n", num1);
+  printf("%g\n", num2);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+123.56
+2.56e+40
 </pre>
 
   </div>
