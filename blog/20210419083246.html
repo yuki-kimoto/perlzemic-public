@@ -358,6 +358,32 @@ int main(void) {
 123.56
 2.56e+40
 </pre>
+<h3>文字のフォーマット</h3>
+<p>
+  printf関数で文字をフォーマットするには「%c」を使います。
+</p>
+<pre>
+%c
+</pre>
+<p>
+  printf関数で文字をフォーマットするサンプルです。<a href="/blog/20210429092832.html">文字リテラル</a>「'a'」で記述した値は、<a href="/blog/20201204103322.html">char型</a>でASCIIコードとして保持しています。これを、「%c」で文字として出力します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  char ch = 'a';
+  
+  // 文字列を出力
+  printf("%c\n", ch);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+a
+</pre>
 <h3>文字列のフォーマット</h3>
 <p>
   printf関数で<a href="/blog/20210331101342.html">文字列</a>をフォーマットするには「%s」を使います。

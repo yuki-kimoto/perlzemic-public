@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>文字リテラル - C99対応のC言語入門</title>
-<meta name="description" content="文字リテラルは、ASCIIコードのひとつの文字をソースコード上で表現するものです。「'」でASCIIコードの一つの文字を囲みます。">
+<title>文字列リテラル - C99対応のC言語入門</title>
+<meta name="description" content="ソースコード上で文字列を表現する文字列リテラルの解説です。文字列リテラルはダブルクォーテーション「"」で囲んで表現します。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="文字リテラル - C99対応のC言語入門" />
-<meta name="twitter:description" content="文字リテラルは、ASCIIコードのひとつの文字をソースコード上で表現するものです。「'」でASCIIコードの一つの文字を囲みます。" />
+<meta name="twitter:title" content="文字列リテラル - C99対応のC言語入門" />
+<meta name="twitter:description" content="ソースコード上で文字列を表現する文字列リテラルの解説です。文字列リテラルはダブルクォーテーション「"」で囲んで表現します。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,90 +36,86 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210429092832.html">文字リテラル</a></h2>
+    <h2><a href="/blog/20210506133345.html">文字列リテラル</a></h2>
 <p>
-  文字リテラルは、ASCIIコードのひとつの文字をソースコード上で表現するものです。「'」でASCIIコードの一つの文字を囲みます。
+  ソースコード上で<a href="/blog/20210331101342.html">文字列</a>を表現する文字列リテラルの解説です。文字列リテラルはダブルクォーテーション「"」で囲んで表現します。
 </p>
 <pre>
-// 文字リテラル
-'a'
-'b'
+// 文字列リテラル
+"Hello"
 </pre>
 <p>
-  これは<a href="/blog/20201204103322.html">char型</a>で、ASCIIコードの値になります。ASCIIコードの文字として出力したい場合はprintf関数の「%c」を使います。
+  文字列リテラルを出力するサンプルです。文字列リテラルは<a href="/blog/20201208125815.html">char*</a>の変数に代入できます。文字列リテラルは、定数として扱いた場合が、ほとんどだと思いますので「const char*」で宣言した変数に代入するのがお勧めです。printf関数の「%s」フォーマットで、文字列を出力できます。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
 
 int main(void) {
+  const char* message = "Hello";
   
-  char ch = 'a';
-  
-  // ASCIIコード(数値)
-  printf("%d\n", ch);
-  
-  // ASCIIコードに対応する文字
-  printf("%c\n", ch);
+  printf("%s\n", message);
 }
 </pre>
 <p>
   出力結果です。
 </p>
 <pre>
-97
-a
+Hello
 </pre>
-<h3>文字リテラルのエスケープシーケンス</h3>
+<h3>文字列リテラルのエスケープシーケンス</h3>
 <p>
-  文字リテラルのエスケープシーケンスです。「\t」「\n」で、タブや改行を表現できます。
+  文字列リテラルのエスケープシーケンスです。「\t」「\n」で、タブや改行を表現できます。
 </p>
 <table>
   <tr><th>\t</th><td>タブ</td></tr>
   <tr><th>\n</th><td>改行(LF)</td></tr>
-  <tr><th>\0</th><td>ヌル文字</td></tr>
 </table>
 <p>
-  文字リテラルのエスケープシーケンスのサンプルです。
+  文字列リテラルのエスケープシーケンスのサンプルです。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
 
 int main(void) {
+
+  const char* message = "He\tllo\n";
   
-  // 文字リテラルのエスケープシーケンス
-  printf("%d %d %d\n", '\t', '\n', '\0');
+  // 文字列リテラルのエスケープシーケンス
+  printf("%s", message);
 }
 </pre>
 <p>
   出力結果です。
 </p>
 <pre>
-9 10 0
+He      llo
 </pre>
-<h4>ASCIIコードの任意の文字</h4>
+<h4>ASCIIコードの任意の文字列</h4>
 <p>
-  「\x16進数ASCIIコード」というエスケープシーケンスを使って、ASCIIコードの任意の文字を表現できます。以下はASCIIコードの「a」を16進数で表現しています。
+  「\x16進数ASCIIコード」というエスケープシーケンスを使って、ASCIIコードの任意の文字列を表現できます。以下はASCIIコードの「a」を16進数で表現しています。
 </p>
 <pre>
 \x61
 </pre>
 <p>
-  文字リテラルのエスケープシーケンスでASCIIコードの任意の文字を使用するサンプルです。
+  文字列リテラルのエスケープシーケンスでASCIIコードの任意の文字列を使用するサンプルです。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
 
 int main(void) {
+
+  const char* message = "He \x61 llo";
   
-  // 文字リテラルのエスケープシーケンス
-  printf("%c\n", '\x61');
+  // 文字列リテラルのエスケープシーケンス
+  printf("%s\n", message);
 }
 </pre>
 <p>
-  出力結果です。aが出力されます。
+  出力結果です。「\x61」でaが出力されます。
 </p>
 <pre>
-a
+He a llo
 </pre>
 <h4>エスケープシーケンスの一覧</h4>
 <table>
