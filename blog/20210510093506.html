@@ -46,7 +46,7 @@ int fprintf(FILE *fp, const char *format, ...);
 </pre>
 <h3>標準出力に出力する</h3>
 <p>
-  fprintf関数を使って、標準出力に出力してみましょう。printf関数と同じことをします。stdoutは、標準出力を意味する<a href="/blog/20210315140759.html">グローバル変数</a>です。
+  fprintf関数を使って、標準出力に出力してみましょう。printf関数と同じことをします。stdoutは、標準出力を意味する値です。stdoutは、C言語仕様上は、式として実装されます。stdoutは、<a href="/blog/20210315140759.html">グローバル変数</a>あるいは、<a href="/blog/20210302083009.html">マクロ</a>として実装可能です。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
@@ -64,7 +64,7 @@ Hello
 </pre>
 <h3>標準エラー出力に出力する</h3>
 <p>
-  fprintf関数を使って、標準エラー出力に出力してみましょう。stderrは、標準エラー出力を意味する<a href="/blog/20210315140759.html">グローバル変数</a>です。
+  fprintf関数を使って、標準エラー出力に出力してみましょう。stderrは、標準エラー出力を意味を意味する値です。stderrは、C言語仕様上は、式として実装されます。stderrは、<a href="/blog/20210315140759.html">グローバル変数</a>あるいは、<a href="/blog/20210302083009.html">マクロ</a>として実装可能です。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
@@ -86,6 +86,7 @@ Hello
 </p>
 <pre>
 #include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
 
 int main(void) {
   
@@ -94,6 +95,7 @@ int main(void) {
   FILE* out_fp = fopen(out_file, "w");
   if (out_fp == NULL) {
     fprintf(stderr, "Can't open file %s\n", out_file);
+    exit(1);
   }
   
   // fprintf関数でファイルに書き込む
