@@ -82,7 +82,7 @@ Hello
 </pre>
 <h3>ファイルに出力する</h3>
 <p>
-  fprintf関数を使って、ファイルに出力してみましょう。open関数でファイルを開いて、ファイルに書き込んでみましょう。開いたファイルはclose関数で閉じています。
+  fprintf関数を使って、ファイルに出力してみましょう。fopen関数でファイルを開いて、ファイルに書き込んでみましょう。開いたファイルはfclose関数で閉じています。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
@@ -101,7 +101,7 @@ int main(void) {
   fprintf(out_fp, "%s\n", message);
   
   // ファイルを閉じる
-  close(out_fp);
+  fclose(out_fp);
 }
 </pre>
 <p>
