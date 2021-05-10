@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>fprintf関数 - C99対応のC言語入門</title>
+<meta name="description" content="fprintf関数は、フォーマットした文字列を出力先を指定して出力できます。printf関数は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="fprintf関数 - C99対応のC言語入門" />
+<meta name="twitter:description" content="fprintf関数は、フォーマットした文字列を出力先を指定して出力できます。printf関数は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210510093506.html">fprintf関数</a></h2>
+<p>
+  <b>fprintf関数</b>は、フォーマットした文字列を出力先を指定して出力できます。<a href="/blog/20210419083246.html">printf関数</a>は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+int fprintf(FILE *fp, const char *format, ...);
+</pre>
+<h3>標準出力に出力する</h3>
+<p>
+  fprintf関数を使って、標準出力に出力してみましょう。printf関数と同じことをします。stdoutは、標準出力を意味する<a href="/blog/20210315140759.html">グローバル変数</a>です。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* message = "Hello";
+  fprintf(stdout, "%s\n", message);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+</pre>
+<h3>標準エラー出力に出力する</h3>
+<p>
+  fprintf関数を使って、標準エラー出力に出力してみましょう。stderrは、標準エラー出力を意味する<a href="/blog/20210315140759.html">グローバル変数</a>です。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* message = "Hello";
+  fprintf(stderr, "%s\n", message);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+</pre>
+<h3>ファイルに出力する</h3>
+<p>
+  fprintf関数を使って、ファイルに出力してみましょう。open関数でファイルを開いて、ファイルに書き込んでみましょう。開いたファイルはclose関数で閉じています。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // 書き込み用にファイルを開く
+  const char* out_file = "output.txt";
+  FILE* out_fp = fopen(out_file, "w");
+  if (out_fp == NULL) {
+    fprintf(stderr, "Can't open file %s\n", out_file);
+  }
+  
+  // fprintf関数でファイルに書き込む
+  const char* message = "Hello";
+  fprintf(out_fp, "%s\n", message);
+  
+  // ファイルを閉じる
+  close(out_fp);
+}
+</pre>
+<p>
+  output.txtを開いてみましょう。以下の内容が出力されています。
+</p>
+<pre>
+Hello
+</pre>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
