@@ -8,11 +8,11 @@
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
 <title>fprintf関数 - フォーマットした文字列を出力先を指定して出力 - C99対応のC言語入門</title>
-<meta name="description" content="fprintf関数は、フォーマットした文字列を出力先を指定して出力できます。printf関数は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。">
+<meta name="description" content="fprintf関数は、フォーマットした文字列を出力先を指定して出力できます。printf関数は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。stdio.hヘッダを読み込むと使えます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
 <meta name="twitter:title" content="fprintf関数 - フォーマットした文字列を出力先を指定して出力 - C99対応のC言語入門" />
-<meta name="twitter:description" content="fprintf関数は、フォーマットした文字列を出力先を指定して出力できます。printf関数は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。" />
+<meta name="twitter:description" content="fprintf関数は、フォーマットした文字列を出力先を指定して出力できます。printf関数は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。stdio.hヘッダを読み込むと使えます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -38,7 +38,7 @@
   <div class="middle">
     <h2><a href="/blog/20210510093506.html">fprintf関数 - フォーマットした文字列を出力先を指定して出力</a></h2>
 <p>
-  <b>fprintf関数</b>は、フォーマットした文字列を出力先を指定して出力できます。<a href="/blog/20210419083246.html">printf関数</a>は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。
+  <b>fprintf関数</b>は、フォーマットした文字列を出力先を指定して出力できます。<a href="/blog/20210419083246.html">printf関数</a>は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
@@ -46,7 +46,7 @@ int fprintf(FILE *fp, const char *format, ...);
 </pre>
 <h3>標準出力に出力する</h3>
 <p>
-  fprintf関数を使って、標準出力に出力してみましょう。printf関数と同じことをします。stdoutは、標準出力を意味する値です。stdoutは、C言語仕様上は、式として実装されます。stdoutは、<a href="/blog/20210315140759.html">グローバル変数</a>あるいは、<a href="/blog/20210302083009.html">マクロ</a>として実装可能です。
+  fprintf関数を使って、標準出力に出力してみましょう。printf関数と同じことをします。<a href="/blog/20210512083754.html">stdout</a>は、標準出力ストリームを意味するFILE構造体へのポインタです。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
@@ -64,7 +64,7 @@ Hello
 </pre>
 <h3>標準エラー出力に出力する</h3>
 <p>
-  fprintf関数を使って、標準エラー出力に出力してみましょう。stderrは、標準エラー出力を意味を意味する値です。stderrは、C言語仕様上は、式として実装されます。stderrは、<a href="/blog/20210315140759.html">グローバル変数</a>あるいは、<a href="/blog/20210302083009.html">マクロ</a>として実装可能です。
+  fprintf関数を使って、標準エラー出力に出力してみましょう。<a href="/blog/20210511083754.html">stderr</a>は、標準エラーストリームを意味するFILE構造体へのポインタです。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
@@ -75,7 +75,7 @@ int main(void) {
 }
 </pre>
 <p>
-  出力結果です。
+  出力結果です。エラー出力に出力されます。
 </p>
 <pre>
 Hello

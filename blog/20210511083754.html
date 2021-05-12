@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門</title>
-<meta name="description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。">
+<title>stderr - 標準エラーストリームを意味するFILE構造体へのポインタ - C99対応のC言語入門</title>
+<meta name="description" content="stderrは、標準エラーストリームを意味するFILE構造体へのポインタです。標準エラーストリームは、プログラム開始時に自動的にオープンされます。標準エラーストリームは、一般的には、画面へのエラー出力を意味していています。stdio.hヘッダを読み込むと使えます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門" />
-<meta name="twitter:description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。" />
+<meta name="twitter:title" content="stderr - 標準エラーストリームを意味するFILE構造体へのポインタ - C99対応のC言語入門" />
+<meta name="twitter:description" content="stderrは、標準エラーストリームを意味するFILE構造体へのポインタです。標準エラーストリームは、プログラム開始時に自動的にオープンされます。標準エラーストリームは、一般的には、画面へのエラー出力を意味していています。stdio.hヘッダを読み込むと使えます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,21 +36,36 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210418083246.html">stdio.hヘッダー - 標準入出力の関数など</a></h2>
+    <h2><a href="/blog/20210511083754.html">stderr - 標準エラーストリームを意味するFILE構造体へのポインタ</a></h2>
 <p>
-  stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。
+  stderrは、標準エラーストリームを意味するFILE構造体へのポインタです。標準エラーストリームは、プログラム開始時に自動的にオープンされます。標準エラーストリームは、一般的には、画面へのエラー出力を意味していています。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
 </p>
-<h3>文字列を出力する関数</h3>
-<ul>
-  <li><a href="/blog/20210419083246.html">printf関数</a></li>
-  <li><a href="/blog/20210510093506.html">fprintf関数</a></li>
-</ul>
-<h3>標準入出力</h3>
-<ul>
-  <li><a href="/blog/20210512083754.html">stdout - 標準出力ストリームを意味するFILE構造体へのポインタ</a></li>
-  <li><a href="/blog/20210511083754.html">stderr - 標準エラーストリームを意味するFILE構造体へのポインタ</a></li>
-  <li><a href="/blog/20210509093506.html">fclose関数 - ファイルを閉じる</a></li>
-</ul>
+<pre>
+#include &lt;stdio.h&gt;
+
+stderr
+</pre>
+<p>
+  stderrは、C言語仕様上は、式として実装されます。stderrは、<a href="/blog/20210315140759.html">グローバル変数</a>あるいは、<a href="/blog/20210302083009.html">マクロ</a>として実装可能です。
+</p>
+<h3>stderrを使ったサンプル</h3>
+<p>
+  stderrを使ったサンプルです。<a href="/blog/20210510093506.html">fprintf関数</a>で、出力先に、標準エラーを指定しています。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* message = "Hello";
+  fprintf(stderr, "%s\n", message);
+}
+</pre>
+<p>
+  実行結果です。画面に「Hello」と表示されます。
+</p>
+<pre>
+Hello
+</pre>
 
   </div>
   <div class="bottom">
