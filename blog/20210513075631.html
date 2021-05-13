@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>fopen関数 - ファイルを開く - C99対応のC言語入門</title>
+<meta name="description" content="fopen関数を使うと、ファイルを開くことができます。stdio.hヘッダを読み込むと使えます。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="fopen関数 - ファイルを開く - C99対応のC言語入門" />
+<meta name="twitter:description" content="fopen関数を使うと、ファイルを開くことができます。stdio.hヘッダを読み込むと使えます。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210513075631.html">fopen関数 - ファイルを開く</a></h2>
+<p>
+  fopen関数を使うと、ファイルを開くことができます。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
+</p>
+<pre>
+FILE* fopen(const char *file_name, const char *mode);
+</pre>
+<p>
+  第一引数は、開きたいファイルのファイル名です。第二引数は、モードです。ファイルオープンに成功すると、ファイルストリームを表現する「FILE*型」の値が返されます。
+</p>
+<h4>モードの一覧</h4>
+<p>
+  モードの一覧です。
+</p>
+<table>
+  <tr><th>モード</th><th>動作</th></tr>
+  <tr><td>r</td><td>読み込み(ファイルがないときはエラー)</td></tr>
+  <tr><td>w</td><td>書き込み(ファイルがないときは新規作成)</td></tr>
+  <tr><td>a</td><td>追加書き込み(ファイルがないときは新規作成)</td></tr>
+  <tr><td>r+</td><td>読み込みと書き込み(ファイルがないときはエラー)</td></tr>
+  <tr><td>w+</td><td>読み込みと書き込み(ファイルがないときは新規作成)</td></tr>
+  <tr><td>a+</td><td>読み込みと追加書き込み(ファイルがないときは新規作成)</td></tr>
+</table>
+<p>
+  書き込みは、ファイルの内容がクリアされ、新しい内容で書き込むことを意味します。追加書き込みは、ファイルの末尾に追加して、書き込むことを意味します。
+</p>
+<p>
+  上記のモードはバイナリモードを意味する「b」と組み合わせることができます。
+</p>
+<pre>
+br
+bw
+</pre>
+<p>
+  デフォルトの動作は、テキストモードオープンされ、Windowsの場合にはファイルに含まれる改行文字である「CR」「LF」の並びが「\n」に置き換えられます。
+</p>
+<p>
+  バイナリモードでは、このような置き換えはされません。
+</p>
+<h3>fopen関数のサンプル</h3>
+<p>
+  fopen関数のサンプルです。
+</p>
+<h4>ファイルを読み込む</h4>
+<p>
+  fopen関数で読み込みモードでファイルを開き、fgetc関数で読み込み、標準出力に出力しています。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  
+  // ファイルを読み込みモードで開く
+  const char* in_file = "input.txt";
+  FILE* in_fp = fopen(in_file, "r");
+  if (in_fp == NULL) {
+    fprintf(stderr, "Can't open file %s\n", in_file);
+    exit(1);
+  }
+  
+  // 読み込んで、標準出力に出力
+  int32_t ch;
+  while(ch = fgetc(in_fp)) {
+    if (ch == EOF) {
+      break;
+    }
+    fputc(ch, stdout);
+  }
+  
+  // ファイルに書き込む
+  const char* message = "Hello";
+  fprintf(in_fp, "%s\n", message);
+  
+  // fopen関数でファイルを閉じる
+  fclose(in_fp);
+}
+</pre>
+<p>
+  入力ファイル「input.txt」です。
+</p>
+<pre>
+Hello
+World!
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+World!
+</pre>
+<h4>ファイルに書き込む</h4>
+<p>
+  fopen関数で書き込みモードでファイルを開き、<a href="/blog/20210510093506.html">fprintf関数</a>で内容を書きこみ、<a href="/blog/20210509093506.html">fclose関数</a>で、ファイルを閉じています。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  
+  // ファイルを書き込みモードで開く
+  const char* out_file = "output.txt";
+  FILE* out_fp = fopen(out_file, "w");
+  if (out_fp == NULL) {
+    fprintf(stderr, "Can't open file %s\n", out_file);
+    exit(1);
+  }
+  
+  // ファイルに書き込む
+  const char* message = "Hello";
+  fprintf(out_fp, "%s\n", message);
+  
+  // fopen関数でファイルを閉じる
+  fopen(out_fp);
+}
+</pre>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
