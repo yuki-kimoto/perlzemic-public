@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<title>sprintf関数 - フォーマット文字列を文字列変数へ出力 - C99対応のC言語入門</title>
+<meta name="description" content="sprintf関数は、フォーマット文字列を、文字列変数へ出力できる関数です。printf関数は、標準出力に対して出力しますが、この出力先をchar型の配列として宣言された文字列変数に変更するものがsprintf関数だと考えてください。sprintf関数は、stdio.hを読み込むと利用できます。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="sprintf関数 - フォーマット文字列を文字列変数へ出力 - C99対応のC言語入門" />
+<meta name="twitter:description" content="sprintf関数は、フォーマット文字列を、文字列変数へ出力できる関数です。printf関数は、標準出力に対して出力しますが、この出力先をchar型の配列として宣言された文字列変数に変更するものがsprintf関数だと考えてください。sprintf関数は、stdio.hを読み込むと利用できます。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210517083039.html">sprintf関数 - フォーマット文字列を文字列変数へ出力</a></h2>
+<p>
+  <b>sprintf関数</b>は、フォーマット文字列を、文字列変数へ出力できる関数です。<a href="/blog/20210419083246.html">printf関数</a>は、標準出力に対して出力しますが、この出力先を<a href="/blog/20201204103322.html">char型</a>の<a href="/blog/20210129143859.html">配列</a>として宣言された文字列変数に変更するものがsprintf関数だと考えてください。sprintf関数は、<a href="/blog/20210418083246.html">stdio.h</a>を読み込むと利用できます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+int sprintf(char *str, const char *format,  ．．． );
+</pre>
+<p>
+  第一引数は、出力先の文字列です。第二引数はフォーマット文字列で、<a href="/blog/20210419083246.html">printf関数</a>で解説したものと同じものです。第三引数以降は、可変長引数で、printf関数で解説したものと同じものです。
+</p>
+<p>
+  sprintf関数は、バッファオーバーランを起こす可能性のある関数です。
+</p>
+<h3>sprintf関数のサンプル</h3>
+<p>
+  sprintf関数のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  const char* name = "kimoto";
+  int32_t age = 40;
+  
+  char message[255];
+  
+  sprintf(message, "I'm %s. Age is %d.", name, age);
+  
+  printf("%s\n", message);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+I'm kimoto. Age is 40.
+</pre>
+<p>
+  このサンプルでは、バッファオーバーランを起こすことはありません。
+</p>
+<h3>sprintf関数とバッフォオーバーラン</h3>
+<p>
+  sprintf関数とバッフォオーバーランの危険性について書きます。
+</p>
+<p>
+  たとえば、ユーザーの入力によって、フォーマットに埋め込む値が変わると考えてください。たとえば、Web入力フォームで、ユーザーの名前に長さ制限をかけていなかったとします。また、出力先の文字列の長さが短いものだったとします。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  const char* name = "long_long_long_name";
+  int32_t age = 40;
+  
+  char message[16];
+  
+  // バッファオーバーラン!!!
+  sprintf(message, "I'm %s. Age is %d.", name, age);
+  
+  printf("%s\n", message);
+}
+
+</pre>
+<p>
+  バッファオーバーランが発生すると、意図しないメモリ領域に、データが書き込まれます。これが、具体的個別にどのような問題を起こすかは、僕は詳しくないので、セキュリティエンジニアの方に委ねます。プログラムを記述するエンジニアとしては、バッフォオーバーランを起こしてはならないということを覚えておきましょう。
+</p>
+<p>
+  最大書き込み数を制限できるsnprintf関数もありますので、用途によって使い分けましょう。
+</p>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl総合研究所</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl総合研究所
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
