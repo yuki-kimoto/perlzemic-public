@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>fgetc関数 - ファイルから1文字読み込む - C99対応のC言語入門</title>
-<meta name="description" content="fgetc関数は、ファイルから1文字読み込む関数です。stdio.hヘッダを読み込むと使えます。">
+<title>fread関数 - バイト数を指定してファイルから読み込み(書きかけ) - C99対応のC言語入門</title>
+<meta name="description" content="fread関数を使うと、バイト数を指定してファイルから読み込むことができます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="fgetc関数 - ファイルから1文字読み込む - C99対応のC言語入門" />
-<meta name="twitter:description" content="fgetc関数は、ファイルから1文字読み込む関数です。stdio.hヘッダを読み込むと使えます。" />
+<meta name="twitter:title" content="fread関数 - バイト数を指定してファイルから読み込み(書きかけ) - C99対応のC言語入門" />
+<meta name="twitter:description" content="fread関数を使うと、バイト数を指定してファイルから読み込むことができます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,24 +36,28 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210519082217.html">fgetc関数 - ファイルから1文字読み込む</a></h2>
+    <h2><a href="/blog/20210520080906.html">fread関数 - バイト数を指定してファイルから読み込み(書きかけ)</a></h2>
 <p>
-  fgetc関数は、ファイルから1文字読み込む関数です。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
+  <b>fread関数</b>を使うと、バイト数を指定してファイルから読み込むことができます。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
-int fgetc(FILE *fp);
+size_t fread(void *buffer, size_t size, size_t n, FILE *fp);
 </pre>
 <p>
-  ファイルストリームから1文字読み込み、読み込んだ文字を返します。ファイルの最後に到達した場合は、EOF(-1)が返ります。
+  第一引数は、ファイルから読み込まれた内容が格納されるバッファです。読み込んだ内容を格納できるメモリサイズを確保しましょう。第二引数は、読み込むデータのバイトの単位です。第三引数は、読み込むデータの個数です。実際に読み込まれるバイトサイズは「size * n」になります。第四引数は、読み込みたいファイルのファイルストリームです。
 </p>
-<h3>fgetc関数のサンプル</h3>
 <p>
-  fgetc関数のサンプルです。<a href="/blog/20210513075631.html">fopen関数</a>で読み込みモードでファイルを開き、<b>fgetc関数</b>で1文字づつ読み込み、標準出力に出力し、<a href="/blog/20210509093506.html">fclose関数</a>でファイルを閉じています。
+  戻り値は、読み込んだデータの個数です。第三引数で指定したデータの個数に対応しています。バイトサイズではないので注意してください。読み込みが、ファイルの末尾に到達したときは、戻り値が、第三引数で指定したデータの個数より小さくなります。
+</p>
+<h3>fread関数で読み込むサンプル</h3>
+<p>
+  fread関数で読み込むサンプルです。fopen関数でファイルを開き、16バイトずつ読み込み、putchar関数で標準出力に出力し、fclose関数でファイルを閉じています。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
 
 int main(void) {
   
@@ -66,17 +70,25 @@ int main(void) {
   }
   
   // 読み込んで、標準出力に出力
-  int32_t ch;
-  while(ch = fgetc(in_fp)) {
-    if (ch == EOF) {
+  while(1) {
+    
+    char buffer[16];
+    int32_t read_unit = 1;
+    int32_t read_count = 16;
+    size_t real_read_count = fread(buffer, read_unit, read_count, in_fp);
+    
+    // 読み込んだ文字を出力
+    for (int32_t i = 0; i &lt; real_read_count; i++) {
+      putchar(buffer[i]);
+    }
+    
+    // わかりやすいように改行
+    printf("\n");
+    
+    if (real_read_count &lt; read_count) {
       break;
     }
-    fputc(ch, stdout);
   }
-  
-  // ファイルに書き込む
-  const char* message = "Hello";
-  fprintf(in_fp, "%s\n", message);
   
   // fclose関数でファイルを閉じる
   fclose(in_fp);
@@ -86,32 +98,21 @@ int main(void) {
   入力ファイル「input.txt」です。
 </p>
 <pre>
-Hello
-World!
+aaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccddddddddddddddddddddd
 </pre>
 <p>
   出力結果です。
 </p>
 <pre>
-Hello
-World!
+aaaaaaaaaaaaaaaa
+aaaaaabbbbbbbbbb
+bbbbbbbbbbbbbbcc
+cccccccccccccccc
+ccccccccdddddddd
+ddddddddddddd
 </pre>
-<h3>ファイル途中でEOF(-1)が見つかったらどうなるの?</h3>
 <p>
-  ファイルの途中でEOF(-1)が見つかったら、EOF(-1)が返ります。その結果、その位置がファイルの終端だと判定されます。ですので、EOFは、本当のファイル終端であるとは限らないということを覚えておきましょう。
-</p>
-<p>
-  ASCII(0～127)やUTF-8で書かれていることが分かっているテキストファイルの場合は、大丈夫です。
-</p>
-<h3>fgetc関数はgetc関数と何が違うの?</h3>
-<p>
-  getc関数は、fget関数と同様に、ファイルから1文字読み出しますが、パフォーマンスの向上のために<a href="/blog/20210124140655.html">関数マクロ</a>として実装することが許可されています。fgetcは関数として実装されます。
-</p>
-<p>
-  実装経験としては、getcはマクロとして実装可能なので、何らかの副作用があります。はっきりとは思い出せないのですが、FreeBSDの環境でコンパイルエラーが生じた経験があります。
-</p>
-<p>
-  読み込みパフォーマンスに問題がなく、ポータビリティの問題を生じさせたくない場合は、fgetc関数を使うのがよいでしょう。
+  (続く)
 </p>
 
   </div>
