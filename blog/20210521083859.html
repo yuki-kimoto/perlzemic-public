@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>fread関数 - バイト数を指定してファイルから読み込み(書きかけ) - C99対応のC言語入門</title>
-<meta name="description" content="fread関数を使うと、バイト数を指定してファイルから読み込むことができます。stdio.hヘッダを読み込むと使えます。">
+<title>EOF - ファイルの末尾を表す定数 - C99対応のC言語入門</title>
+<meta name="description" content="EOFは、ファイルの末尾を表す定数です。C言語仕様上は負の数として定義されていますが、一般的には「-1」として定義されています。stdio.hヘッダを読み込むと使えます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="fread関数 - バイト数を指定してファイルから読み込み(書きかけ) - C99対応のC言語入門" />
-<meta name="twitter:description" content="fread関数を使うと、バイト数を指定してファイルから読み込むことができます。stdio.hヘッダを読み込むと使えます。" />
+<meta name="twitter:title" content="EOF - ファイルの末尾を表す定数 - C99対応のC言語入門" />
+<meta name="twitter:description" content="EOFは、ファイルの末尾を表す定数です。C言語仕様上は負の数として定義されていますが、一般的には「-1」として定義されています。stdio.hヘッダを読み込むと使えます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,83 +36,18 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210520080906.html">fread関数 - バイト数を指定してファイルから読み込み(書きかけ)</a></h2>
+    <h2><a href="/blog/20210521083859.html">EOF - ファイルの末尾を表す定数</a></h2>
 <p>
-  <b>fread関数</b>を使うと、バイト数を指定してファイルから読み込むことができます。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
+  EOFは、ファイルの末尾を表す定数です。C言語仕様上は負の数として定義されていますが、一般的には「-1」として定義されています。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
 </p>
 <pre>
-#include &lt;stdio.h&gt;
-size_t fread(void *buffer, size_t size, size_t n, FILE *fp);
+EOF
 </pre>
 <p>
-  第一引数は、ファイルから読み込まれた内容が格納されるバッファです。読み込んだ内容を格納できるメモリサイズを確保しましょう。第二引数は、読み込むデータのバイトの単位です。第三引数は、読み込むデータの個数です。実際に読み込まれるバイトサイズは「size * n」になります。第四引数は、読み込みたいファイルのファイルストリームです。
+  <a href="/blog/20210519082217.html">fgetc関数</a>、<a href="/blog/20210516083039.html">getc関数</a>、getchar関数などは、ファイルの末尾に到達した場合に、EOFを返します。
 </p>
 <p>
-  戻り値は、読み込んだデータの個数です。第三引数で指定したデータの個数に対応しています。バイトサイズではないので注意してください。読み込みが、ファイルの末尾に到達したときは、戻り値が、第三引数で指定したデータの個数より小さくなります。
-</p>
-<h3>fread関数で読み込むサンプル</h3>
-<p>
-  fread関数で読み込むサンプルです。fopen関数でファイルを開き、16バイトずつ読み込み、putchar関数で標準出力に出力し、fclose関数でファイルを閉じています。
-</p>
-<pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;stdint.h&gt;
-
-int main(void) {
-  
-  // ファイルを読み込みモードで開く
-  const char* in_file = "input.txt";
-  FILE* in_fp = fopen(in_file, "r");
-  if (in_fp == NULL) {
-    fprintf(stderr, "Can't open file %s\n", in_file);
-    exit(1);
-  }
-  
-  // 読み込んで、標準出力に出力
-  while(1) {
-    
-    char buffer[16];
-    int32_t read_unit = 1;
-    int32_t read_count = 16;
-    size_t real_read_count = fread(buffer, read_unit, read_count, in_fp);
-    
-    // 読み込んだ文字を出力
-    for (int32_t i = 0; i &lt; real_read_count; i++) {
-      putchar(buffer[i]);
-    }
-    
-    // わかりやすいように改行
-    printf("\n");
-    
-    if (real_read_count &lt; read_count) {
-      break;
-    }
-  }
-  
-  // fclose関数でファイルを閉じる
-  fclose(in_fp);
-}
-</pre>
-<p>
-  入力ファイル「input.txt」です。
-</p>
-<pre>
-aaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccddddddddddddddddddddd
-</pre>
-<p>
-  出力結果です。
-</p>
-<pre>
-aaaaaaaaaaaaaaaa
-aaaaaabbbbbbbbbb
-bbbbbbbbbbbbbbcc
-cccccccccccccccc
-ccccccccdddddddd
-ddddddddddddd
-</pre>
-<p>
-  (続く)
+  ただし、この値は、実際にファイルの末尾に到達したことの判定に使わないでください。読み込んだファイルの1文字が、EOFと同じであった場合に、誤判定が起こります。EOFのチェックと合わせて、feof関数を使って、ファイルの末尾に到達したことを判定してください。実際のコードは<a href="/blog/20210519082217.html">fgetc関数</a>のサンプルコードを見てください。
 </p>
 
   </div>
