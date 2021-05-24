@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門</title>
-<meta name="description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。">
+<title>feof関数 - ファイルの末尾かチェックする - C99対応のC言語入門</title>
+<meta name="description" content="feof関数を使うと、入力ファイルストリームがファイルの末尾に到達したかをチェックすることができます。stdio.hヘッダを読み込むと使えます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門" />
-<meta name="twitter:description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。" />
+<meta name="twitter:title" content="feof関数 - ファイルの末尾かチェックする - C99対応のC言語入門" />
+<meta name="twitter:description" content="feof関数を使うと、入力ファイルストリームがファイルの末尾に到達したかをチェックすることができます。stdio.hヘッダを読み込むと使えます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,32 +36,21 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210418083246.html">stdio.hヘッダー - 標準入出力の関数など</a></h2>
+    <h2><a href="/blog/20210524090409.html">feof関数 - ファイルの末尾かチェックする</a></h2>
 <p>
-  stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。
+  feof関数を使うと、入力ファイルストリームがファイルの末尾に到達したかをチェックすることができます。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
 </p>
-<h3>文字列を出力する関数</h3>
-<ul>
-  <li><a href="/blog/20210419083246.html">printf関数</a></li>
-  <li><a href="/blog/20210510093506.html">fprintf関数</a></li>
-  <li><a href="/blog/20210517083039.html">sprintf関数</a></li>
-  <li><a href="/blog/20210518081319.html">snprintf関数</a></li>
-</ul>
-<h3>標準入出力</h3>
-<ul>
-  <li><a href="/blog/20210512083754.html">stdout - 標準出力ストリームを意味するFILE構造体へのポインタ</a></li>
-  <li><a href="/blog/20210511083754.html">stderr - 標準エラーストリームを意味するFILE構造体へのポインタ</a></li>
-</ul>
-<h3>ファイル入出力</h3>
-<ul>
-  <li><a href="/blog/20210513075631.html">fopen関数 - ファイルを開く</a></li>
-  <li><a href="/blog/20210509093506.html">fclose関数 - ファイルを閉じる</a></li>
-  <li><a href="/blog/20210519082217.html">fgetc関数 - ファイルから1文字読み込む</a></li>
-  <li><a href="/blog/20210516083039.html">getc関数 - ファイルから1文字読み込む</a></li>
-  <li><a href="/blog/20210520080906.html">fread関数 - バイト数を指定してファイルから読み込み</a></li>
-  <li><a href="/blog/20210521083859.html">EOF - ファイルの末尾を表す定数</a></li>
-  <li><a href="/blog/20210524090409.html">feof関数 - ファイルの末尾かチェックする</a></li>
-</ul>
+<pre>
+#include &lt;stdio.h&gt;
+int feof(FILE *fp);
+</pre>
+<p>
+  引数は、ファイルストリームです。戻り値は、末尾に到達していた場合は、0ではない値、末尾に到達していた場合は、0です。
+</p>
+<h2>feof関数のサンプル</h2>
+<p>
+  feof関数を使ったサンプルは<a href="/blog/20210519082217.html">fgetc関数</a>のサンプルの中にあります。
+</p>
 
   </div>
   <div class="bottom">
