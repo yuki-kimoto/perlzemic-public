@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>stdlib.h - メモリ確保関数などの標準ヘッダ - C99対応のC言語入門</title>
-<meta name="description" content="「stdlib.h」標準ヘッダをインクルードした場合に利用できる関数。">
+<title>exit関数 - プログラムを終了する - C99対応のC言語入門</title>
+<meta name="description" content="exit関数を使うと、プログラムが終了します。stdlib.hヘッダをインクルードすると使用できます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="stdlib.h - メモリ確保関数などの標準ヘッダ - C99対応のC言語入門" />
-<meta name="twitter:description" content="「stdlib.h」標準ヘッダをインクルードした場合に利用できる関数。" />
+<meta name="twitter:title" content="exit関数 - プログラムを終了する - C99対応のC言語入門" />
+<meta name="twitter:description" content="exit関数を使うと、プログラムが終了します。stdlib.hヘッダをインクルードすると使用できます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,16 +36,36 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210227091654.html">stdlib.h - メモリ確保関数などの標準ヘッダ</a></h2>
+    <h2><a href="/blog/20210527084137.html">exit関数 - プログラムを終了する</a></h2>
 <p>
-  「stdlib.h」標準ヘッダをインクルードした場合に利用できる関数。
+  exit関数を使うと、プログラムが終了します。<a href="/blog/20210227091654.html">stdlib.h</a>ヘッダをインクルードすると使用できます。
 </p>
-<ul>
-  <li><a href="/blog/20210210082644.html">malloc関数 - メモリの動的確保</a></li>
-  <li><a href="/blog/20210209082644.html">calloc関数 - メモリの動的確保と0初期化</a></li>
-  <li><a href="/blog/20210329101342.html">free関数 - 確保したメモリを解放する</a></li>
-  <li><a href="/blog/20210527084137.html">exit関数 - プログラムを終了する</a></li>
-</ul>
+<pre>
+void exit(int status);
+</pre>
+<p>
+  正常終了を意味させる場合は引数に「0」を、異常終了を意味させる場合は「0以外」を指定します。異常終了の場合は、慣習的に「1」が指定されることが多いようです。
+</p>
+<h3>エラーメッセージを表示してプログラムを終了するサンプル</h3>
+<p>
+  <a href="/blog/20210510093506.html">fprintf関数</a>で標準エラー出力に、エラーメッセージを表示してexit関数でプログラムを終了するサンプルです。エラーメッセージには、ファイル名と行番号を含めています。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  
+  // エラーが発生
+  int32_t error = 1;
+  
+  if (error) {
+    fprintf(stderr, "Error at %s line %d\n", __FILE__, __LINE__);
+    exit(1);
+  }
+}
+</pre>
 
   </div>
   <div class="bottom">
