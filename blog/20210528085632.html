@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>プリプロセッサ - C99対応のC言語入門</title>
-<meta name="description" content="プリプロセッサとは、C言語のコンパイルを行う前に、ソースコードの置換処理を行うプログラムのことです。コンパイルを行う前というのは、もう少し具体的に書くと、字句解析が始まる前です。C言語コンパイラによって、自動的に呼び出されます。">
+<title>__FILE__ - ファイル名 - C99対応のC言語入門</title>
+<meta name="description" content="「__FILE__」は、プリプロセッサによってソースコードが記述されているファイルのファイル名に展開されます。これは、コンパイル時に、どのような名前でCソースファイルを指定したかによります。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="プリプロセッサ - C99対応のC言語入門" />
-<meta name="twitter:description" content="プリプロセッサとは、C言語のコンパイルを行う前に、ソースコードの置換処理を行うプログラムのことです。コンパイルを行う前というのは、もう少し具体的に書くと、字句解析が始まる前です。C言語コンパイラによって、自動的に呼び出されます。" />
+<meta name="twitter:title" content="__FILE__ - ファイル名 - C99対応のC言語入門" />
+<meta name="twitter:description" content="「__FILE__」は、プリプロセッサによってソースコードが記述されているファイルのファイル名に展開されます。これは、コンパイル時に、どのような名前でCソースファイルを指定したかによります。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,25 +36,49 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/preprocessor.html">プリプロセッサ</a></h2>
+    <h2><a href="/blog/20210528085632.html">__FILE__ - ファイル名</a></h2>
 <p>
-  プリプロセッサとは、C言語のコンパイルを行う前に、ソースコードの置換処理を行うプログラムのことです。コンパイルを行う前というのは、もう少し具体的に書くと、字句解析が始まる前です。C言語コンパイラによって、自動的に呼び出されます。
+  「__FILE__」は、<a href="/preprocessor.html">プリプロセッサ</a>によってソースコードが記述されているファイルのファイル名に展開されます。これは、コンパイル時に、どのような名前でCソースファイルを指定したかによります。
 </p>
-<h3>プリプロセッサ命令</h3>
+<pre>
+__FILE__
+</pre>
+<h3>ファイル名を取得するサンプル</h3>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("%s\n", __FILE__);
+}
+</pre>
 <p>
-  プリプロセッサ命令は、プリプロセッサが持っている命令のことです。よく使うものに「#include」や「#define」があります。
+  コンパイルして実行。
 </p>
-<ul>
-  <li><a href="/blog/20210203153019.html">#include - ファイルのインクルード</a></li>
-  <li><a href="/blog/20210302083009.html">#defineによるマクロの記述</a></li>
-  <li><a href="/blog/20210124140655.html">#defineによる関数マクロ</a></li>
-  <li><a href="/blog/20210305101711.html">プリプロセッサ条件分岐</a></li>
-</ul>
-<h3>定義済みマクロ</h3>
-<ul>
-  <li><a href="/blog/20210528085632.html">__FILE__ - ファイル名</a></li>
-  <li><a href="/blog/20210515085632.html">__LINE__ - 行番号</a></li>
-</ul>
+<pre>
+gcc -o a a.c &amp;&amp; ./a
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+a.c
+</pre>
+<p>
+  コンパイルして実行。相対パス。
+</p>
+<pre>
+gcc -o a ../labo/a.c &amp;&amp; ./a
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+../labo/a.c
+</pre>
+<h3>エラーメッセージを表示してプログラムを終了するサンプル</h3>
+<p>
+  exit関数、__FILE__、<a href="/blog/20210515085632.html">__LINE__</a>を組み合わせて、エラーメッセージを表示してプログラムを終了するサンプルは、<a href="/blog/20210527084137.html">exit関数</a>の解説にあります。
+</p>
 
   </div>
   <div class="bottom">
