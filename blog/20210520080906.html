@@ -7,11 +7,11 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>fread関数 - バイト数を指定してファイルから読み込み(書きかけ) - C99対応のC言語入門</title>
+<title>fread関数 - バイト数を指定してファイルから読み込み - C99対応のC言語入門</title>
 <meta name="description" content="fread関数を使うと、バイト数を指定してファイルから読み込むことができます。stdio.hヘッダを読み込むと使えます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="fread関数 - バイト数を指定してファイルから読み込み(書きかけ) - C99対応のC言語入門" />
+<meta name="twitter:title" content="fread関数 - バイト数を指定してファイルから読み込み - C99対応のC言語入門" />
 <meta name="twitter:description" content="fread関数を使うと、バイト数を指定してファイルから読み込むことができます。stdio.hヘッダを読み込むと使えます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
@@ -36,7 +36,7 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210520080906.html">fread関数 - バイト数を指定してファイルから読み込み(書きかけ)</a></h2>
+    <h2><a href="/blog/20210520080906.html">fread関数 - バイト数を指定してファイルから読み込み</a></h2>
 <p>
   <b>fread関数</b>を使うと、バイト数を指定してファイルから読み込むことができます。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
 </p>
@@ -52,7 +52,7 @@ size_t fread(void *buffer, size_t size, size_t n, FILE *fp);
 </p>
 <h3>fread関数で読み込むサンプル</h3>
 <p>
-  fread関数で読み込むサンプルです。fopen関数でファイルを開き、16バイトずつ読み込み、putchar関数で標準出力に出力し、fclose関数でファイルを閉じています。
+  fread関数で読み込むサンプルです。<a href="/blog/20210513075631.html">fopen関数</a>でファイルを開き、16バイトずつ読み込み、putchar関数で標準出力に出力し、<a href="/blog/20210509093506.html">fclose関数</a>でファイルを閉じています。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
@@ -111,9 +111,64 @@ cccccccccccccccc
 ccccccccdddddddd
 ddddddddddddd
 </pre>
+<h3>ファイル全体を読み込む</h3>
 <p>
-  (続く)
+  fread関数でファイル全体を読み込むサンプルです。<a href="/blog/20210526085256.html">ftell関数</a>と<a href="/blog/20210525075439.html">fseek関数</a>を使って、ファイルのサイズを取得して、<a href="/blog/20210209082644.html">calloc関数</a>でメモリを確保し、ファイル全体を読み込んでいます。
 </p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // ファイルを開く
+  const char* in_file = "input.txt";
+  FILE* in_fp = fopen(in_file, "r");
+  if (in_fp == NULL) {
+    fprintf(stderr, "Can't open file %s at %s line %d\n", in_file, __FILE__, __LINE__);
+    exit(1);
+  }
+  
+  // ファイルの末尾に位置指定子を移動
+  fseek(in_fp, 0, SEEK_END);
+  
+  // ファイルの末尾の位置を取得。これは、ファイサイズになります。
+  size_t file_size = (int32_t)ftell(in_fp);
+  
+  // ファイルサイズを取得
+  char* buffer = calloc(file_size + 1, sizeof(char));
+
+  // ファイルの先頭に位置指定子を移動
+  fseek(in_fp, 0, SEEK_SET);
+  
+  // ファイルを読み込み
+  size_t read_count = fread(buffer, sizeof(char), file_size, in_fp);
+  if (read_count != file_size) {
+    fprintf(stderr, "Can't read file %s at %s line %d\n", in_file, __FILE__, __LINE__);
+    exit(1);
+  }
+  
+  // ファイルの内容を確認
+  printf("%s\n", buffer);
+  
+  // ファイルを閉じる
+  fclose(in_fp);
+}
+</pre>
+<p>
+  入力ファイルです。
+</p>
+<pre>
+Hello
+World!
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+World!
+</pre>
 
   </div>
   <div class="bottom">
