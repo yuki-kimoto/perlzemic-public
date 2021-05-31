@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門</title>
-<meta name="description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。">
+<title>putchar関数 - 1文字出力する - C99対応のC言語入門</title>
+<meta name="description" content="putchar関数で、1文字出力できます。stdio.hヘッダを読み込むと使えます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門" />
-<meta name="twitter:description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。" />
+<meta name="twitter:title" content="putchar関数 - 1文字出力する - C99対応のC言語入門" />
+<meta name="twitter:description" content="putchar関数で、1文字出力できます。stdio.hヘッダを読み込むと使えます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,35 +36,40 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210418083246.html">stdio.hヘッダー - 標準入出力の関数など</a></h2>
+    <h2><a href="/blog/20210601081932.html">putchar関数 - 1文字出力する</a></h2>
 <p>
-  stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。
+  putchar関数で、1文字出力できます。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
 </p>
-<h3>文字列を出力する関数</h3>
-<ul>
-  <li><a href="/blog/20210419083246.html">printf関数</a></li>
-  <li><a href="/blog/20210510093506.html">fprintf関数</a></li>
-  <li><a href="/blog/20210517083039.html">sprintf関数</a></li>
-  <li><a href="/blog/20210518081319.html">snprintf関数</a></li>
-  <li><a href="/blog/20210601081932.html">putchar関数 - 1文字出力する</a></li>
-</ul>
-<h3>標準入出力</h3>
-<ul>
-  <li><a href="/blog/20210512083754.html">stdout - 標準出力ストリームを意味するFILE構造体へのポインタ</a></li>
-  <li><a href="/blog/20210511083754.html">stderr - 標準エラーストリームを意味するFILE構造体へのポインタ</a></li>
-</ul>
-<h3>ファイル入出力</h3>
-<ul>
-  <li><a href="/blog/20210513075631.html">fopen関数 - ファイルを開く</a></li>
-  <li><a href="/blog/20210509093506.html">fclose関数 - ファイルを閉じる</a></li>
-  <li><a href="/blog/20210519082217.html">fgetc関数 - ファイルから1文字読み込む</a></li>
-  <li><a href="/blog/20210516083039.html">getc関数 - ファイルから1文字読み込む</a></li>
-  <li><a href="/blog/20210520080906.html">fread関数 - バイト数を指定してファイルから読み込み</a></li>
-  <li><a href="/blog/20210521083859.html">EOF - ファイルの末尾を表す定数</a></li>
-  <li><a href="/blog/20210524090409.html">feof関数 - ファイルの末尾かチェックする</a></li>
-  <li><a href="/blog/20210525075439.html">fseek関数 - ファイルストリームの位置指定子の位置を設定</a></li>
-  <li><a href="/blog/20210526085256.html">ftell関数 - ファイルストリームの位置指定子の位置を取得</a></li>
-</ul>
+<pre>
+#include &lt;stdio.h&gt;
+int putchar(int c);
+</pre>
+<h3>putchar関数のサンプル</h3>
+<p>
+  putchar関数で1文字づつ出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+int main(void) {
+  const char* message = "Hello";
+
+  int32_t message_length = strlen(message);
+
+  for (int32_t i = 0; i &lt; message_length; i++) {
+    putchar(message[i]);
+  }
+  putchar('\n');
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+</pre>
 
   </div>
   <div class="bottom">
