@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>string.h - 文字列操作やメモリコピーの関数の標準ヘッダ - C99対応のC言語入門</title>
-<meta name="description" content="文字列操作の関数の紹介です。">
+<title>C言語の基本文法 - C99対応のC言語入門</title>
+<meta name="description" content="C言語の基本文法です。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="string.h - 文字列操作やメモリコピーの関数の標準ヘッダ - C99対応のC言語入門" />
-<meta name="twitter:description" content="文字列操作の関数の紹介です。" />
+<meta name="twitter:title" content="C言語の基本文法 - C99対応のC言語入門" />
+<meta name="twitter:description" content="C言語の基本文法です。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -36,29 +36,95 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210303101711.html">string.h - 文字列操作やメモリコピーの関数の標準ヘッダ</a></h2>
+    <h2><a href="/syntax.html">C言語の基本文法</a></h2>
 <p>
-  文字列操作の関数の紹介です。
+  C言語の基本文法です。
 </p>
-<h4>文字列のコピー</h4>
+<h3>main関数</h3>
 <ul>
-  <li><a href="/blog/20210221132505.html">memcpy関数 - メモリ領域をバイト単位でコピーする</a></li>
-  <li><a href="/blog/20210412082820.html">memmove関数 - メモリ領域をバイト単位でコピーする(重なりOK)</a></li>
+  <li><a href="/blog/20210314140759.html">main関数</a></li>
+  <li><a href="/blog/20210318082708.html">コマンドライン引数</a></li>
 </ul>
-<h4>文字列の長さ</h4>
+<h3>コメント</h3>
 <ul>
-  <li><a href="/blog/20210405101342.html">strlen関数 - 文字列の長さを取得する</a></li>
+  <li><a href="/blog/20201207125815.html">コメント</a></li>
 </ul>
-<h4>文字列の検索</h4>
+<h3>変数</h3>
 <ul>
-  <li><a href="/blog/20210406101342.html">strstr関数 - 文字列が含まれているかをチェックする</a></li>
-  <li><a href="/blog/20210408081817.html">strchr関数 - 文字が含まれているかをチェックする</a></li>
-  <li><a href="/blog/20210409081817.html">strrchr関数 - 文字が含まれているかを後ろから調べる</a></li>
+  <li><a href="/blog/20201217105308.html">ローカル変数</a></li>
+  <li><a href="/blog/20210315140759.html">グローバル変数</a></li>
+  <li><a href="/blog/20210311085419.html">C言語のスコープ</a></li>
 </ul>
-<h4>文字列の比較</h4>
+<h3>数値演算</h3>
 <ul>
-  <li><a href="/blog/20210413090615.html">strcmp関数 - 文字列を比較する</a></li>
-  <li><a href="/blog/20210414083246.html">strncmp関数 - 部分文字列を比較する</a></li>
+  <li><a href="/blog/20210108153045.html">整数の四則演算 - 書き始め</a></li>
+  <li><a href="/blog/20201218105336.html">浮動小数点の四則演算</a></li>
+  <li><a href="/blog/20210308101711.html">ビット演算子</a></li>
+  <li><a href="/blog/20210309085419.html">シフト演算子</a></li>
+</ul>
+<h3>配列</h3>
+<ul>
+  <li><a href="/blog/20210129143859.html">配列</a></li>
+</ul>
+<h3>条件分岐</h3>
+<ul>
+  <li><a href="/blog/20201224090954.html">if文 - 条件分岐</a></li>
+  <li><a href="/blog/20210216082204.html">比較演算子</a></li>
+  <li><a href="/blog/20201225090215.html">真偽値</a></li>
+  <li><a href="/blog/20210122133501.html">switch文 - 整数の高速な条件分岐</a></li>
+</ul>
+<h3>繰り返し文</h3>
+<ul>
+  <li><a href="/blog/20210115151850.html">for文 - 繰り返しの構文</a></li>
+  <li><a href="/blog/20210119082326.html">while文 - 繰り返しの構文</a></li>
+  <li><a href="/blog/20210126140655.html">continue文 - 次のループの先頭へ移動</a></li>
+  <li><a href="/blog/20210128140803.html">break文 - ループブロックあるいはswitchブロックから抜ける</a></li>
+</ul>
+<h3>文字列</h3>
+<ul>
+  <li><a href="/blog/20210331101342.html">文字列</a></li>
+  <li><a href="/blog/20210429092832.html">文字リテラル</a></li>
+  <li><a href="/blog/20210506133345.html">文字列リテラル</a></li>
+</ul>
+<h3>構造体</h3>
+<ul>
+  <li><a href="/blog/20210208155548.html">構造体 - 複合データ型</a></li>
+  <li><a href="/blog/20210206155548.html">共用体 - データの共用</a></li>
+</ul>
+<h3>列挙型</h3>
+<ul>
+  <li><a href="/blog/20210120133501.html">enum - 列挙型</a></li>
+</ul>
+<h3>ポインタとアドレス</h3>
+<ul>
+  <li><a href="/blog/20210211090234.html">ポインタとアドレス</a></li>
+  <li><a href="/blog/20210205090234.html">ポインタ演算</a></li>
+</ul>
+<h3>メモリの動的確保</h3>
+<ul>
+  <li><a href="/blog/20210325082708.html">動的にメモリを確保する</a></li>
+  <li><a href="/blog/20210207155548.html">sizeof演算子</a></li>
+</ul>
+<h3>型</h3>
+<ul>
+  <li><a href="/blog/20210217081559.html">型キャスト</a></li>
+  <li><a href="/blog/20210218081559.html">暗黙の型変換</a></li>
+  <li><a href="/blog/20210222132505.html">C言語の型変換規則</a></li>
+  <li><a href="/blog/20210204153019.html">typedef文 - 型の別名を作成する</a></li>
+  <li><a href="/types.html">型の一覧</a></li>
+</ul>
+<h3>関数</h3>
+<ul>
+  <li><a href="/blog/20210214090234.html">関数の定義</a></li>
+</ul>
+<h3>ライブラリ</h3>
+<ul>
+  <li><a href="/blog/20201213140830.html">ヘッダファイルの読み込み</a></li>
+  <li><a href="/library.html">ライブラリの一覧</a></li>
+</ul>
+<h3>プロプロセッサ</h3>
+<ul>
+  <li><a href="/preprocessor.html">プロプロセッサ</a></li>
 </ul>
 
   </div>
