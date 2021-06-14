@@ -104,10 +104,6 @@ int main(void) {
     fputc(ch, stdout);
   }
   
-  // ファイルに書き込む
-  const char* message = "Hello";
-  fprintf(in_fp, "%s\n", message);
-  
   // fclose関数でファイルを閉じる
   fclose(in_fp);
 }

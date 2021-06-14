@@ -8,11 +8,11 @@
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
 <title>ファイル入出力(書き始め) - C99対応のC言語入門</title>
-<meta name="description" content="C言語のファイル入出力の入門的な解説です。ファイル入出力の方法には、一文字づつを読み書きする方法や、数バイトづつ読み書きする方法、行を読み書きする方法、ファイル全体を読み書きする方法などがありますが。">
+<meta name="description" content="C言語のファイル入出力の入門的な解説です。ファイル入出力の方法には、一文字づつを読み書きする方法や、数バイトづつ読み書きする方法、ファイル全体を読み書きする方法を紹介します。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
 <meta name="twitter:title" content="ファイル入出力(書き始め) - C99対応のC言語入門" />
-<meta name="twitter:description" content="C言語のファイル入出力の入門的な解説です。ファイル入出力の方法には、一文字づつを読み書きする方法や、数バイトづつ読み書きする方法、行を読み書きする方法、ファイル全体を読み書きする方法などがありますが。" />
+<meta name="twitter:description" content="C言語のファイル入出力の入門的な解説です。ファイル入出力の方法には、一文字づつを読み書きする方法や、数バイトづつ読み書きする方法、ファイル全体を読み書きする方法を紹介します。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -38,14 +38,237 @@
   <div class="middle">
     <h2><a href="/blog/20210610083840.html">ファイル入出力(書き始め)</a></h2>
 <p>
-  C言語のファイル入出力の入門的な解説です。ファイル入出力の方法には、一文字づつを読み書きする方法や、数バイトづつ読み書きする方法、行を読み書きする方法、ファイル全体を読み書きする方法などがありますが。
+  C言語のファイル入出力の入門的な解説です。ファイル入出力の方法には、一文字づつを読み書きする方法や、数バイトづつ読み書きする方法、ファイル全体を読み書きする方法を紹介します。
 </p>
 <p>
-  ここでは、ファイル全体を読み込んで、ファイル全体を書き出す方法について解説します。メモリ容量も大きな現在(書いた年は2021年)、この方法を覚えておけば、なんとかなることが多いと思われます。
+  C言語は、行の読み書きが難しいので、簡単にやりたい場合は、テキスト処理が得意なプログラミング言語を使うのもひとつの手ですね。
+</p>
+<h3>ファイルをオープンする</h3>
+<p>
+  ファイル入出力するためには、まず最初にファイルをオープンする必要があります。
 </p>
 <p>
-  行の読み書きを簡単にやりたい場合は、テキスト処理が得意なプログラミング言語を使うのもひとつの手ですね。ファイル入出力の発展として、ソケット入出力を行う場合は、数バイトづつ読み書きする方法を知る必要があります。
+  <a href="/blog/20210513075631.html">fopen関数</a>を使うと、ファイルを開くことができます。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
 </p>
+<pre>
+FILE* fopen(const char *file_name, const char *mode);
+</pre>
+<p>
+  第一引数は、開きたいファイルのファイル名です。第二引数は、モードです。ファイルオープンに成功すると、ファイルストリームを表現する「FILE*型」の値が返されます。
+</p>
+<h4>モードの一覧</h4>
+<p>
+  モードの一覧です。
+</p>
+<table>
+  <tr><th>モード</th><th>動作</th></tr>
+  <tr><td>r</td><td>読み込み(ファイルがないときはエラー)</td></tr>
+  <tr><td>w</td><td>書き込み(ファイルがないときは新規作成)</td></tr>
+  <tr><td>a</td><td>追加書き込み(ファイルがないときは新規作成)</td></tr>
+  <tr><td>r+</td><td>読み込みと書き込み(ファイルがないときはエラー)</td></tr>
+  <tr><td>w+</td><td>読み込みと書き込み(ファイルがないときは新規作成)</td></tr>
+  <tr><td>a+</td><td>読み込みと追加書き込み(ファイルがないときは新規作成)</td></tr>
+</table>
+<p>
+  書き込みは、ファイルの内容がクリアされ、新しい内容で書き込むことを意味します。追加書き込みは、ファイルの末尾に追加して、書き込むことを意味します。
+</p>
+<p>
+  上記のモードはバイナリモードを意味する「b」と組み合わせることができます。
+</p>
+<pre>
+br
+bw
+</pre>
+<p>
+  デフォルトの動作は、テキストモードオープンされ、Windowsの場合にはファイルに含まれる改行文字である「CR」「LF」の並びが「\n」に置き換えられます。
+</p>
+<p>
+  バイナリモードでは、このような置き換えはされません。
+</p>
+<h3>ファイルをクローズする</h3>
+<p>
+  ファイル入出力が終わったら、ファイルを閉じる必要があります。
+</p>
+<p>
+  <a href="/blog/20210509093506.html">fclose関数</a>でファイルを閉じることができます。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
+</p>
+<pre>
+int fclose(FILE* fp);
+</pre>
+<p>
+  引数は閉じたいファイルのファイルストリームです。ファイルクローズが、成功した場合は0、エラーの場合はEOFを返します。ファイルをクローズすると、バッファは、フラッシュされます。バッファとは、書き込みデータを一時的に保存している、メモリ領域のことです。フラッシュとは、バッファのデータを、書き出すことを言います。
+</p>
+<h3>ファイルから一文字読み込む</h3>
+<p>
+  ファイルから一文字読み込むには、<a href="/blog/20210519082217.html">fgetc関数</a>を使います。
+</p>
+<p>
+  fgetc関数は、ファイルから1文字読み込む関数です。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+int fgetc(FILE *fp);
+</pre>
+<p>
+  ファイルストリームから1文字読み込み、読み込んだ文字を返します。ファイルの最後に到達した場合は、EOFが返ります。
+</p>
+<h3>ファイルから一文字づつ読み込む</3>
+<p>
+  ファイルから1文字づつ読み込むサンプルです。fgetc関数のサンプルです。<a href="/blog/20210513075631.html">fopen関数</a>で読み込みモードでファイルを開き、<a href="/blog/20210519082217.html">fgetc関数</a>で1文字づつ読み込み、標準出力に出力し、<a href="/blog/20210509093506.html">fclose関数</a>でファイルを閉じています。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // ファイルを読み込みモードで開く
+  const char* in_file = "input.txt";
+  FILE* in_fp = fopen(in_file, "r");
+  if (in_fp == NULL) {
+    fprintf(stderr, "Can't open file %s\n", in_file);
+    exit(1);
+  }
+  
+  // 読み込んで、標準出力に出力
+  int32_t ch;
+  while(ch = fgetc(in_fp)) {
+    // EOFが返ってきた場合
+    if (ch == EOF) {
+      // ファイルの末尾かチェックする
+      if (feof(in_fp)) {
+        break;
+      }
+    }
+    fputc(ch, stdout);
+  }
+  
+  // fclose関数でファイルを閉じる
+  fclose(in_fp);
+}
+</pre>
+<p>
+  入力ファイル「input.txt」です。
+</p>
+<pre>
+Hello
+World!
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+World!
+</pre>
+<h3>ファイルに書き出す</h3>
+<p>
+  上記のサンプルの出力先を「output.txt」にしてみましょう。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // ファイルを読み込みモードで開く
+  const char* in_file = "input.txt";
+  FILE* in_fp = fopen(in_file, "r");
+  if (in_fp == NULL) {
+    fprintf(stderr, "Can't open file %s\n", in_file);
+    exit(1);
+  }
+
+  // ファイルを書き込みモードで開く
+  const char* out_file = "output.txt";
+  FILE* out_fp = fopen(out_file, "w");
+  if (out_fp == NULL) {
+    fprintf(stderr, "Can't open file %s\n", out_file);
+    exit(1);
+  }
+  
+  // 読み込んで、ファイルにに出力
+  int32_t ch;
+  while(ch = fgetc(in_fp)) {
+    // EOFが返ってきた場合
+    if (ch == EOF) {
+      // ファイルの末尾かチェックする
+      if (feof(in_fp)) {
+        break;
+      }
+    }
+    fputc(ch, out_fp);
+  }
+  
+  // fclose関数でファイルを閉じる
+  fclose(in_fp);
+  fclose(out_fp);
+}
+</pre>
+<h3>数バイト単位で読み書きする</h3>
+<p>
+  数バイト単位で読み書きするサンプルです。
+</p>
+<h3>ファイル全体を読み込む</h3>
+<p>
+  fread関数でファイル全体を読み込むサンプルです。<a href="/blog/20210526085256.html">ftell関数</a>と<a href="/blog/20210525075439.html">fseek関数</a>を使って、ファイルのサイズを取得して、<a href="/blog/20210209082644.html">calloc関数</a>でメモリを確保し、ファイル全体を読み込んでいます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  // ファイルを開く
+  const char* in_file = "input.txt";
+  FILE* in_fp = fopen(in_file, "r");
+  if (in_fp == NULL) {
+    fprintf(stderr, "Can't open file %s at %s line %d\n", in_file, __FILE__, __LINE__);
+    exit(1);
+  }
+  
+  // ファイルの末尾に位置指定子を移動
+  fseek(in_fp, 0, SEEK_END);
+  
+  // ファイルの末尾の位置を取得。これは、ファイサイズになります。
+  size_t file_size = (int32_t)ftell(in_fp);
+  
+  // ファイルサイズを取得
+  char* buffer = calloc(file_size + 1, sizeof(char));
+
+  // ファイルの先頭に位置指定子を移動
+  fseek(in_fp, 0, SEEK_SET);
+  
+  // ファイルを読み込み
+  size_t read_count = fread(buffer, sizeof(char), file_size, in_fp);
+  if (read_count != file_size) {
+    fprintf(stderr, "Can't read file %s at %s line %d\n", in_file, __FILE__, __LINE__);
+    exit(1);
+  }
+  
+  // ファイルの内容を確認
+  printf("%s\n", buffer);
+  
+  // ファイルを閉じる
+  fclose(in_fp);
+}
+</pre>
+<p>
+  入力ファイルです。
+</p>
+<pre>
+Hello
+World!
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+World!
+</pre>
 
   </div>
   <div class="bottom">
