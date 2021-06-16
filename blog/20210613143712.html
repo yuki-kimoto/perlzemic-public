@@ -7,12 +7,12 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
-<title>stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門</title>
-<meta name="description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。">
+<title>fwrite関数 - バイト数を指定してファイルへ書き込み - C99対応のC言語入門</title>
+<meta name="description" content="fwrite関数を使うと、バイト数を指定してファイルへ書き込むことができます。stdio.hヘッダを書き込むと使えます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="stdio.hヘッダー - 標準入出力の関数など - C99対応のC言語入門" />
-<meta name="twitter:description" content="stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。" />
+<meta name="twitter:title" content="fwrite関数 - バイト数を指定してファイルへ書き込み - C99対応のC言語入門" />
+<meta name="twitter:description" content="fwrite関数を使うと、バイト数を指定してファイルへ書き込むことができます。stdio.hヘッダを書き込むと使えます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -50,42 +50,93 @@
       </a>
       <meta itemprop="position" content="2" />
     </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/library/stdio.html">
+        <span itemprop="name">stdio.h</span>
+      </a>
+      <meta itemprop="position" content="3" />
+    </li>
     <li>
       here
     </li>
   </ul>
 </div>
-<h2><a href="/library/stdio.html">stdio.hヘッダー - 標準入出力の関数など</a></h2>
+<h2><a href="/blog/20210613143712.html">fwrite関数 - バイト数を指定してファイルへ書き込み</a></h2>
 <p>
-  stdio.hヘッダは、標準入出力の関数などが含まれているヘッダです。
+  <b>fwrite関数</b>を使うと、バイト数を指定してファイルへ書き込むことができます。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを書き込むと使えます。
 </p>
-<h3>文字列を出力する関数</h3>
-<ul>
-  <li><a href="/blog/20210419083246.html">printf関数</a></li>
-  <li><a href="/blog/20210510093506.html">fprintf関数</a></li>
-  <li><a href="/blog/20210517083039.html">sprintf関数</a></li>
-  <li><a href="/blog/20210518081319.html">snprintf関数</a></li>
-  <li><a href="/blog/20210601081932.html">putchar関数 - 1文字出力する</a></li>
-</ul>
-<h3>標準入出力</h3>
-<ul>
-  <li><a href="/blog/20210512083754.html">stdout - 標準出力ストリームを意味するFILE構造体へのポインタ</a></li>
-  <li><a href="/blog/20210511083754.html">stderr - 標準エラーストリームを意味するFILE構造体へのポインタ</a></li>
-</ul>
-<h3>ファイル入出力</h3>
-<ul>
-  <li><a href="/blog/20210513075631.html">fopen関数 - ファイルを開く</a></li>
-  <li><a href="/blog/20210509093506.html">fclose関数 - ファイルを閉じる</a></li>
-  <li><a href="/blog/20210519082217.html">fgetc関数 - ファイルから1文字読み込む</a></li>
-  <li><a href="/blog/20210516083039.html">getc関数 - ファイルから1文字読み込む</a></li>
-  <li><a href="/blog/20210614143712.html">fputc関数 - ファイルストリームに1文字書き込む</a></li>
-  <li><a href="/blog/20210520080906.html">fread関数 - バイト数を指定してファイルから読み込み</a></li>
-  <li><a href="/blog/20210613143712.html">fwrite関数 - バイト数を指定してファイルへ書き込み</a></li>
-  <li><a href="/blog/20210521083859.html">EOF - ファイルの末尾を表す定数</a></li>
-  <li><a href="/blog/20210524090409.html">feof関数 - ファイルの末尾かチェックする</a></li>
-  <li><a href="/blog/20210525075439.html">fseek関数 - ファイルストリームの位置指定子の位置を設定</a></li>
-  <li><a href="/blog/20210526085256.html">ftell関数 - ファイルストリームの位置指定子の位置を取得</a></li>
-</ul>
+<pre>
+#include &lt;stdio.h&gt;
+size_t fwrite(const void *buf, size_t size, size_t n, FILE *fp);
+</pre>
+<p>
+  第一引数は、書き込みたい内容が含まれたバッファです。第二引数は、書き込むデータのバイトの単位です。第三引数は、書き込むデータの個数です。実際に書き込まれるバイトサイズは「size * n」になります。第四引数は、書き込みたいファイルのファイルストリームです。
+</p>
+<p>
+  戻り値は、書き込んだデータの個数です。第三引数で指定したデータの個数に対応しています。バイトサイズではないので注意してください。書き込みエラーが発生した場合、戻り値は、第三引数で指定したデータの個数より小さくなります。
+</p>
+<h3>fwrite関数で書き込むサンプル</h3>
+<p>
+  fwrite関数で書き込むサンプルです。<a href="/blog/20210513075631.html">fopen関数</a>でファイルを開き、<a href="/blog/20210520080906.html">fread関数</a>で、4バイトずつ読み込み、fwrite関数で4バイトづつファイルに書き込み、<a href="/blog/20210509093506.html">fclose関数</a>でファイルを閉じています。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  
+  // ファイルを読み込みモードで開く
+  const char* in_file = "input.txt";
+  FILE* in_fp = fopen(in_file, "r");
+  if (in_fp == NULL) {
+    fprintf(stderr, "Can't open file %s\n", in_file);
+    exit(1);
+  }
+
+  // ファイルを書き込みモードで開く
+  const char* out_file = "output.txt";
+  FILE* out_fp = fopen(out_file, "w");
+  if (out_fp == NULL) {
+    fprintf(stderr, "Can't open file %s\n", out_file);
+    exit(1);
+  }
+
+  // 読み込んで、他のファイルに出力
+  while(1) {
+    
+    // 4バイトづつ読み込み
+    char buffer[16];
+    int32_t read_unit = 1;
+    int32_t read_count = 4;
+    size_t real_read_count = fread(buffer, read_unit, read_count, in_fp);
+    
+    // 4バイトづつ書き込み
+    fwrite(buffer, read_unit, real_read_count, out_fp);
+    
+    if (real_read_count &lt; read_count) {
+      break;
+    }
+  }
+  
+  // fclose関数でファイルを閉じる
+  fclose(in_fp);
+}
+</pre>
+<p>
+  入力ファイル「input.txt」です。
+</p>
+<pre>
+Hello
+World!
+</pre>
+<p>
+  出力ファイル「input.txt」です。
+</p>
+<pre>
+Hello
+World!
+</pre>
 
   </div>
   <div class="bottom">
