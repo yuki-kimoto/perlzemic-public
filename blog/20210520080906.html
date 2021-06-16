@@ -160,7 +160,7 @@ int main(void) {
   // ファイルの末尾の位置を取得。これは、ファイサイズになります。
   size_t file_size = (int32_t)ftell(in_fp);
   
-  // ファイルサイズを取得
+  // メモリ確保
   char* buffer = calloc(file_size + 1, sizeof(char));
 
   // ファイルの先頭に位置指定子を移動
