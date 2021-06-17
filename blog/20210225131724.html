@@ -7,6 +7,26 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
 <title>intptr_t - ポインタ型のサイズの符号あり整数型 - C99対応のC言語入門</title>
 <meta name="description" content="intptr_tは、ポインタ型のサイズを持つ符号あり整数型です。たとえば、ポインタ型が32bitで表現される処理系であれば、32bit符号あり整数型、ポインタ型が64bitで表現される処理系であれば、64bit符号あり整数型として定義されます。intptr_tは、C99で導入されました。">
 <meta name="twitter:card" content="summary_large_image" />
@@ -149,7 +169,7 @@ int main(void) {
 
 <div class="perlri_link">
   <a href="http://www.perlri.com">
-    Copyright © Perl総合研究所
+    Copyright © Perl元気塾
   </a>
 </div>
 

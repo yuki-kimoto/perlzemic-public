@@ -7,6 +7,26 @@
 <link rel="icon" type="image/x-icon" href="/images/giblog-logo.png">
 <link rel="stylesheet" type="text/css" href="/css/common.css">
 
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
 <title>C99対応のC言語入門</title>
 <meta name="description" content="C99規格に対応したC言語入門です。C言語入門の多くは、1999年に策定されたC99以前の内容をベースにした入門コンテンツであるため、新たにC99規格に対応したC言語入門を書きます。C99は「//」によるコメント、forで変数宣言と初期化が同時に行える構文、整数幅を指定できる整数型、複素数の数学関数など、実用的な機能が追加されたC言語仕様のバージョンです。">
 <meta name="twitter:card" content="summary_large_image" />
@@ -163,7 +183,7 @@
 
 <div class="perlri_link">
   <a href="http://www.perlri.com">
-    Copyright © Perl総合研究所
+    Copyright © Perl元気塾
   </a>
 </div>
 
