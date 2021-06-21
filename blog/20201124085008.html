@@ -28,11 +28,11 @@
 </script>
 
 <title>C言語の開発環境の構築 - C99対応のC言語入門</title>
-<meta name="description" content="C言語の開発環境の構築は以下のコンテンツを参考にできます。">
+<meta name="description" content="C言語の開発環境の構築方法を解説します。gccコマンドが使えるようになれば、C言語をコンパイルして実行できるようになります。gccコマンドは、UNIX/Linux上でC言語をコンパイルする方法ですが、現在(2021年6月21日記述)では、MacやWindowsにも移植され利用できます。初心者向けの他のサイトでは、C言語の開発環境構築は、難しいと書かれているのを見たことがありますが、簡単な方だと思います。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
 <meta name="twitter:title" content="C言語の開発環境の構築 - C99対応のC言語入門" />
-<meta name="twitter:description" content="C言語の開発環境の構築は以下のコンテンツを参考にできます。" />
+<meta name="twitter:description" content="C言語の開発環境の構築方法を解説します。gccコマンドが使えるようになれば、C言語をコンパイルして実行できるようになります。gccコマンドは、UNIX/Linux上でC言語をコンパイルする方法ですが、現在(2021年6月21日記述)では、MacやWindowsにも移植され利用できます。初心者向けの他のサイトでは、C言語の開発環境構築は、難しいと書かれているのを見たことがありますが、簡単な方だと思います。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -58,25 +58,52 @@
   <div class="middle">
     <h2><a href="/blog/20201124085008.html">C言語の開発環境の構築</a></h2>
 <p>
-  C言語の開発環境の構築は以下のコンテンツを参考にできます。
+  C言語の開発環境の構築方法を解説します。<a href="https://linux.perlzemi.com/blog/20201216103956.html">gccコマンド</a>が使えるようになれば、C言語をコンパイルして実行できるようになります。gccコマンドは、UNIX/Linux上でC言語をコンパイルする方法ですが、現在(2021年6月21日記述)では、MacやWindowsにも移植され利用できます。初心者向けの他のサイトでは、C言語の開発環境構築は、難しいと書かれているのを見たことがありますが、簡単な方だと思います。
+</p>
+<h3>WindowsにおけるC言語の開発環境の開発環境の構築</h3>
+<p>
+  Windowsであれば「MinGWを使う方法」「<a href="https://tutorial.perlzemi.com/blog/20180806153350.html">msys2を使う方法</a>」「WSL2を使ってLinux環境を作る方法」などがあります。
+</p>
+<h4>MinGW</h4>
+<p>
+  MinGWは、個別にダウンロードしてインストールすることが可能ですが、Strawberry Perlをインストールすると付属しているので、<a href="https://tutorial.perlzemi.com/blog/20180808153368.html">Strawberry Perlをインストール</a>してみるのも一つの方法です。これが一番簡単です。
+</p>
+<h4>msys2</h4>
+<p>
+  <a href="https://tutorial.perlzemi.com/blog/20180806153350.html">msys2を使う方法</a>では、Perlの開発環境の構築の手順が終われば、自然とC言語の開発環境の手順が完成しています。
+</p>
+<h4>WSL2</h4>
+<p>
+  WSL2を使う方法は、Ubuntuをインストールするのが、自然な流れになると思いますので、WSL2のインストール後は、<a href="https://www.ubuntu-perl-web.com/blog/20201123133738.html">UbuntuでC言語/C++開発環境構築</a>を参考にしてください。
+</p>
+<h3>MacにおけるC言語の開発環境の開発環境の構築</h3>
+<p>
+  Macでは、Command line tools for Xcodeをインストールするとgccコマンドが利用できるようになります。Macのgccコマンドは、clangのラッパーです。
+</p>
+<ul>
+  <li><a href="https://www.embarcadero.com/starthere/xe5/mobdevsetup/ios/ja/installing_the_commandline_tools.html">Mac での Xcode コマンド ライン ツールのインストール</a></li>
+</ul>
+<h3>UNIX/LinuxでのC言語の開発環境の構築</h3>
+<p>
+  <a href="https://linux.perlzemi.com/">Unix/Linux</a>で、C言語の開発環境を構築しましょう。
+</p>
+<p>
+  ディストリビューションで用意されているパッケージをインストールするコマンド(yumやapt)を使ってgccをインストールできます。
+</p>
+<p>
+  UbuntuにおけるC言語開発環境であれば、以下のコンテンツを参考にできます。
 </p>
 <ul>
   <li><a href="https://www.ubuntu-perl-web.com/blog/20201123133738.html">UbuntuでC言語/C++開発環境構築</a></li>
 </ul>
 <p>
-  現在解説している方法は、Ubuntu上でC言語開発環境を作る方法だけですが、Debian、CentOS, FreeBSDなどの他の<a href="https://linux.perlzemi.com/">Unix/Linux</a>の環境でも、同じようにできます。
+  Ubuntuにおけるgccのインストールのサンプル。
 </p>
+<pre>
+sudo apt install -y gcc
+</pre>
 <p>
-  Windowsであれば「MinGWを使う方法」「<a href="https://tutorial.perlzemi.com/blog/20180806153350.html">msys2を使う方法</a>」「WSL2を使ってLinux環境を作る方法」などがあります。
-</p>
-<p>
-  MinGWは、個別にダウンロードしてインストールすることが可能ですが、Strawberry Perlをインストールすると付属しているので、<a href="https://tutorial.perlzemi.com/blog/20180808153368.html">Strawberry Perlをインストール</a>してみるのも一つの方法です。
-</p>
-<p>
-  msys2を使う方法は、Perlの開発環境の構築の手順が終われば、自然とC言語の開発環境の手順が完成しています。
-</p>
-<p>
-  WSL2を使う方法は、Ubuntuをインストールするのが、自然な流れになると思いますので、WSL2のインストール後は、<a href="https://www.ubuntu-perl-web.com/blog/20201123133738.html">UbuntuでC言語/C++開発環境構築</a>を参考にしてください。
+  Debian、CentOS, FreeBSDなどの他の<a href="https://linux.perlzemi.com/">Unix/Linux</a>の環境でも、ディストリビューションで用意されているパッケージをインストールするコマンド(yumやapt)を使って、同じようにできます。
 </p>
 
   </div>
