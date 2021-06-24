@@ -27,11 +27,11 @@
   });
 </script>
 
-<title>分割コンパイル手法の解説(書き始め) - C99対応のC言語入門</title>
+<title>分割コンパイル手法の解説 - C99対応のC言語入門</title>
 <meta name="description" content="C言語の分割コンパイル手法を解説します。コンパイラにはgccを使用します。実務で十分に使える分割コンパイル手法です。分割コンパイル手法とは、ここでは、アプリケーションのソースファイル、ライブラリのヘッダファイル、ライブラリのソースファイルに分けて記述し、それらをコンパイルし、リンクして実行ファイルを生成する手法のことをいいます。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="分割コンパイル手法の解説(書き始め) - C99対応のC言語入門" />
+<meta name="twitter:title" content="分割コンパイル手法の解説 - C99対応のC言語入門" />
 <meta name="twitter:description" content="C言語の分割コンパイル手法を解説します。コンパイラにはgccを使用します。実務で十分に使える分割コンパイル手法です。分割コンパイル手法とは、ここでは、アプリケーションのソースファイル、ライブラリのヘッダファイル、ライブラリのソースファイルに分けて記述し、それらをコンパイルし、リンクして実行ファイルを生成する手法のことをいいます。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
@@ -56,7 +56,7 @@
 
   </div>
   <div class="middle">
-    <h2><a href="/blog/20210622081112.html">分割コンパイル手法の解説(書き始め)</a></h2>
+    <h2><a href="/blog/20210622081112.html">分割コンパイル手法の解説</a></h2>
 <p>
   C言語の分割コンパイル手法を解説します。コンパイラには<a href="https://linux.perlzemi.com/blog/20201216103956.html">gcc</a>を使用します。実務で十分に使える分割コンパイル手法です。分割コンパイル手法とは、ここでは、アプリケーションのソースファイル、ライブラリのヘッダファイル、ライブラリのソースファイルに分けて記述し、それらを<a href="/blog/20201214140830.html">コンパイル</a>し、<a href="/blog/20201215105104.html">リンクして実行ファイルを生成</a>する手法のことをいいます。
 </p>
@@ -107,6 +107,138 @@
 <p>
   3.上記で生成したすべてのオブジェクトファイルをリンクして、実行ファイルを生成する。
 </p>
+<p>
+  ヘッダファイルは「include」というディレクトリの中に格納することにします。アプリケーションのソースファイルとライブラリのソースファイルは「src」というディレクトリの中に格納することにします。ヘッダファイルでは、<a href="/blog/20210201153503.html">インクルードガード</a>を行います。
+</p>
+<h3>分割コンパイルのサンプル</h3>
+<p>
+  分割コンパイルのサンプルです。
+</p>
+<h4>アプリケーションのソースファイル</h4>
+<p>
+  アプリケーションのソースファイル「myapp.c」です。
+</p>
+<p>
+  <b>myapp.c</b>
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+#include "mylib1.h"
+#include "mylib2.h"
+
+int main(void) {
+  
+  mylib1_print();
+  mylib2_print();
+}
+</pre>
+<h4>ライブラリのヘッダファイル</h4>
+<p>
+  ライブラリのヘッダファイル「mylib1.h」と「mylib2.h」です。
+</p>
+<p>
+  <b>mylib1.h</b>
+</p>
+<pre>
+#ifndef MYLIB1_H
+#define MYLIB1_H
+
+void mylib1_print (void);
+
+#endif
+</pre>
+<p>
+  <b>mylib2.h</b>
+</p>
+<pre>
+#ifndef MYLIB2_H
+#define MYLIB2_H
+
+void mylib2_print (void);
+
+#endif
+</pre>
+<h4>ライブラリのソースファイル</h4>
+<p>
+  ライブラリのソースファイル「mylib1.c」と「mylib2.c」です。
+</p>
+<p>
+  <b>mylib1.c</b>
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+#include "mylib1.h"
+
+void mylib1_print (void) {
+  printf("mylib1_print\n");
+}
+</pre>
+<p>
+  <b>mylib2.c</b>
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+#include "mylib2.h"
+
+void mylib2_print (void) {
+  printf("mylib2_print\n");
+}
+</pre>
+<h4>コンパイル</h4>
+<p>
+  アプリケーションのソースファイルと、ライブラリファイルを、それぞれ<a href="/blog/20201214140830.html">コンパイルし</a>ます。ヘッダファイルの場所をオプション「-I」で指定します。
+</p>
+<pre>
+gcc -Iinclude -c -o myapp.o src/myapp.c
+gcc -Iinclude -c -o mylib1.o src/mylib1.c
+gcc -Iinclude -c -o mylib2.o src/mylib2.c
+</pre>
+<p>
+  コンパイルされるとオブジェクトファイルになります。オブジェクトファイルは機械語になっていますが、まだ実行ファイルではありません。
+</p>
+<h4>リンク - 実行ファイルの作成</h4>
+<p>
+  <a href="/blog/20201215105104.html">リンク</a>して実行ファイルを作成します。関数名などのシンボルが、実体に結びつけられます。
+</p>
+<pre>
+gcc -o myapp myapp.o mylib1.o mylib2.o
+</pre>
+<h4>実行</h4>
+<p>
+  実行ファイルを<a href="/blog/20201216101527.html">実行</a>してみましょう。
+</p>
+<pre>
+./myapp
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+mylib1_print
+mylib2_print
+</pre>
+<p>
+  これで、C言語の分割コンパイル手法をマスターできました。ライブラリファイルが増えても同じです。
+</p>
+<p>
+  今回の例では、ヘッダには関数のプロトタイプ宣言、ソースファイルには関数定義しか行っていませんが、大事なことは、ヘッダに何を定義すべきかを、きっちり理解することです。
+</p>
+<p>
+  ヘッダファイルでは、<a href="/blog/20210208155548.html">構造体定義</a>、<a href="/blog/20210204153019.html">typedef文</a>、<a href="/blog/20210120133501.html">列挙型</a>、<a href="/blog/20210302083009.html">定数マクロ</a>、<a href="/blog/20210124140655.html">関数マクロ</a>、関数のプロトタイプ宣言を行います。
+</p>
+<p>
+  ソースファイルでは、<a href="/blog/20210214090234.html">関数定義</a>を行います。
+</p>
+<h3>オブジェクト指向C言語</h3>
+<p>
+  分割コンパイルの応用としてオブジェクト指向C言語も紹介しています。
+</p>
+<ul>
+  <li><a href="/blog/20210212090234.html">オブジェクト指向C言語</a></li>
+</ul>
 
   </div>
   <div class="bottom">
