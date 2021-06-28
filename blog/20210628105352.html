@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/c_logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<title>共有ライブラリの作成と利用方法 - C99対応のC言語入門</title>
+<meta name="description" content="Unix/Linuxにおける共有ライブラリの作成と利用方法を解説します。この記事は、分割コンパイル手法を理解していることが前提です。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="共有ライブラリの作成と利用方法 - C99対応のC言語入門" />
+<meta name="twitter:description" content="Unix/Linuxにおける共有ライブラリの作成と利用方法を解説します。この記事は、分割コンパイル手法を理解していることが前提です。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210628105352.html">共有ライブラリの作成と利用方法</a></h2>
+<p>
+  Unix/Linuxにおける共有ライブラリの作成と利用方法を解説します。この記事は、<a href="/blog/20210622081112.html">分割コンパイル手法</a>を理解していることが前提です。
+</p>
+<h3>共有ライブラリとは</h3>
+<p>
+  共有ライブラリとは、実行ファイル生成時に、静的にリンクせず、実行時に、リンク可能なオブジェクトファイルのことです。共有ライブラリは、リンク時にリンクすることが可能で、かつ、実行時に読み込むこともできます。拡張子は「.so」です。
+</p>
+<p>
+  ここで解説する、共有ライブラリは、UNIX/Linuxの仕組みであって、MacやWindowsの仕組みではないことに注意してください。Macの場合は、拡張子が異なります。Windowsには、DLL(ダイナミックリンクライブラリ)という似た仕組みがありますが、UNIX/Linuxの共有ライブラリとは異なります。
+</p>
+<h3>共有ライブラリの作成方法</h3>
+<p>
+  共有ライブラリを作成するには「-shared」オプションを指定します。一般的には、「-fPIC」を指定して<a href="https://ja.wikipedia.org/wiki/%E4%BD%8D%E7%BD%AE%E7%8B%AC%E7%AB%8B%E3%82%B3%E3%83%BC%E3%83%89">位置独立コード</a>として作成します。
+</p>
+<p>
+  オブジェクトファイル生成する手順に、「-shared」と「-fPIC」オプションを追加して、以下のようにします。
+</p>
+<pre>
+# 通常のコンパイル - オブジェクトファイルの作成
+gcc -Iinclude -c -o mylib1.o src/mylib1.c
+
+# 共有ライブラリの作成
+gcc -Iinclude -c -shared -fPIC -o mylib1.so src/mylib1.c
+</pre>
+<h3>共有ライブラリを作成してリンクする</h3>
+<p>
+  この手順は<a href="/blog/20210622081112.html">分割コンパイル手法</a>で使った手順を流用できます。ライブラリを共有ライブラリとして作成します。
+</p>
+<h4>アプリケーションのソースファイル</h4>
+<p>
+  アプリケーションのソースファイル「myapp.c」です。
+</p>
+<p>
+  <b>myapp.c</b>
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+#include "mylib1.h"
+#include "mylib2.h"
+
+int main(void) {
+  
+  mylib1_print();
+  mylib2_print();
+}
+</pre>
+<h4>ライブラリのヘッダファイル</h4>
+<p>
+  ライブラリのヘッダファイル「mylib1.h」と「mylib2.h」です。
+</p>
+<p>
+  <b>mylib1.h</b>
+</p>
+<pre>
+#ifndef MYLIB1_H
+#define MYLIB1_H
+
+void mylib1_print (void);
+
+#endif
+</pre>
+<p>
+  <b>mylib2.h</b>
+</p>
+<pre>
+#ifndef MYLIB2_H
+#define MYLIB2_H
+
+void mylib2_print (void);
+
+#endif
+</pre>
+<h4>ライブラリのソースファイル</h4>
+<p>
+  ライブラリのソースファイル「mylib1.c」と「mylib2.c」です。
+</p>
+<p>
+  <b>mylib1.c</b>
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+#include "mylib1.h"
+
+void mylib1_print (void) {
+  printf("mylib1_print\n");
+}
+</pre>
+<p>
+  <b>mylib2.c</b>
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+#include "mylib2.h"
+
+void mylib2_print (void) {
+  printf("mylib2_print\n");
+}
+</pre>
+<h4>コンパイル</h4>
+<p>
+  アプリケーションのソースファイルと、共有ライブラリのソースファイルを、それぞれ<a href="/blog/20201214140830.html">コンパイルし</a>ます。ヘッダファイルの場所をオプション「-I」で指定します。「-shared」と「-fPIC」オプションを使って、共有ライブラリを作成します。
+</p>
+<pre>
+gcc -Iinclude -c -o myapp.o src/myapp.c
+gcc -Iinclude -c -shared -fPIC -o mylib1.so src/mylib1.c
+gcc -Iinclude -c -shared -fPIC -o mylib2.so src/mylib2.c
+</pre>
+<h4>リンク - 実行ファイルの作成</h4>
+<p>
+  <a href="/blog/20201215105104.html">リンク</a>して実行ファイルを作成します。関数名などのシンボルが、実体に結びつけられます。
+</p>
+<pre>
+gcc -o myapp myapp.o mylib1.so mylib2.so
+</pre>
+<h4>実行</h4>
+<p>
+  実行ファイルを<a href="/blog/20201216101527.html">実行</a>してみましょう。
+</p>
+<pre>
+./myapp
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+mylib1_print
+mylib2_print
+</pre>
+<p>
+  共有ライブラリを作成して、実行ファイルを作成するときに、リンクする方法をマスターしました。
+</p>
+<h3>実行時に共有ライブラリを読み込んで、関数を実行するには?</h3>
+<p>
+  実行時に共有ライブラリを読み込んで、関数を実行する手順だけを公開します。
+</p>
+<p>
+  1. dlopen関数で、共有ライブラリをオープンします。
+</p>
+<p>
+  2. dlsymで関数名を指定して、関数ポインタを取得します。
+</p>
+<p>
+  3. 関数ポインタから関数を実行します。
+</p>
+<h3>共有ライブラリに含まれている関数名などのシンボルを知るには?</h3>
+<p>
+  共有ライブラリに含まれている関数名などのシンボルを知るには「nm」コマンドを使用します。「name」の略のようです。
+</p>
+<pre>
+nm mylib1.so
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+                 U _GLOBAL_OFFSET_TABLE_
+0000000000000000 T mylib1_print
+                 U puts
+</pre>
+<p>
+  nmコマンドは、共有ライブラリだけでなく、実行ファイルやオブジェクトファイルにも使えます。
+</p>
+<h3>共有ライブラリの検索</h3>
+<p>
+  共有ライブラリは、衝突を回避する仕組みを持っています。共有ライブラリは、ファイル名を直接してししなくても「-L」オプションで、共有ライブラリの検索ディレクトリを指定できます。ライブラリ名は「lib」で始まっている必要があります。
+</p>
+<p>
+  共有ライブラリの検索ディレクトリに、共有ライブラリを配置すれば、「-l」オプションで指定された、最初に見つかった共有ライブラリを利用します。「-l」オプションでは、先頭の「lib」と「.so」を省略します。
+</p>
+<p>
+  <b>共有ライブラリ</b>
+</p>
+<pre>
+/foo/lib/libmylib1.so
+</pre>
+<p>
+  <b>共有ライブラリのリンク</b>
+</p>
+<pre>
+gcc -o myapp myapp.o -L /foo/lib -l mylib1
+</pre>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl元気塾</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/syntax.html">基本文法</a></li>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl元気塾
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
