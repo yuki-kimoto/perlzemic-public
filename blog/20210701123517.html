@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/c_logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<title>makeコマンドとMakefile - 元気C言語 - C99対応のC言語入門</title>
+<meta name="description" content="makeは、ソースファイルの依存関係を定義して、コンパイルの必要のあるソースファイルだけをコンパイルするためのツールです。Makefileと呼ばれる設定ファイルを記述します。makeには、nmakeやdmakeやcmakeなどの方言がありますが、ここで紹介するmakeはGNU makeです。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="makeコマンドとMakefile - 元気C言語 - C99対応のC言語入門" />
+<meta name="twitter:description" content="makeは、ソースファイルの依存関係を定義して、コンパイルの必要のあるソースファイルだけをコンパイルするためのツールです。Makefileと呼ばれる設定ファイルを記述します。makeには、nmakeやdmakeやcmakeなどの方言がありますが、ここで紹介するmakeはGNU makeです。" />
+<meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <!-- header -->
+<div class="main">
+  <h1>
+    <a href="/">元気C言語 - C99対応のC言語入門</a>
+  </h1>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    <!-- top -->
+
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210701123517.html">makeコマンドとMakefile</a></h2>
+<p>
+  makeは、ソースファイルの依存関係を定義して、コンパイルの必要のあるソースファイルだけをコンパイルするためのツールです。Makefileと呼ばれる設定ファイルを記述します。makeには、nmakeやdmakeやcmakeなどの方言がありますが、ここで紹介するmakeはGNU makeです。
+</p>
+<h3>makeをなぜ使うのか?</h3>
+<p>
+  makeをなぜ使うのかという動機について書きます。
+</p>
+<h4>C言語のソースファイルのコンパイルを待つのが辛い</h4>
+<p>
+  makeを記述する一番の動機は、C言語のソースファイルが増え、記述量も増えてくると、C言語のソースファイルのコンパイルを待つのが辛いということです。
+</p>
+<p>
+  C言語のパフォーマンスを最大にするために「-O3」オプションを<a href="https://linux.perlzemi.com/blog/20201216103956.html">gcc</a>に与えることが多いと思います。これは、ソースファイルが大きくなってくるとコンパイルに非常に時間がかかります。
+</p>
+<p>
+  修正したファイルに依存しているものだけが、再コンパイルされると、時間の短縮になります。
+</p>
+<h4>UNIX/Linuxにおける一般的なインストール手順</h4>
+<p>
+  UNIX/Linuxにおける一般的なソフトウェアのインストール手順は、次のように定型化されています。「./configure」などのコマンドで、OSの設定を調べて、Makefileを生成します。生成されたMakefileをmakeで実行して、コンパイルを行い「make install」で、ソフトウェアを配置します。
+</p>
+<pre>
+./configure
+make
+make install
+</pre>
+<h3>Makefileの基礎</h3>
+<p>
+  ここではMakefileの基本的なことだけを解説します。<a href="/blog/20210622081112.html">分割コンパイル</a>で解説したアプリケーションの実行ファイルを生成するためのMakefileを書いてみます。「make」でアプリケーションの実行ファイルを生成、「make clean」で、途中できるオブジェクトファイルと実行ファイルを削除します。
+</p>
+<p>
+  以下が、Makefileの中身です。「all」の記述は「make」の動作を記述します。「clean」の記述で「make clean」の動作を記述します。先頭がタブになっている部分は、実行したいコマンドです。「::」の後ろは、依存しているファイル(あるいは単なるシンボル)を記述します。二行目以降は、タブで始め(空白ではない)、実行したいコマンドを記述します。
+</p>
+<p>
+  依存関係は連続して記述でき、依存先のファイルに更新があった場合は、コマンドが実行されます。
+</p>
+<p>
+  <a href="/blog/20210622081112.html">分割コンパイル</a>で解説したファイルに対してMakefileを記述してみます。「make」コマンドで分割コンパイルとリンクをして実行ファイルを生成します。「make clean」で、生成されたオブジェクトファイルと実行ファイルを削除します。
+</p>
+<pre>
+all :: myapp
+
+myapp : myapp.o mylib1.o mylib2.o
+	gcc -o myapp myapp.o mylib1.o mylib2.o
+
+myapp.o :: src/myapp.c
+	gcc -Iinclude -c -o myapp.o src/myapp.c
+
+mylib1.o :: src/mylib1.c include/mylib1.h
+	gcc -Iinclude -c -o mylib1.o src/mylib1.c
+
+mylib2.o :: src/mylib2.c include/mylib2.h
+	gcc -Iinclude -c -o mylib2.o src/mylib2.c
+
+clean ::
+	rm *.o
+	rm -f myapp
+</pre>
+<p>
+  makeを実行してみましょう。
+</p>
+<pre>
+$ make
+gcc -Iinclude -c -o myapp.o src/myapp.c
+gcc -Iinclude -c -o mylib1.o src/mylib1.c
+gcc -Iinclude -c -o mylib2.o src/mylib2.c
+gcc -o myapp myapp.o mylib1.o mylib2.o
+</pre>
+<p>
+  実行ファイル「myapp」が生成されます。試しに「src/mylib1.c」だけを修正してみましょう。makeを実行すると必要なコマンドだけが実行されます。
+</p>
+<pre>
+$ make
+gcc -Iinclude -c -o mylib1.o src/mylib1.c
+gcc -o myapp myapp.o mylib1.o mylib2.o
+</pre>
+<p>
+  「make clean」を実行しましょう。オブジェクトファイルと、実行ファイルが削除されます。
+</p>
+<pre>
+$ make clean
+rm *.o
+rm -f myapp
+</pre>
+<h3>makeは依存しているファイルの更新があったことをどのように検知しますか?</h3>
+<p>
+  たとえば「mylib.c」は「mylib1.h」に依存しているとします。この場合は「mylib.c」の更新時刻よりも「mybli1.h」の更新時刻が新しかった場合に、ファイルの更新があったと判断します。
+</p>
+<h3>Makefileの生成を自動化したい</h3>
+<p>
+  Makefileはテキストファイルですので、<a href="https://linux.perlzemi.com/">Linux/UNIX</a>における実用的なテキスト処理プログラミング言語である<a href="https://tutorial.perlzemi.com/">Perl</a>で生成するのも簡単です。Makefileはmakeの種類によって方言があるので、Perlの側で吸収してあげるという使い方も可能です。
+</p>
+<h3>Windowsでもmakeは使えるの?</h3>
+<p>
+  WindowsでMinGWを使う場合は、makeコマンドではなく「gmake」コマンドを使用します。Makefileの記述は、紹介したものと同じです。Windowsの場合は、makeは「nmake」を意味しており、衝突が起こるために、gmakeになっていると考えられます。
+</p>
+
+  </div>
+  <div class="bottom">
+    <!--
+
+<h3>C99対応のC言語入門のご紹介</h3>
+
+<div class="youtube_block">
+  <div class="youtube">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/r1E_2yYVElA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+-->
+<div sytle="padding-bottom:100px">　</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <!-- side -->
+<div class="side-list">
+  <div class="side-list-title">
+    講座作成
+  </div>
+  <ul>
+    <li style="text-align:center;padding-left:0"><a href="http://www.perlri.com/"><img width="120" src="/images/kaeru_w_01.png"><br>Perl元気塾</a></li>
+  </ul>
+  <div class="side-list-title" style="margin-top:30px">
+    目次
+  </div>
+  <ul>
+    <li><a rel="nofollow" href="/syntax.html">基本文法</a></li>
+    <li><a rel="nofollow" href="/library.html">標準Cライブラリ</a></li>
+    <li><a rel="nofollow" href="/types.html">C言語の型</a></li>
+    <li><a rel="nofollow" href="/list.html">新着記事</a></li>
+    <li><a rel="nofollow" href="/preprocessor.html">プリプロセッサ</a></li>
+    <li><a rel="nofollow" href="/blog/20201206125815.html">C99の新機能</a></li>
+  </ul>
+
+  <div class="side-list-title" style="margin-top:30px">
+    動画紹介
+  </div>
+  <ul>
+    <li style="text-align:center; padding:5px;">
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">
+          <img src="http://img.youtube.com/vi/r1E_2yYVElA/maxresdefault.jpg" style="width:100%">
+        </a>
+      </div>
+      <div>
+        <a rel="nofollow" href="https://www.youtube.com/watch?v=r1E_2yYVElA">C99対応のC言語入門</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="what_is_this_site">
+  <div class="inside">
+    C99対応のC言語入門です。<br>C99は、複素数関数、//コメント、forの初期化部のスコープ、幅が明示的な整数型、整数として計算可能なポインタ型など<br>C言語に足りないと考えられた機能が大幅に追加されたC言語のバージョンです。<br>2020年においては、gccなどの多くのCコンパイラがC99をサポートしています。<br><a href="https://tutorial.perlzemi.com/">Perl</a>で数値計算や配列演算のパフォーマンスが欲しいなぁ。<br>そんなときは、C言語を使って関数を記述して、<a href="https://bind.perlzemi.com/">Perlへバインディング</a>するという手法があります。
+  </div>
+</div>
+
+<div class="perlri_link">
+  <a href="http://www.perlri.com">
+    Copyright © Perl元気塾
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
