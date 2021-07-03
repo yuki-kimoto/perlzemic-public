@@ -62,14 +62,32 @@
 </p>
 <h3>「//」による一行コメント</h3>
 <p>
-  「//」による一行コメントが、正式にC99で採用されました。
+  C言語の<a href="/blog/20201207125815.html">コメント</a>は「/* コメント */」だけでしたが、「//」による一行コメントが、正式にC99で採用されました。
 </p>
 <pre>
 // コメント
 </pre>
-<h3>forのループ変数初期化部で変数宣言が可能に</h3>
+<h3>どの位置でもローカル変数宣言が可能</h3>
 <p>
-  forのループ変数初期化部で変数宣言が可能になりました。
+  C99からはどの位置でも<a href="/blog/20201217105308.html">ローカル変数の宣言</a>が可能になりました。ローカル変数の宣言は、ブロックの先頭でなければならないという制約はなくなりました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main (void) {
+  {
+    int32_t num1 = 5;
+    
+    1 + 1;
+    
+    // どの位置でもローカル変数の宣言が可能
+    int32_t num2 = 4;
+  }
+}
+</pre>
+<h3>for文のループ変数初期化部でローカル変数の宣言が可能に</h3>
+<p>
+  <a href="/blog/20210115151850.html">for文</a>のループ変数初期化部で<a href="/blog/20201217105308.html">ローカル変数の宣言</a>が可能になりました。
 </p>
 <pre>
 #include &lt;stdint.h&gt;
@@ -123,27 +141,9 @@ struct myapp_book {
 
 int main(void) {
   // 構造体変数の宣言と初期化(メンバ変数名を指定して値を指定)
-  struct myapp_book book = {id : 1, name : "C99 Book", price : 2000};
+  struct myapp_book book = {.id = 1, .name = "C99 Book", .price = 2000};
   
   printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
-}
-</pre>
-<h3>どの位置でもローカル変数宣言が可能</h3>
-<p>
-  <a href="/blog/20201206125815.html">C99</a>からはどの位置でもローカル変数宣言が可能になりました。ローカル変数の宣言は、ブロックの先頭でなければならないという制約はなくなりました。
-</p>
-<pre>
-#include &lt;stdint.h&gt;
-
-int main (void) {
-  {
-    int32_t num1 = 5;
-    
-    1 + 1;
-    
-    // どの位置でもローカル変数の宣言が可能
-    int32_t num2 = 4;
-  }
 }
 </pre>
 

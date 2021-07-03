@@ -199,7 +199,7 @@ struct myapp_book {
 
 int main(void) {
   // 構造体変数の宣言と初期化(メンバ変数名を指定して値を指定)
-  struct myapp_book book = {id : 1, name : "C99 Book", price : 2000};
+  struct myapp_book book = {.id = 1, .name = "C99 Book", .price = 2000};
   
   printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
 }
@@ -413,7 +413,7 @@ struct myapp_book {
 
 int main(void) {
   // 構造体変数の宣言と初期化(メンバ変数名を指定して値を指定)
-  MYAPP_BOOK book = {id : 1, name : "C99 Book", price : 2000};
+  MYAPP_BOOK book = {.id = 1, .name = "C99 Book", .price = 2000};
   
   printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
 }

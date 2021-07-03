@@ -28,11 +28,11 @@
 </script>
 
 <title>INT32_MIN - int32_tの最小値を表す定数 - C99対応のC言語なら元気C言語</title>
-<meta name="description" content="INT32_MINはint32_t - 符号あり32bit整数型の最小値を表す定数です。「stdint.h」をインクルードすると利用できます。">
+<meta name="description" content="INT32_MINはint32_t - 符号あり32bit整数型の最小値を表す定数です。「stdint.h」ヘッダをインクルードすることで使えます。C99で導入された定数マクロです。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
 <meta name="twitter:title" content="INT32_MIN - int32_tの最小値を表す定数 - C99対応のC言語なら元気C言語" />
-<meta name="twitter:description" content="INT32_MINはint32_t - 符号あり32bit整数型の最小値を表す定数です。「stdint.h」をインクルードすると利用できます。" />
+<meta name="twitter:description" content="INT32_MINはint32_t - 符号あり32bit整数型の最小値を表す定数です。「stdint.h」ヘッダをインクルードすることで使えます。C99で導入された定数マクロです。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -83,7 +83,7 @@
 </div>
 <h2><a href="/blog/20201128082751.html">INT32_MIN - int32_tの最小値を表す定数</a></h2>
 <p>
-  INT32_MINは<a href="/blog/20201130082751.html">int32_t - 符号あり32bit整数型</a>の最小値を表す定数です。「stdint.h」をインクルードすると利用できます。
+  INT32_MINは<a href="/blog/20201130082751.html">int32_t - 符号あり32bit整数型</a>の最小値を表す定数です。「<a href="/blog/20210220132505.html">stdint.h</a>」ヘッダをインクルードすることで使えます。<a href="/blog/20201206125815.html">C99</a>で導入された<a href="/blog/20210302083009.html">定数マクロ</a>です。
 </p>
 <pre>
 #include &lt;stdio.h&gt;
@@ -94,14 +94,14 @@ int main(void) {
 }
 </pre>
 <p>
-  INT32_MINの値です。
+  <a href="/blog/20210419083246.html">printf関数</a>のフォーマット指定子で「%d」を使っています。
+</p>
+<p>
+  出力されたINT32_MINの値です。
 </p>
 <pre>
 -2147483648
 </pre>
-<p>
-  INT32_MINはC99で導入されたマクロです。
-</p>
 
   </div>
   <div class="bottom">
