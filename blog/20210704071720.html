@@ -27,12 +27,12 @@
   });
 </script>
 
-<title>fprintf関数 - フォーマットした文字列を出力先を指定して出力 - C99対応のC言語なら元気C言語</title>
-<meta name="description" content="fprintf関数は、フォーマットした文字列を出力先を指定して出力できます。printf関数は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。stdio.hヘッダを読み込むと使えます。">
+<title>演算子の優先順位 - C99対応のC言語なら元気C言語</title>
+<meta name="description" content="C言語の演算子の優先順位です。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="fprintf関数 - フォーマットした文字列を出力先を指定して出力 - C99対応のC言語なら元気C言語" />
-<meta name="twitter:description" content="fprintf関数は、フォーマットした文字列を出力先を指定して出力できます。printf関数は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。stdio.hヘッダを読み込むと使えます。" />
+<meta name="twitter:title" content="演算子の優先順位 - C99対応のC言語なら元気C言語" />
+<meta name="twitter:description" content="C言語の演算子の優先順位です。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
 
@@ -56,107 +56,67 @@
 
   </div>
   <div class="middle">
-    <div class="bread">
-  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
-    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-      <a itemprop="item" href="/">
-        <span itemprop="name">C言語</span>
-      </a>
-      <meta itemprop="position" content="1" />
-    </li>
-    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-      <a itemprop="item" href="/library.html">
-        <span itemprop="name">C標準ライブラリ</span>
-      </a>
-      <meta itemprop="position" content="2" />
-    </li>
-    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-      <a itemprop="item" href="/library/stdio.html">
-        <span itemprop="name">stdio.h</span>
-      </a>
-      <meta itemprop="position" content="3" />
-    </li>
-    <li>
-      here
-    </li>
-  </ul>
-</div>
-<h2><a href="/blog/20210510093506.html">fprintf関数 - フォーマットした文字列を出力先を指定して出力</a></h2>
+    <h2><a href="/blog/20210704071720.html">演算子の優先順位</a></h2>
 <p>
-  <b>fprintf関数</b>は、フォーマットした文字列を出力先を指定して出力できます。<a href="/blog/20210419083246.html">printf関数</a>は、標準出力に出力しますが、出力先を指定できるのが、fprintf関数です。<a href="/blog/20210418083246.html">stdio.h</a>ヘッダを読み込むと使えます。
+  C言語の演算子の優先順位です。
 </p>
-<pre>
-#include &lt;stdio.h&gt;
-int fprintf(FILE *fp, const char *format, ...);
-</pre>
-<h3>標準出力に出力する</h3>
-<p>
-  fprintf関数を使って、標準出力に出力してみましょう。printf関数と同じことをします。<a href="/blog/20210512083754.html">stdout</a>は、標準出力ストリームを意味するFILE構造体へのポインタです。
-</p>
-<pre>
-#include &lt;stdio.h&gt;
-
-int main(void) {
-  const char* message = "Hello";
-  fprintf(stdout, "%s\n", message);
-}
-</pre>
-<p>
-  出力結果です。
-</p>
-<pre>
-Hello
-</pre>
-<h3>標準エラー出力に出力する</h3>
-<p>
-  fprintf関数を使って、標準エラー出力に出力してみましょう。<a href="/blog/20210511083754.html">stderr</a>は、標準エラーストリームを意味するFILE構造体へのポインタです。
-</p>
-<pre>
-#include &lt;stdio.h&gt;
-
-int main(void) {
-  const char* message = "Hello";
-  fprintf(stderr, "%s\n", message);
-}
-</pre>
-<p>
-  出力結果です。エラー出力に出力されます。
-</p>
-<pre>
-Hello
-</pre>
-<h3>ファイルに出力する</h3>
-<p>
-  fprintf関数を使って、ファイルに出力してみましょう。fopen関数でファイルを開いて、ファイルに書き込んでみましょう。開いたファイルはfclose関数で閉じています。
-</p>
-<pre>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-int main(void) {
-  
-  // 書き込み用にファイルを開く
-  const char* out_file = "output.txt";
-  FILE* out_fp = fopen(out_file, "w");
-  if (out_fp == NULL) {
-    fprintf(stderr, "Can't open file %s\n", out_file);
-    exit(1);
-  }
-  
-  // fprintf関数でファイルに書き込む
-  const char* message = "Hello";
-  fprintf(out_fp, "%s\n", message);
-  
-  // ファイルを閉じる
-  fclose(out_fp);
-}
-</pre>
-<p>
-  output.txtを開いてみましょう。以下の内容が出力されています。
-</p>
-<pre>
-Hello
-</pre>
+<table>
+  <tr><th>優先順位</th><th>演算子</th><th>文法</th><th>名称</th><th>結合方向</th></tr>
+  <tr><td rowspan=6>1
+      <td>()<td>x(y)<td>関数呼出し演算子<td>左</tr>
+  <tr><td>[]<td>x[y]<td>添字演算子<td>左</tr>
+  <tr><td>．<td>x . y<td>.演算子（ドット演算子）<td>左</tr>
+  <tr><td>-><td>x -> y<td>->演算子（アロー演算子）<td>左</tr>
+  <tr><td>++<td>x++<td>後置増分演算子<td>左</tr>
+  <tr><td>--<td>y--<td>後置減分演算子<td>左</tr>
+  <tr><td rowspan=9>2
+      <td>++<td>++x<td>前置増分演算子<td>右</tr>
+  <tr><td>--<td>--y<td>前置減分演算子<td>右</tr>
+  <tr><td>sizeof<td>sizeof x<td>sizeof演算子<td>右</tr>
+  <tr><td>&<td>&x<td>単項&演算子（アドレス演算子）<td>右</tr>
+  <tr><td>*<td>*x<td>単項*演算子（間接演算子）<td>右</tr>
+  <tr><td>+<td>+x<td>単項+演算子<td>右</tr>
+  <tr><td>-<td>-x<td>単項-演算子<td>右</tr>
+  <tr><td>~<td>~x<td>~演算子（補数演算子）<td>右</tr>
+  <tr><td>!<td>!x<td>論理否定演算子<td>右</tr>
+  <tr><td>3
+      <td>()<td>(x)y<td>キャスト演算子<td>右</tr>
+  <tr><td rowspan=3>4
+      <td>*<td>x * y<td>２項*演算子<td>左</tr>
+  <tr><td>/<td>x / y<td>/演算子<td>左</tr>
+  <tr><td>%<td>x % y<td>%演算子<td>左</tr>
+  <tr><td rowspan=2>5
+      <td>+<td>x + y<td>２項+演算子<td>左</tr>
+  <tr><td>-<td>x - y<td>２項-演算子<td>左</tr>
+  <tr><td rowspan=2>6
+      <td><<<td>x << y<td><<演算子<td>左</tr>
+  <tr><td>>><td>x >> y<td>>>演算子<td>左</tr>
+  <tr><td rowspan=4>7
+      <td><<td>x < y<td><演算子<td>左</tr>
+  <tr><td><=<td>x <= y<td><=演算子<td>左</tr>
+  <tr><td>><td>x > y<td>>演算子<td>左</tr>
+  <tr><td>>=<td>x >= y<td>>=演算子<td>左</tr>
+  <tr><td rowspan=2>8
+      <td>==<td>x == y<td>==演算子<td>左</tr>
+  <tr><td>!=<td>x != y<td>!=演算子<td>左</tr>
+  <tr><td>9
+      <td>&<td>x & y<td>ビット単位のand演算子<td>左</tr>
+  <tr><td>10
+      <td>^<td>x ^ y<td>ビット単位の排他or演算子<td>左</tr>
+  <tr><td>11
+      <td>|<td>x | y<td>ビット単位のor演算子<td>左</tr>
+  <tr><td>12
+      <td>&&<td>x && y<td>論理and演算子<td>左</tr>
+  <tr><td>13
+      <td>||<td>x || y<td>論理or演算子<td>左</tr>
+  <tr><td>14
+      <td>? :<td>x ? y : z<td>条件演算子<td>右</tr>
+  <tr><td rowspan=2>15
+      <td>=<td>x = y<td>単純代入演算子<td>右</tr>
+  <tr><td>+=  -=  *=  /=  %=  <<=  >>=  &=  ^=  |=<td>x += y<td>複合代入演算子<td>右</tr>
+  <tr><td>16
+      <td>,<td>x , y<td>コンマ演算子<td>左</tr>
+</table>
 
   </div>
   <div class="bottom">
