@@ -27,11 +27,11 @@
   });
 </script>
 
-<title>整数の四則演算 - 書き始め - C99対応のC言語なら元気C言語</title>
+<title>整数の四則演算 - C99対応のC言語なら元気C言語</title>
 <meta name="description" content="整数の四則演算を行いましょう。整数の足し算・引き算・掛け算・割り算を行います。">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@perlzemi" />
-<meta name="twitter:title" content="整数の四則演算 - 書き始め - C99対応のC言語なら元気C言語" />
+<meta name="twitter:title" content="整数の四則演算 - C99対応のC言語なら元気C言語" />
 <meta name="twitter:description" content="整数の四則演算を行いましょう。整数の足し算・引き算・掛け算・割り算を行います。" />
 <meta name="twitter:image" content="https://c.perlzemi.com//images/twitter_card_large_kaeru.png" />
 
@@ -79,10 +79,87 @@
     </li>
   </ul>
 </div>
-<h2><a href="/blog/20210108153045.html">整数の四則演算 - 書き始め</a></h2>
+<h2><a href="/blog/20210108153045.html">整数の四則演算</a></h2>
 <p>
   <b>整数の四則演算</b>を行いましょう。整数の足し算・引き算・掛け算・割り算を行います。
 </p>
+<h3>int32_t型の値の四則演算</h3>
+<p>
+  int32_t型で四則演算をしてみましょう。割り算は、結果が小数点にならないところが、ポイントです。小数点は切り捨てられます。
+</p>
+<p>
+  符号あり32bit整数型が表現できる整数の最大値は「2147483647」、最小値は「-2147483648」です。
+</p>
+<p>
+  最大値は「<a href="/blog/20201115090747.html">INT32_MAX</a>」、最小値は「<a href="/blog/20201128082751.html">INT32_MIN</a>」というマクロで定義されています。
+</p>
+<p>
+  出力する場合は<a href="/blog/20210419083246.html">printf関数</a>のフォーマット指定子に「%d」を指定します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num1 = 5;
+  int32_t num2 = 2;
+  
+  int32_t add = num1 + num2;
+  int32_t sub = num1 - num2;
+  int32_t mul = num1 * num2;
+  int32_t div = num1 / num2;
+  
+  printf("add : %d\nsub : %d\nmul : %d\ndiv : %d\n", add, sub, mul, div);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+add : 7
+sub : 3
+mul : 10
+div : 2
+</pre>
+<h3>int64_t型の値の四則演算</h3>
+<p>
+  int64_t型で四則演算をしてみましょう。
+</p>
+<p>
+  符号あり64bit整数型が表現できる整数の最大値は「9223372036854775807」、最小値は「-9223372036854775808」です。
+</p>
+<p>
+  最大値は「<a href="/blog/20201118082751.html">INT64_MAX</a>」、最小値は「<a href="/blog/20201112150850.html">INT64_MIN</a>」というマクロで定義されています。
+</p>
+<p>
+  出力する場合は<a href="/blog/20210419083246.html">printf関数</a>のフォーマット指定子に「PRId64」を指定します。これは、少し面倒ですが、移植性の問題を回避するためです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;inttypes.h&gt;
+
+int main(void) {
+  int64_t num1 = 5;
+  int64_t num2 = 2;
+  
+  int64_t add = num1 + num2;
+  int64_t sub = num1 - num2;
+  int64_t mul = num1 * num2;
+  int64_t div = num1 / num2;
+  
+  printf("add : %" PRId64 "\nsub : %" PRId64 "\nmul : %" PRId64 "\ndiv : %" PRId64 "\n", add, sub, mul, div);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+add : 7
+sub : 3
+mul : 10
+div : 2
+</pre>
 <h3>C言語の整数の四則演算の注意点</h3>
 <p>
   C言語の整数の四則演算の規則は簡単なように見えて、意外と複雑です。複雑な理由をまず先に書いておきます。
@@ -164,7 +241,35 @@ int64_t num3 = (int64_t)num1 + num2;
   符号あり整数型における型の拡張においては、中身の値が変わることはないので、安心できます。
 </p>
 <p>
-  (続く)
+  型変換を詳しく知りたい場合は、C言語の型変換規則で解説しています。
+</p>
+<ul>
+  <a href="/blog/20210222132505.html">C言語の型変換規則</a>
+</ul>
+<h3>整数が最大値を超えたらどうなるの?</h3>
+<p>
+  整数の最大値に1を加えてみましょう。どうなるでしょうか?
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num = 2147483647;
+  
+  num++;
+  
+  printf("%d\n", num);
+}
+</pre>
+<p>
+  出力結果です。最小値になっています。
+</p>
+<pre>
+-2147483648
+</pre>
+<p>
+  <a href="/blog/20210224132505.html">負の数が2の補数表現</a>になっている場合は、最大値に1加えると、最小値になります。
 </p>
 
   </div>
