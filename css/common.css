@@ -1,3 +1,5 @@
+  @import 'variables.css';
+  
 /* Default settings */
   
   /* all */
@@ -14,15 +16,14 @@
     color:#0000EE;
   }
   
+
   /* ヘッダ */
   .header {
-    width:100%;
     border-bottom:2px solid #cccccc;
-    margin-bottom:5px;
+    margin-bottom:10px;
     background:white;
   }
   .header_main {
-    width:100%;
     max-width:1030px;
     display:flex;
     margin:0 auto;
@@ -35,10 +36,9 @@
     padding: 5px 15px 9px 15px;
     color:#333;
     font-family: "times new roman", "geogia", serif;
-    float:left;
     width:75%;
     display:inline-block;
-    padding:5px 10px 7px 10px;
+    padding:5px 0 7px 0;
   }
   h1 a, h1 a:visited {
     color:#333;
@@ -50,7 +50,7 @@
   }
   h1 img {
     width:40px;
-    vertical-align:-17px;
+    vertical-align:-12px;
     margin-right:10px;
   }
   .header_right {
@@ -68,6 +68,7 @@
     height:100%;
   }
   
+  /* フッタ */
   .footer {
     width:100%;
     margin:0 auto;
@@ -131,7 +132,6 @@
 
   .youtube_block {
     width:calc(100% - 30px);
-    max-width:560px;
     margin:0 auto;
   }
   .youtube {
@@ -147,7 +147,7 @@
     width: 100%;
     height: 100%;
   }
-  
+
   /* container */
   .container {
     background:#F2EFE;
@@ -158,19 +158,13 @@
     max-width:1030px;
     width:100%;
     margin: 0 auto;
-  }
-  .main:after {
-    content:"";
-    display:block;
-    clear:both;
+    display:flex;
+    flex-wrap:wrap;
   }
   
   /* content */
   .content {
-    float:left;
     width:calc(100% - 320px - 20px);
-    padding-top:5px;
-    padding-left:30px;
   }
   
   /* entry */
@@ -182,23 +176,20 @@
     margin-left:25px;
     line-height:1.5;
   }
-
+  
   /* サイドバー */
   .side {
-    float:right;
     width:320px;
-    padding-top:12px;
+    margin-left:20px;
   }
   .side_list {
   }
   .side_list_title {
-    background:#44546A;
+    background:var(--theme_color);
     color:white;
     font-weight:bold;
     padding: 11px 0px 9px 0px;
     text-align:center;
-    border:1px solid #0070C0;
-    border-bottom:none;
   }
   .side_list_body {
     text-align:center;
@@ -227,7 +218,7 @@
   .side_list li:first-child {
     border-top:none;
   }
-
+  
   h2 {
     font-size:28px;
     margin:7px 0 12px 0;
@@ -240,7 +231,7 @@
   }
   h3 {
     font-size:21px;
-    border-top:4px solid #44546A;
+    border-top:4px solid var(--theme_color);
     padding:16px 0px 15px 18px;
     letter-spacing:0.5px;
     margin:15px 0 10px 0;
@@ -271,6 +262,7 @@
     margin:10px 0;
     line-height:1.2;
     white-space:pre-wrap;
+    word-break : break-all;
   }
   blockquote {
     font-size:16px;
@@ -307,7 +299,6 @@
   .before-days {
     text-align:center;
   }
-
   .to_top {
     display:flex;
     justify-content:center;
@@ -336,16 +327,16 @@
     font: 10px Verdana, sans-serif;
     background: #fff;
     border: 1px solid #dedede;
+    font-size:14px;
   }
   .bread li {
     float: left;
     line-height: 30px;
-    text-shadow: 0 1px 0 white;
   }
   .bread li a {
-    color: #666;
+    color: #444;
     text-decoration: none;
-    padding: 0 10px 0 20px;
+    padding: 0 10px 0 10px;
     background: #eee;
     background: -webkit-gradient(linear, left top, right top,
       from(#fff),
@@ -394,9 +385,9 @@
     -o-transform: skew(30deg);
     transform: skew(30deg);
   }
-  .bread li:first-child a {padding-left: 10px;}
+  .bread li:first-child a {padding-left: 0px;}
   .bread li:last-child {
-    padding-left: 20px;
+    padding-left: 0px;
     background: transparent !important;
     color: black;
   }
@@ -422,6 +413,7 @@
   .perlclub_register a:hover {
     opacity:0.8;
   }
+  
 
 /* Tablet and Smart phone */
 @media only screen and (max-width:1030px) {
@@ -459,5 +451,17 @@
   }
   .side_list li:last-child {
     border-bottom:none;
+  }
+
+  h1, h2, h3, h4, p, pre, blockquote, table, ul, ol, .header_main  {
+    margin-left:10px;
+    margin-right:10px;
+  }
+  h1, h3 {
+    margin-left:0;
+    margin-right:0;
+  }
+  .header_main {
+    margin-right:0;
   }
 }
