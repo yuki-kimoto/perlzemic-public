@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>オブジェクト指向C言語 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="C言語をオブジェクト指向で書く方法を解説します。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="オブジェクト指向C言語 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="C言語をオブジェクト指向で書く方法を解説します。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210212090234.html0">オブジェクト指向C言語</a></h2>
+<p>
+  C言語をオブジェクト指向で書く方法を解説します。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<p>
+  オブジェクト指向型言語とは、僕の解釈では、オブジェクト指向の考え方を使いやすくした言語のことです。
+</p>
+<p>
+  つまり、オブジェクト指向プログラミングは、どんなプログラミング言語でもできるのだけれど、それをやりやすくしたプログラミング言語が存在するというわけです。
+</p>
+<p>
+  結論を書くと「C言語でもオブジェクト指向できるよ! 記述はちょっと面倒だけどね。」
+</p>
+<h3>クラスに該当するのは構造体</h3>
+<p>
+  クラスに該当するのは<a href="/blog/20210208155548.html">構造体</a>です。フィールドに該当するのは構造体のメンバ変数です。ヘッダの相互参照などの問題を解決するために、typedef文で、別名をつけています(このテクニックについては<a href="/blog/20210202153503.html">型宣言ヘッダ</a>を参照してください)。
+</p>
+<pre>
+// strcut myapp_lib に MYAPP_LIBという別名をつける
+typedef struct myapp_lib MYAPP_LIB;
+
+// クラスに該当するのは構造体
+struct myapp_lib {
+  // フィールドに該当するのはメンバ変数
+  int32_t flag;
+};
+</pre>
+<h3>コンストラクタは関数</h3>
+<p>
+  コンストラクタはオブジェクトを返す関数です。このページでは、動的にメモリに割り当てられた構造体のメモリ領域を指すポインタを、オブジェクトと呼ぶことにします。
+</p>
+<pre>
+// コンストラクタは関数
+MYAPP_LIB* MYAPP_LIB_new() {
+  // 動的メモリ割り当てでオブジェクトを生成
+  MYAPP_LIB* self = calloc(sizeof(MYAPP_LIB), 1);
+  
+  // オブジェクトを返す
+  return self;
+}
+
+// フラグをセットできるコンストラクタ
+MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag) {
+  
+  MYAPP_LIB* self = MYAPP_LIB_new();
+  self-&gt;flag = flag;
+  
+  return self;
+}
+</pre>
+<h3>メソッドは、オブジェクトを第一引数に取る関数</h3>
+<p>
+  メソッドは、オブジェクトを第一引数に取る関数です。
+</p>
+<pre>
+// フラグをセット
+void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag) {
+  self-&gt;flag = flag;
+}
+
+// フラグをゲット
+int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
+  return self-&gt;flag;
+}
+</pre>
+<h3>デストラクタは関数</h3>
+<p>
+  デストラクタは関数です。これは、手動で呼ぶ必要があります。
+</p>
+<pre>
+void MYAPP_LIB_free(MYAPP_LIB* self) {
+  
+  // メモリ割り当て解放
+  free(self);
+}
+</pre>
+<h3>オブジェクト指向プログラミングのサンプル</h3>
+<p>
+  オブジェクト指向プログラミングのサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// strcut myapp_lib に MYAPP_LIBという別名をつける
+typedef struct myapp_lib MYAPP_LIB;
+
+// クラスに該当するのは構造体
+struct myapp_lib {
+  // フィールドに該当するのはメンバ変数
+  int32_t flag;
+};
+
+// コンストラクタは関数
+MYAPP_LIB* MYAPP_LIB_new() {
+  // 動的メモリ割り当てでオブジェクトを生成
+  MYAPP_LIB* self = calloc(sizeof(MYAPP_LIB), 1);
+  
+  // オブジェクトを返す
+  return self;
+}
+
+// フラグをセットできるコンストラクタ
+MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag) {
+  
+  MYAPP_LIB* self = MYAPP_LIB_new();
+  self-&gt;flag = flag;
+  
+  return self;
+}
+
+// フラグをセット
+void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag) {
+  self-&gt;flag = flag;
+}
+
+// フラグをゲット
+int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
+  return self-&gt;flag;
+}
+
+void MYAPP_LIB_free(MYAPP_LIB* self) {
+  
+  // メモリ割り当て解放
+  free(self);
+}
+
+int main(void) {
+  // オブジェクト生成
+  MYAPP_LIB* myapp_lib = MYAPP_LIB_new();
+  
+  // メソッド呼び出し
+  MYAPP_LIB_set_flag(myapp_lib, 5);
+  int32_t myapp_lib_flag = MYAPP_LIB_get_flag(myapp_lib);
+  printf("%d\n", myapp_lib_flag);
+  
+  // オブジェクトの解放
+  MYAPP_LIB_free(myapp_lib);
+}
+</pre>
+<h3>分割コンパイル対応 - オブジェクト指向プログラミングのサンプル</h3>
+<p>
+  オブジェクト指向プログラミングのサンプルを分割コンパイル対応してみましょう。これでC言語のプログラムが、実戦で大きなプログラムになってきた場合も安心です。
+</p>
+<h4>myapp_typedecl.h</h4>
+<pre>
+#ifndef MYAPP_TYPEDECL_H
+#define MYAPP_TYPEDECL_H
+
+// strcut mylib に MYLIBという別名をつける
+typedef struct myapp_lib MYAPP_LIB;
+
+#endif
+</pre>
+<h4>myapp_lib.h</h4>
+<pre>
+#ifndef MYAPP_LIB_H
+#define MYAPP_LIB_H
+
+#include "myapp_typedecl.h"
+
+struct myapp_lib {
+  int32_t flag;
+};
+
+MYAPP_LIB* MYAPP_LIB_new();
+MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag);
+void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag);
+int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self);
+void MYAPP_LIB_free(MYAPP_LIB* self);
+
+#endif
+</pre>
+<h4>myapp_lib.c</h4>
+<pre>
+#include &lt;stdlib.h&gt;
+
+#include "myapp_lib.h"
+
+// コンストラクタは関数
+MYAPP_LIB* MYAPP_LIB_new() {
+  // 動的メモリ割り当てでオブジェクトを生成
+  MYAPP_LIB* self = calloc(sizeof(MYAPP_LIB), 1);
+  
+  // オブジェクトを返す
+  return self;
+}
+
+// フラグをセットできるコンストラクタ
+MYAPP_LIB* MYAPP_LIB_new_with_flag(int32_t flag) {
+  
+  MYAPP_LIB* self = MYAPP_LIB_new();
+  self-&gt;flag = flag;
+  
+  return self;
+}
+
+// フラグをセット
+void MYAPP_LIB_set_flag(MYAPP_LIB* self, int32_t flag) {
+  self-&gt;flag = flag;
+}
+
+// フラグをゲット
+int32_t MYAPP_LIB_get_flag(MYAPP_LIB* self) {
+  return self-&gt;flag;
+}
+
+void MYAPP_LIB_free(MYAPP_LIB* self) {
+  
+  // メモリ割り当て解放
+  free(self);
+}
+</pre>
+<h4>myapp.c</h4>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+#include "myapp_lib.h"
+
+int main(void) {
+  // オブジェクト生成
+  MYAPP_LIB* myapp_lib = MYAPP_LIB_new();
+  
+  // メソッド呼び出し
+  MYAPP_LIB_set_flag(myapp_lib, 5);
+  int32_t myapp_lib_flag = MYAPP_LIB_get_flag(myapp_lib);
+  printf("%d\n", myapp_lib_flag);
+  
+  // オブジェクトの解放
+  MYAPP_LIB_free(myapp_lib);
+}
+</pre>
+<h4>コンパイル・リンク・実行</h4>
+<pre>
+gcc -c myapp_lib.c
+gcc -c myapp.c
+gcc -o myapp myapp.o myapp_lib.o
+./myapp
+</pre>
+<h3>継承はできますか?</h3>
+<p>
+  C言語では、継承の機能を手動で実装することは容易ではないので、移譲を使いましょう。
+</p>
+<p>
+  移譲は、メンバ変数に、必要な機能を提供するオブジェクトを保存しておくテクニックのことです。
+</p>
+<p>
+  継承がないから、アプリケーションの機能を満たせないということはないので、安心してください。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

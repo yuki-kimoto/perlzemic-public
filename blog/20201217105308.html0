@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>ローカル変数 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="C言語のローカル変数について解説します。ローカル変数は、関数の内部で宣言された変数のことです。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="ローカル変数 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="C言語のローカル変数について解説します。ローカル変数は、関数の内部で宣言された変数のことです。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/syntax.html">
+        <span itemprop="name">基本文法</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20201217105308.html0">ローカル変数</a></h2>
+<p>
+  C言語のローカル変数について解説します。ローカル変数は、関数の内部で宣言された変数のことです。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<h3>ローカル変数の宣言</h3>
+<p>
+  変数の宣言は以下の構文で行います。
+</p>
+<pre>
+型名 変数名;
+</pre>
+<p>
+  関数の中で記述された変数宣言は、ローカル変数の宣言になります。
+</p>
+<pre>
+int main (void) {
+  型名 変数名;
+}
+</pre>
+<p>
+  int32_t型の変数宣言をするサンプルを書いてみます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main (void) {
+  int32_t num;
+}
+</pre>
+<h3>ローカル変数の初期化</h3>
+<p>
+  変数宣言は、変数の初期化と同時に行うことができます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main (void) {
+  int32_t num = 1;
+}
+</pre>
+<p>
+  C言語では、変数の初期化を行わない場合に、自動的に0に初期化されず、値は不定になるということに注意してください。
+</p>
+<p>
+  <a href="https://perlzemi.com/blog/20161107147852.html">Perlの変数</a>の場合は<a href="https://perlzemi.com/blog/20100220126425.html">未定義値undef</a>で初期化される点が異なります。
+</p>
+<h3>ローカル変数のスコープ</h3>
+<p>
+  C言語のローカル変数の<a href="/blog/20210311085419.html">スコープ</a>について書いておきます。C言語ではスコープを「{}」を使って記述できます。スコープの中で変数宣言を行うことができます。変数はスコープの中でだけ参照することができます。関数の中でだけスコープを使用できます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main (void) {
+  {
+    int32_t num1;
+    
+    1 + 1;
+    
+    int32_t num2;
+  }
+}
+// この位置ではnum1, num2は見えない。
+</pre>
+<h3>C99からはどの位置でもローカル変数宣言が可能</h3>
+<p>
+  <a href="/blog/20201206125815.html">C99</a>からはどの位置でもローカル変数宣言が可能になりました。ローカル変数の宣言は、ブロックの先頭でなければならないという制約はなくなりました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main (void) {
+  {
+    int32_t num1 = 5;
+    
+    1 + 1;
+    
+    // どの位置でもローカル変数の宣言が可能
+    int32_t num2 = 4;
+  }
+}
+</pre>
+<h3>const修飾子</h3>
+<p>
+  const修飾子をローカル変数につかうと、初期化以外でのローカル変数への代入を禁止することができます。これは、コンパイル時エラーを発生させます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  const int32_t num = 1;
+  
+  // コンパイルエラー
+  num = 2;
+}
+</pre>
+<h4>文字列を表現するためのconst char*</h4>
+<p>
+  constがよく使われるのは、文字列の要素に対する代入を防ぎたい場合です。
+</p>
+<p>
+  <a href="/blog/20201208125815.html">文字列を表現する型</a>として「const char*」という型について書きました。
+</p>
+<pre>
+// 文字列を表現する型
+const char* message = "Hello";
+</pre>
+<p>
+  ここではconstの役割を詳しく解説します。constは代入を禁止するための構文です。では「const char*」で一体どのような代入が禁止されるのでしょうか?
+</p>
+<p>
+  勘違いしてしまいがちですが「message」への代入が禁止されるわけではありません。これは大丈夫です。
+</p>
+<pre>
+// OK
+message = "Goodby";
+</pre>
+<p>
+  実はここでのconstはポインタ「*」にかかっているのです。つまり、ポインタが指している要素への代入の禁止という意味になります。
+</p>
+<pre>
+// コンパイルエラー
+message[3] = 'a';
+</pre>
+<p>
+  あまり意味のないことですが、もし、変数への代入を禁止したいなら次のように書きます。この場合はconstが変数名にかかっています。どこにかかっているのかを確認してください。
+</p>
+<pre>
+char* const message = "Hello";
+</pre>
+<h4>constはキャストではずすことができる</h4>
+<p>
+  constは<a href="/blog/20210217081559.html">型キャスト</a>ではずすことができます。「ええー」。
+</p>
+<pre>
+char* message2 = (char*)message;
+</pre>
+<p>
+  ということは、const修飾は、間違いを減らすという意味しかないということです。それでも、明示的に文字列定数として使っていることを示すことができますし、間違いは起こりやすいのでconstをつけたほうが良いです。
+</p>
+<h4>文字列の配列を表現する</h4>
+<p>
+  さてもう一つconstの使う場面を紹介。定数文字列を含んだ要素の変更ができない配列の作り方です。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  const char* const strings[] = {
+    "Apple",
+    "Orange",
+    "Grape",
+  };
+
+  printf("%s %s\n", strings[0], strings[1]);
+}
+</pre>
+<p>
+  constはどこにかかっているのかなぁ。うーん。わかりにくい。
+</p>
+<pre>
+const char* const strings[]
+</pre>
+<p>
+  最初のconst「const char*」は、ポインタの指し示す先でしょう。つまり、文字列の要素への代入の禁止。
+</p>
+<p>
+  次は、どうなってんだ。「const strings[]」。えーっと、答えを書くと、変数への代入も禁止されますし、配列の要素への代入も禁止されます。なんで? 知らん。
+</p>
+<p>
+  次に紹介するstaticと今紹介したconstは全く機能が違うので、注意してください。雰囲気が似ているので、混同してしまいがちです。
+</p>
+<h3>静的ローカル変数</h3>
+<p>
+  C言語では、ローカル変数にstatic修飾子をつけることで、静的ローカル変数を宣言できます。
+</p>
+<pre>
+int foo (void) {
+  // 静的ローカル変数
+  static int32_t foo;
+  
+  static int32_t bar = -5;
+}
+</pre>
+<p>
+  静的ローカル変数という名前ですが、実際の役割について考えると、スコープのあるグローバル変数と考えるのがよいです。
+</p>
+<p>
+  寿命は、プログラムの開始から最後までですが、スコープを持たせて、スコープ外から直接アクセスさせないようにできます。
+</p>
+<p>
+  静的ローカル変数は、グローバル変数と同じく0(すべてのビットが0)で初期化されます。代入演算子の右辺に定数を記述すると、その値で初期化されます。
+</p>
+<p>
+  static宣言の初期化における代入は、プログラムの最初に一度だけおこなわれるということに注意してください。関数が実行されるたびに、初期値が代入されるわけではありません。
+</p>
+<h4>静的ローカル変数のサンプル</h4>
+<p>
+  静的ローカル変数のサンプルです。静的ローカル変数は、プログラムの最初から最後まで存在しているところに注目してみてください。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+void foo(void) {
+  static int32_t num = -5;
+  
+  num++;
+  
+  printf("%d\n", num);
+}
+
+int main(void) {
+  foo();
+  foo();
+  foo();
+  foo();
+  foo();
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+-4
+-3
+-2
+-1
+0
+</pre>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

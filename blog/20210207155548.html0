@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>sizeof演算子 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="sizeof演算子は、その型を配列の要素とした場合の型のサイズを返します。単位はバイトです。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="sizeof演算子 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="sizeof演算子は、その型を配列の要素とした場合の型のサイズを返します。単位はバイトです。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/syntax.html">
+        <span itemprop="name">基本文法</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210207155548.html0">sizeof演算子</a></h2>
+<p>
+  sizeof演算子は、その型を配列の要素とした場合の型のサイズを返します。単位はバイトです。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+sizeof(型名)
+</pre>
+<p>
+  「その型を配列の要素とした場合の型のサイズ」とわかりにくい表現であるのは、sizeof演算子は、定義したサイズを必ずしも返すわけではないからです。これは、構造体のサイズをsizeof演算子で見た場合に、違いが確認できます。
+</p>
+<h3>数値型の型のサイズ</h3>
+<p>
+  まず、<a href="/blog/20201130082751.html">int32_t</a>、<a href="/blog/20201127082751.html">int64_t</a>、<a href="/blog/20201202133213.html">float</a>、<a href="/blog/20201203133213.html">double</a>の型のサイズを見てみましょう。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("int32_t: %d, int64_t: %d, float: %d, double: %d",
+    sizeof(int32_t), sizeof(int64_t), sizeof(float), sizeof(double));
+}
+</pre>
+<p>
+  出力結果です。int32_tは4バイト、int64_tは8バイト、floatは4バイト、doubleは8バイトです。
+</p>
+<pre>
+int32_t: 4, int64_t: 8, float: 4, double: 8
+</pre>
+<h3>void*型の型のサイズ</h3>
+<p>
+  汎用ポインタ型「void*」のサイズを見てみましょう。汎用ポインタ型と他のポインタ型のサイズは必ず一致します。
+</p>
+<p>
+  メモリ空間が32bitのCPUでは4バイト、メモリ空間が64bitのCPUでは8バイトになります。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("void*: %d\n", sizeof(void*));
+}
+</pre>
+<h3>共用体のサイズ</h3>
+<p>
+  共用体を定義した場合は、最も大きなメンバのサイズの型を配列の要素にした場合のサイズになります。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+union myapp_value {
+  int8_t int8_val;
+  int16_t int16_val;
+  int32_t int32_val;
+  int64_t int64_val;
+};
+
+int main(void) {
+  printf("union myapp_value: %d\n", sizeof(union myapp_value));
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+union myapp_value: 8
+</pre>
+<p>
+  一番大きなメンバのint64_tのサイズと同じになりました。
+</p>
+<h3>構造体のサイズ</h3>
+<p>
+  <a href="/blog/20210208155548.html">構造体</a>のサイズを理解するのは、少し難しいです。さて以下のsizeof演算子は、どのような値を返すでしょうか?
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+struct myapp_data {
+  int64_t int64_val;
+  int8_t int8_val1;
+  int8_t int8_val2;
+};
+
+int main(void) {
+  printf("struct myapp_data: %d\n", sizeof(struct myapp_data));
+}
+</pre>
+<p>
+  int64_tは8バイト、int8_tが二つで2バイト、合わせて10バイトです。
+</p>
+<p>
+  出力結果は以下です。
+</p>
+<pre>
+struct myapp_data: 16
+</pre>
+<p>
+  あら、結果は16です。どうして?
+</p>
+<p>
+  最初に書いたようにsizeof演算子は、型のサイズというよりも「その型を配列の要素とした場合の型のサイズ」を返すからです。
+</p>
+<h3>構造体のアラインメント</h3>
+<p>
+  「その型を配列の要素とした場合の型のサイズ」はどのように決められるのでしょうか?
+</p>
+<p>
+  次の規則です。
+</p>
+<p>
+  sizeofが返す構造体のサイズは、必ずメンバ変数の最大サイズの倍数になります(上記の例では一番大きなint64_tは8バイトですので、8の倍数です)。それより小さなサイズのメンバは、メンバ変数の最大サイズの倍数を超えない位置に先頭からつめて、並べられます。ただし、メンバ変数は、そのメンバ変数のサイズの倍数の位置から、並べられます。
+</p>
+<p>
+  これらをデータのアラインメントと呼びます。これは、CPUの演算が速くなるような位置に、データを並べるための規則だと考えてください。
+</p>
+<p>
+  上記の規則によって並べられて空いた隙間をパディングと呼びます。
+</p>
+<pre>
+// sizeofは16を返す
+struct myapp_data {
+  int64_t int64_val; // 8バイト
+  int8_t int8_val1;  // 1バイト
+  int8_t int8_val2;  // 1バイト
+                     // 6バイトのパディング
+};
+</pre>
+<p>
+  後は、実際に例をいくつかみてみましょう。
+</p>
+<pre>
+// sizeofは16を返す
+struct myapp_data {
+  int64_t a; // 8バイト
+  int8_t b;  // 1バイト
+  int8_t c;  // 1バイト
+  int32_t d; // 4バイト
+             // 2バイトのパディング
+};
+</pre>
+<pre>
+// sizeofは24を返す
+struct myapp_data {
+  int64_t a; // 8バイト
+  int8_t b;  // 1バイト
+  int8_t c;  // 1バイト
+  int32_t d; // 4バイト
+             // 2バイトのパディング
+  int32_t e; // 4バイト
+             // 4バイトのパディング
+};
+</pre>
+<pre>
+// sizeofは12を返す
+struct myapp_data {
+  int32_t a; // 4バイト
+  int8_t b;  // 1バイト
+  int8_t c;  // 1バイト
+             // 2バイトのパディング
+  int32_t d; // 4バイト
+};
+</pre>
+<pre>
+// sizeofは16を返す
+struct myapp_data {
+  int32_t a; // 4バイト
+  int8_t b;  // 1バイト
+             // 1バイトのパディング
+  int16_t c; // 2バイト
+  int8_t d;  // 1バイト
+             // 3バイトのパディング
+  int32_t e; // 4バイト
+};
+</pre>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

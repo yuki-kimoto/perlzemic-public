@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>整数の四則演算 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="整数の四則演算を行いましょう。整数の足し算・引き算・掛け算・割り算を行います。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="整数の四則演算 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="整数の四則演算を行いましょう。整数の足し算・引き算・掛け算・割り算を行います。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/syntax.html">
+        <span itemprop="name">基本文法</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210108153045.html0">整数の四則演算</a></h2>
+<p>
+  <b>整数の四則演算</b>を行いましょう。整数の足し算・引き算・掛け算・割り算を行います。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<h3>int32_t型の値の四則演算</h3>
+<p>
+  int32_t型で四則演算をしてみましょう。割り算は、結果が小数点にならないところが、ポイントです。小数点は切り捨てられます。
+</p>
+<p>
+  符号あり32bit整数型が表現できる整数の最大値は「2147483647」、最小値は「-2147483648」です。
+</p>
+<p>
+  最大値は「<a href="/blog/20201115090747.html">INT32_MAX</a>」、最小値は「<a href="/blog/20201128082751.html">INT32_MIN</a>」というマクロで定義されています。
+</p>
+<p>
+  出力する場合は<a href="/blog/20210419083246.html">printf関数</a>のフォーマット指定子に「%d」を指定します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num1 = 5;
+  int32_t num2 = 2;
+  
+  int32_t add = num1 + num2;
+  int32_t sub = num1 - num2;
+  int32_t mul = num1 * num2;
+  int32_t div = num1 / num2;
+  
+  printf("add : %d\nsub : %d\nmul : %d\ndiv : %d\n", add, sub, mul, div);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+add : 7
+sub : 3
+mul : 10
+div : 2
+</pre>
+<h3>int64_t型の値の四則演算</h3>
+<p>
+  int64_t型で四則演算をしてみましょう。
+</p>
+<p>
+  符号あり64bit整数型が表現できる整数の最大値は「9223372036854775807」、最小値は「-9223372036854775808」です。
+</p>
+<p>
+  最大値は「<a href="/blog/20201118082751.html">INT64_MAX</a>」、最小値は「<a href="/blog/20201112150850.html">INT64_MIN</a>」というマクロで定義されています。
+</p>
+<p>
+  出力する場合は<a href="/blog/20210419083246.html">printf関数</a>のフォーマット指定子に「PRId64」を指定します。これは、少し面倒ですが、移植性の問題を回避するためです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;inttypes.h&gt;
+
+int main(void) {
+  int64_t num1 = 5;
+  int64_t num2 = 2;
+  
+  int64_t add = num1 + num2;
+  int64_t sub = num1 - num2;
+  int64_t mul = num1 * num2;
+  int64_t div = num1 / num2;
+  
+  printf("add : %" PRId64 "\nsub : %" PRId64 "\nmul : %" PRId64 "\ndiv : %" PRId64 "\n", add, sub, mul, div);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+add : 7
+sub : 3
+mul : 10
+div : 2
+</pre>
+<h3>C言語の整数の四則演算の注意点</h3>
+<p>
+  C言語の整数の四則演算の規則は簡単なように見えて、意外と複雑です。複雑な理由をまず先に書いておきます。
+</p>
+<h4>符号あり整数型と符号なし整数型の区別</h4>
+<p>
+  まず、C言語には、型として、符号あり整数型と符号なし整数型があります。
+</p>
+<p>
+  さて、符号あり整数型と符号なし整数型を演算したら、結果はどうなるのだろうか? 結果の型は、結果の値は? そんな疑問がわいてきますね。
+</p>
+<p>
+  C言語の型の自動変換規則の仕様は、複雑で、覚えておくことは難しく感じます。
+</p>
+<p>
+  ですので、ここでは、まずベストプラクティスを先に書いておきましょう。
+</p>
+<h4>符号あり整数型と符号なし整数型を混ぜた演算を行わない</h4>
+<p>
+  符号あり整数型と符号なし整数型を混ぜた演算は行わない。演算が必要な場合は、型変換によって、符号あり整数型か符号なし整数型にそろえましょう。
+</p>
+<h4>整数の演算は符号あり整数型で行う</h4>
+<p>
+  整数の演算は符号あり整数型で行う。
+</p>
+<p>
+  整数の演算はできる限り符号あり整数型どうしで行います。<a href="/blog/20201109150850.html">符号なし64bit整数型であるuint64_t型</a>の演算は、ごくたまに必要になりますが、これ以外の演算は、符号あり64bit以下の整数型(<a href="/blog/20201127082751.html">int64_t</a>, <a href="/blog/20201130082751.html">int32_t</a>, <a href="/blog/20201126090559.html">int16_t</a>, <a href="/blog/20201117090747.html">int8_t</a>)で行うことができます。
+</p>
+<h4>最初に選択するのは符号あり32bit整数型</h4>
+<p>
+  整数演算において最初に選択する整数型は、<a href="/blog/20201130082751.html">符号あり32bit整数型のint32_t</a>です。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 符号あり32bit整数型
+  int32_t num = 3;
+}
+</pre>
+<p>
+  符号あり32bit整数は、整数型の最も基本的な型です。
+</p>
+<p>
+  符号あり32bit整数演算は符号あり64bit整数演算よりもメモリの利用量が少なく、速いです。どれくらい速いのかはわかりませんが、アーキテクチャを考えると64bit整数演算よりも遅くなることはないと考えます。
+</p>
+<p>
+  符号あり64bit整数演算が必要になる場合には、符号あり64bit整数型int64_tを使うようにします。
+</p>
+<p>
+  符号あり16bit整数型と符号あり8bit整数型を選ばないのは、多くの処理系において、これらの型は、符号あり32bit整数に型拡張されCPU上で計算されると想定されるからです。これをC言語仕様では汎整数拡張と呼びます。
+</p>
+<p>
+  C言語の仕様では、int型より小さい符号あり整数型(shortやsigned char)は、intに型拡張されます。C言語のintの仕様における定義は、「最低限16bit幅を持つ整数型」です。ただし、2020年、多くの処理系では、int型は32bitであると想定してもよいでしょう。つまり、32bitより小さい符号あり整数は、符号あり32bit整数に型拡張されると想定してください。
+</p>
+<h4>符号あり整数型の演算における自動的な型拡張変換</h4>
+<p>
+  符号あり整数型どうしの演算では、幅が小さい方の型は、幅が大きい方の型に拡張されて計算されます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 符号あり32bit整数型と符号あり64bit整数型の演算
+  // num1はint64_tに型変換される
+  int32_t num1 = 3;
+  int64_t num2 = 5;
+
+  int64_t num3 = num1 + num2;
+}
+</pre>
+<p>
+  以下と同じ意味になります。
+</p>
+<pre>
+int64_t num3 = (int64_t)num1 + num2;
+</pre>
+<p>
+  符号あり整数型における型の拡張においては、中身の値が変わることはないので、安心できます。
+</p>
+<p>
+  型変換を詳しく知りたい場合は、C言語の型変換規則で解説しています。
+</p>
+<ul>
+  <a href="/blog/20210222132505.html">C言語の型変換規則</a>
+</ul>
+<h3>整数が最大値を超えたらどうなるの?</h3>
+<p>
+  整数の最大値に1を加えてみましょう。どうなるでしょうか?
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num = 2147483647;
+  
+  num++;
+  
+  printf("%d\n", num);
+}
+</pre>
+<p>
+  出力結果です。最小値になっています。
+</p>
+<pre>
+-2147483648
+</pre>
+<p>
+  <a href="/blog/20210224132505.html">負の数が2の補数表現</a>になっている場合は、最大値に1加えると、最小値になります。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

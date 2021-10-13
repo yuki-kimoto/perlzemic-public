@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>sprintf関数 - フォーマット文字列を文字列変数へ出力 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="sprintf関数は、フォーマット文字列を、文字列変数へ出力できる関数です。printf関数は、標準出力に対して出力しますが、この出力先をchar型の配列として宣言された文字列変数に変更するものがsprintf関数だと考えてください。sprintf関数は、stdio.hを読み込むと利用できます。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="sprintf関数 - フォーマット文字列を文字列変数へ出力 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="sprintf関数は、フォーマット文字列を、文字列変数へ出力できる関数です。printf関数は、標準出力に対して出力しますが、この出力先をchar型の配列として宣言された文字列変数に変更するものがsprintf関数だと考えてください。sprintf関数は、stdio.hを読み込むと利用できます。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/library.html">
+        <span itemprop="name">C標準ライブラリ</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/library/stdio.html">
+        <span itemprop="name">stdio.h</span>
+      </a>
+      <meta itemprop="position" content="3" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210517083039.html0">sprintf関数 - フォーマット文字列を文字列変数へ出力</a></h2>
+<p>
+  <b>sprintf関数</b>は、フォーマット文字列を、文字列変数へ出力できる関数です。<a href="/blog/20210419083246.html">printf関数</a>は、標準出力に対して出力しますが、この出力先を<a href="/blog/20201204103322.html">char型</a>の<a href="/blog/20210129143859.html">配列</a>として宣言された文字列変数に変更するものがsprintf関数だと考えてください。sprintf関数は、<a href="/blog/20210418083246.html">stdio.h</a>を読み込むと利用できます。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+#include &lt;stdio.h&gt;
+int sprintf(char *str, const char *format,  ．．． );
+</pre>
+<p>
+  第一引数は、出力先の文字列です。第二引数はフォーマット文字列で、<a href="/blog/20210419083246.html">printf関数</a>で解説したものと同じものです。第三引数以降は、可変長引数で、printf関数で解説したものと同じものです。
+</p>
+<p>
+  sprintf関数は、バッファオーバーランを起こす可能性のある関数です。
+</p>
+<h3>sprintf関数のサンプル</h3>
+<p>
+  sprintf関数のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  const char* name = "kimoto";
+  int32_t age = 40;
+  
+  char message[255];
+  
+  sprintf(message, "I'm %s. Age is %d.", name, age);
+  
+  printf("%s\n", message);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+I'm kimoto. Age is 40.
+</pre>
+<p>
+  このサンプルでは、バッファオーバーランを起こすことはありません。
+</p>
+<h3>sprintf関数とバッフォオーバーラン</h3>
+<p>
+  sprintf関数とバッフォオーバーランの危険性について書きます。
+</p>
+<p>
+  たとえば、ユーザーの入力によって、フォーマットに埋め込む値が変わると考えてください。たとえば、Web入力フォームで、ユーザーの名前に長さ制限をかけていなかったとします。また、出力先の文字列の長さが短いものだったとします。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  const char* name = "long_long_long_name";
+  int32_t age = 40;
+  
+  char message[16];
+  
+  // バッファオーバーラン!!!
+  sprintf(message, "I'm %s. Age is %d.", name, age);
+  
+  printf("%s\n", message);
+}
+
+</pre>
+<p>
+  バッファオーバーランが発生すると、意図しないメモリ領域に、データが書き込まれます。これが、具体的個別にどのような問題を起こすかは、僕は詳しくないので、セキュリティエンジニアの方に委ねます。プログラムを記述するエンジニアとしては、バッフォオーバーランを起こしてはならないということを覚えておきましょう。
+</p>
+<p>
+  最大書き込み数を制限できるsnprintf関数もありますので、用途によって使い分けましょう。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

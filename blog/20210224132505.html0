@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>負数を表現する2の補数表現 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="負数を表現するための2の補数表現について解説します。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="負数を表現する2の補数表現 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="負数を表現するための2の補数表現について解説します。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20210224132505.html0">負数を表現する2の補数表現</a></h2>
+<p>
+  負数を表現するための2の補数表現について解説します。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<p>
+  8bit符号あり整数型の<a href="/blog/20201117090747.html">int8_t</a>の例で解説します。
+</p>
+<p>
+  コンピューターアーキテクチャでは、負の数を表現する方法が、いくつかあります。2の補数表現は、その一つです。
+</p>
+<p>
+  2の補数表現を具体的に書き出してみます。
+</p>
+<table>
+  <tr><td>負の数</td><td>負の数のビット表現</td><td>正の数(0含む)</td><td>正の数のビット表現</td></tr>
+  <tr><td>-1</td><td>11111111</td><td>0</td><td>00000000</td></tr>
+  <tr><td>-2</td><td>11111110</td><td>1</td><td>00000001</td></tr>
+  <tr><td>-3</td><td>11111101</td><td>2</td><td>00000010</td></tr>
+  <tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+  <tr><td>-126</td><td>10000010</td><td>125</td><td>01111101</td></tr>
+  <tr><td>-127</td><td>10000001</td><td>126</td><td>01111110</td></tr>
+  <tr><td>-128</td><td>10000000</td><td>127</td><td>01111111</td></tr>
+</table>
+<p>
+  2の補数表現の特徴を見てみましょう。
+</p>
+<ul>
+  <li>最上位ビットが0の場合は正数。最上位ビットが1の場合は負数</li>
+  <li>127(正の最大値)は01111111</li>
+  <li>-1は、11111111</li>
+  <li>-128は、10000000</li>
+  <li>ビットを反転させて和をとると-1(11111111)になる</li>
+</ul>
+<p>
+  2の補数の定義は、どこにでも解説があるので、調べてみてくださいね(笑)。
+</p>
+<h3>負数は2の補数表現であると想定してもかまいませんか?</h3>
+<p>
+  C言語仕様では、負数は2の補数であるとは、定義されていませんが、実際の多くの処理系では、負数の表現は、他の表現よりも、2の補数であるほうがずっと多いと考えます。
+</p>
+<p>
+  正の最大値に1を加えたときに、負の最小値になるのであれば、処理系が負数に2の補数表現を使っていると確信できます。
+</p>
+<p>
+  数値計算ライブラリが、処理系に負数の表現が2の補数であることを求めるのであれば、簡単な計算でチェックできます。
+</p>
+<h3>2の補数の特徴は何ですか?</h3>
+<p>
+  2の補数の特徴は、引き算を足し算で表現できることです。
+</p>
+<pre>
+2 - 3 = -1
+</pre>
+<p>
+  これは以下と同じ。
+</p>
+<pre>
+# 00000010 + 11111101 = 11111111
+2 + (-3) = -1
+</pre>
+<h3>どこらへんに2の補数の2というニュアンスがあるのですか?</h3>
+<p>
+  名前の付け方が、まずかったのかもしれません...。
+</p>
+<p>
+  無理やりこう考えます。
+</p>
+<p>
+  第一番目に発見された補数を、1の補数と呼びましょう。単なるビット反転で、符号が変わります。
+</p>
+<p>
+  第二番目に発見された補数を、2の補数と呼びましょう。単なるビット反転に、1を足す操作を加えると、符号が変わります。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

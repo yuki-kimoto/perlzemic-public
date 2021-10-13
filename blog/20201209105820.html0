@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>C言語の伝統的な整数型 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="C言語の伝統的な整数型の一覧です。一覧についてはWikipediaのC data typesから翻訳・引用しています。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="C言語の伝統的な整数型 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="C言語の伝統的な整数型の一覧です。一覧についてはWikipediaのC data typesから翻訳・引用しています。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/types.html">
+        <span itemprop="name">C言語の型</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20201209105820.html0">C言語の伝統的な整数型</a></h2>
+<p>
+  C言語の伝統的な整数型の一覧です。一覧については<a href="https://en.wikipedia.org/wiki/C_data_types">WikipediaのC data types</a>から翻訳・引用しています。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<table>
+<tr>
+<th style="min-width:200px;">型</th>
+<th>説明</th>
+<th>最小サイズ (ビット)</th>
+<th>書式指定子</th></tr>
+<tr>
+<td>char</td>
+<td>基本文字セットを含めることができるマシンの最小アドレス可能単位。整数型です。実際の型は、符号ありまたは符号なしのいずれかです。</td>
+<td _msthash="1620593" _msttexthash="5096">8</td>
+<td>%c
+</td></tr>
+<tr>
+<td>signed char</td>
+<td><i>char</i>と同じサイズですが、符号ありであることが保証されています。少なくとも [−127, +127] の範囲を含むことができる。</td>
+<td _msthash="1621217" _msttexthash="5096">8</td>
+<td>%c <small _msthash="1621906" _msttexthash="23031593">(数値出力の<code>場合は %hhi)</small>
+</td></tr>
+<tr>
+<td>unsigned char</td>
+<td _msthash="1621152" _msttexthash="286980044"><i>char</i>と同じサイズですが、符号なしであることが保証されています。少なくとも [0, 255] の範囲を含みます。</td>
+<td _msthash="1621841" _msttexthash="5096">8</td>
+<td>%c <small _msthash="1622530" _msttexthash="33544745">(または<code>数値出力の場合は %hhu)</small>
+</td></tr>
+<tr>
+<td>short<br>short int<br>signed short<br>signed short int</td>
+<td _msthash="1621776" _msttexthash="192156887"><i>短い</i>符号付き整数型。少なくとも[−32,767、+32,767]の範囲を含むことができる。</td>
+<td _msthash="1622465" _msttexthash="10075">16</td>
+<td>%hi<font _mstmutation="1" _msthash="1623154" _msttexthash="3868189">または</font>%hd
+</td></tr>
+<tr>
+<td>unsigned short<br>unsigned short int</td>
+<td _msthash="1622400" _msttexthash="117511680"><i>短い</i>符号なし整数型。少なくとも [0, 65,535] の範囲を含みます。</td>
+<td _msthash="1623089" _msttexthash="10075">16</td>
+<td>%hu
+</td></tr>
+<tr>
+<td>int<br>signed<br>signed int</td>
+<td _msthash="1623024" _msttexthash="192874422">ベーシックな符号付き整数型。少なくとも[−32,767、+32,767]の範囲を含むことができる。</td>
+<td _msthash="1623713" _msttexthash="10075">16</td>
+<td>%i<font _mstmutation="1" _msthash="1624402" _msttexthash="3868189">または</font>%d
+</td></tr>
+<tr>
+<td>unsigned<br>unsigned int</td>
+<td _msthash="1623648" _msttexthash="118229215">ベーシックな符号なし整数型。少なくとも [0, 65,535] の範囲を含みます。</td>
+<td _msthash="1624337" _msttexthash="10075">16</td>
+<td>%u
+</td></tr>
+<tr>
+<td>long<br>long int<br>signed long<br>signed long int</td>
+<td _msthash="1624272" _msttexthash="218589813"><i>長い</i>符号付き整数型。少なくとも[−2,147,483,647,+2,147,483,647]範囲を含むことができる。</td>
+<td _msthash="1624961" _msttexthash="9841">32</td>
+<td>%li<font _mstmutation="1" _msthash="1625650" _msttexthash="3868189">または</font>%ld
+</td></tr>
+<tr>
+<td>unsigned long<br>unsigned long int</td>
+<td _msthash="1624896" _msttexthash="179591581"><i>長い</i>符号なし整数型。少なくとも[0,4,294,967,295]範囲を含有することができる。</td>
+<td _msthash="1625585" _msttexthash="9841">32</td>
+<td>%lu
+</td></tr>
+<tr>
+<td>long long<br>long long int<br>signed long long<br>signed long long int</td>
+<td _msthash="1655758" _msttexthash="677553669"><i>長い長い</i>符号付き整数型。少なくとも[−9,223,372,036,854,775,807,<br>+9,223,372,036,854,775,807]<br>範囲を含むことができる。<a href="/wiki/C99">C99</a>バージョンの標準以降に指定。</td>
+<td _msthash="1656460" _msttexthash="10322">64</td>
+<td>%lli<font _mstmutation="1" _msthash="1657162" _msttexthash="3868189">または</font>%lld
+</td></tr>
+<tr>
+<td>unsigned long long<br>unsigned long long int</td>
+<td _msthash="1656395" _msttexthash="391564940"><i>長い長い符号</i>なし整数型。少なくとも[0,+18,446,744,073,709,551,615]範囲を含む。<a href="/wiki/C99">C99</a>バージョン以降の規格指定。</td>
+<td _msthash="1657097" _msttexthash="10322">64</td>
+<td>%llu
+</td></tr>
+</table>
+<h3>伝統的なC言語の整数型の注意点</h3>
+<p>
+  C言語の伝統的な整数型についての、いくつかの注意点です。
+</p>
+<h4>charの符号あり・符号なしは処理系依存</h4>
+<p>
+  charの符号あり・符号なしは処理系依存です。「signed char」「unsigned char」とすることで、符号あり・符号なしを、確定できます。
+</p>
+<p>
+  これはややこしいので、文字を表現する場合は<a href="/blog/20201204103322.html">char</a>、符号あり8bit整数型を表現する場合は<a href="/blog/20201117090747.html">int8_t</a>、符号なし8bit整数型を表現する場合は<a href="/blog/20201122084622.html">uint8_t</a>の使用を推奨します。
+</p>
+<h4>intは符号あり32bit整数ではない</h4>
+<p>
+  C言語仕様では、伝統的な整数型に関しては、最小幅だけが定義されているということに注意してみてください。intの最小幅は16bitです。多くの処理系では32bit整数型として実装されていますが、C言語仕様として、32bit符号あり整数型であるわけではないことに注意してください。
+</p>
+<p>
+  整数型を扱う場合は<a href="/blog/20201206125815.html">C99</a>で導入された幅が保証される整数型を利用するのが推奨です。
+</p>
+<ul>
+  <li><a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a></li>
+  <li><a href="/blog/20201126090559.html">int16_t - 符号あり16bit整数型</a></li>
+  <li><a href="/blog/20201130082751.html">int32_t - 符号あり32bit整数型</a></li>
+  <li><a href="/blog/20201127082751.html">int64_t - 符号あり64bit整数型</a></li>
+  <li><a href="/blog/20201122084622.html">uint8_t - 符号なし8bit整数型</a></li>
+  <li><a href="/blog/20201120084622.html">uint16_t - 符号なし16bit整数型</a></li>
+  <li><a href="/blog/20201111150850.html">uint32_t - 符号なし32bit整数型</a></li>
+  <li><a href="/blog/20201109150850.html">uint64_t - 符号なし64bit整数型</a></li>
+</ul>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>char* - 文字列を表現する型 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="文字列を表現するにはcharのポインタ型である「char*」を使います。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="char* - 文字列を表現する型 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="文字列を表現するにはcharのポインタ型である「char*」を使います。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/types.html">
+        <span itemprop="name">C言語の型</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20201208125815.html0">char* - 文字列を表現する型</a></h2>
+<p>
+  <a href="/blog/20210331101342.html">文字列</a>を表現するにはcharのポインタ型である「char*」を使います。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+char*
+</pre>
+<p>
+  「char*」型には、文字列リテラルを代入できます。
+</p>
+<pre>
+char* name = "Perl";
+</pre>
+<p>
+  一般的には、文字列リテラルを代入する場合の用途で「char*」型を使う場合は、const修飾子をつけて、文字の変更を行わないようにしておくのが望ましいです。
+</p>
+<pre>
+const char* name = "Perl";
+</pre>
+<p>
+  C言語における文字列とは、末尾が「\0」で終わる文字の配列だということを意識しておきましょう。要素を書くと以下のようになります。
+</p>
+<pre>
+0 1 2 3 4
+P e r l \0
+</pre>
+<p>
+  意味的には、文字列リテラルの代入は以下のコードと同じになります。
+</p>
+<p>
+  文字列リテラルを代入して出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* name = "Perl";
+  printf("%s\n", name);
+}
+</pre>
+<h3>実行時に文字列を生成する場合</h3>
+<p>
+  実行時に動的に文字列を生成するには、mallocでメモリを確保します。Perlという文字は4文字ですが、末尾に「\0」が必要なため、5バイトを確保します。charのサイズは1バイトです。
+</p>
+<pre>
+#include &lt;stdlib.h&gt;
+
+char* name = malloc(sizeof(char) * 5);
+
+// Perl
+name[0] = 'P';
+name[1] = 'e';
+name[2] = 'r';
+name[3] = 'l';
+name[4] = '\0';
+</pre>
+<p>
+  動的に生成した文字列を出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+
+  char* name = malloc(sizeof(char) * 5);
+
+  // Perl
+  name[0] = 'P';
+  name[1] = 'e';
+  name[2] = 'r';
+  name[3] = 'l';
+  name[4] = '\0';
+
+  printf("%s\n", name);
+}
+</pre>
+<h3>途中に\0を含む文字列を作成することはできないの?</h3>
+<p>
+  含むことは可能ですが、文字列に関するC言語関数は、文字列の終わりを「\0」と想定しています。文字列の途中に「\0」を含んだ場合は、その位置を文字列の終了位置として認識します。文字列定数の表現も、末尾に「\0」を自動的につけます。C言語では、文字列の末尾は「\0」であると文法や関数が想定していると考えておくほうがよいでしょう。
+</p>
+<h3>C言語の文字列は長さの情報を含んでいないの?</h3>
+<p>
+  はい。C言語の文字列は長さの情報を含んでいません。「\0」を終了位置とみなしますので、長さを取得する場合は「\0」までの文字数を数える必要があります。文字列の長さを取得するstrlen関数は「\0」までの文字数を数えます。
+</p>
+<h3>C言語の文字列のセキュリティリスク</h3>
+<p>
+  C言語の文字列は末尾が「\0」までを文字列としてみなすという仕様があるために、もし文字列の末尾に「\0」を含むことを忘れると、C言語の文字列関数(最大処理文字数を指定できないもの)は、意図しない位置まで読み込みます。この位置で書き込みを行ってしまうと、バッファオーバーランが発生します。
+</p>
+<p>
+  これは、C言語を記述する場合のメモリ操作で、容易に起こりうることです。
+</p>
+<p>
+  C言語の文字列関数を扱う場合は、意図しない領域まで読み込んでいないか、バッファオーバーランをしないかどうかを、常に考える必要があります。
+</p>
+<p>
+  C言語でなぜ文字列の扱いが難しいのかという理由のひとつが見えてきますね。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

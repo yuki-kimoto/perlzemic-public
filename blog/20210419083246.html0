@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>printf関数 - 文字列をフォーマットして出力する - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="printf関数を使うと、文字列をフォーマットして出力できます。stdio.hヘッダをインクルードすると利用できます。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="printf関数 - 文字列をフォーマットして出力する - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="printf関数を使うと、文字列をフォーマットして出力できます。stdio.hヘッダをインクルードすると利用できます。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/library.html">
+        <span itemprop="name">C標準ライブラリ</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/library/stdio.html">
+        <span itemprop="name">stdio.h</span>
+      </a>
+      <meta itemprop="position" content="3" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210419083246.html0">printf関数 - 文字列をフォーマットして出力する</a></h2>
+<p>
+  printf関数を使うと、文字列をフォーマットして出力できます。<a href="/blog/20210418083246.html">stdio.hヘッダ</a>をインクルードすると利用できます。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+#include &lt;stdio.h&gt;
+int printf(const char * restrict format, ...);
+</pre>
+<p>
+  printf関数のサンプルです。第一引数は、文字列を意味する「%s」や整数を意味する「%d」などフォーマット指定子を含む文字列です。第二引数以降は、可変長引数となっており、フォーマット指定子に対応する値を渡します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  const char* name = "Yuki Kimoto";
+  int32_t age = 40;
+  
+  printf("My name is %s. Age is %d.\n", name, age);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+My name is Yuki Kimoto. Age is 40.
+</pre>
+<h3>整数型のフォーマット</h3>
+<h4>int32_t(符号あり32bit整数型)のフォーマット</h4>
+<p>
+  <a href="/blog/20201130082751.html">int32_t型</a>(32bit符号あり整数型)をフォーマットするには「%d」を使用します。
+</p>
+<pre>
+%d
+</pre>
+<p>
+  「%d」は、正確にいうと、<a href="/blog/20210130143859.html">int型</a>のフォーマットです。
+</p>
+<p>
+  ですので、もしint型の定義が16bitの処理系ですと、「%d」というフォーマットでは、<a href="/blog/20201130082751.html">int32_t</a>の値は、正しく出力されません。けれども、世の中のすべての処理系が、intを32bit以上で表現していると仮定すると、int32_t型の整数を「%d」でフォーマットするコードは正しくなります。
+</p>
+<p>
+  ためしに、int32_t型の最小値を、「%d」に渡してみましょう。あなたの環境では、いかがでしょうか?
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num = INT32_MIN;
+  
+  printf("%d\n", num);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+-2147483648
+</pre>
+<p>
+  サイズが保証された整数型を、完全に正しくフォーマットする方法は、この後に解説します。こちらを使う方が正確ですが、記憶上で覚えておけないという、難点があります。
+</p>
+<h4>int16_t(符号あり16bit整数型)のフォーマット</h4>
+<p>
+  <a href="/blog/20201126090559.html">int16_t</a>(16bit符号あり整数型)をフォーマットするには「%d」を使用します。
+</p>
+<pre>
+%d
+</pre>
+<h4>int8_t(符号あり8bit整数型)のフォーマット</h4>
+<p>
+  <a href="/blog/20201117090747.html">int8_t</a>(8bit符号あり整数型)をフォーマットするには「%d」を使用します。
+</p>
+<pre>
+%d
+</pre>
+<h4>int64_t(符号あり64bit整数型)のフォーマット</h4>
+<p>
+  <a href="/blog/20201127082751.html">int64_t</a>(64bit符号あり整数型)をフォーマットするには、この後で説明する「PRId64」を使用します。
+</p>
+<pre>
+printf("%" PRId64 "\n", num);
+</pre>
+<p>
+  「%ld」や「%lld」は移植性の警告が行われることがあるので、int64_tを出力する場合は、PRId64を使っておくと安心でしょう。
+</p>
+<h4>uint32_t(符号なし32bit整数型)のフォーマット</h4>
+<p>
+  <a href="/blog/20201111150850.html">uint32_t</a>(符号なし32bit整数型)のフォーマットには「%u」を使います。理由はint32_t型のフォーマットで解説したものと同じです。
+</p>
+<h4>uint8_t(符号なし8bit整数型)のフォーマット</h4>
+<p>
+  <a href="/blog/20201122084622.html">uint8_t</a>(符号なし8bit整数型)のフォーマットには「%u」を使います。
+</p>
+<h4>uint16_t(符号なし16bit整数型)のフォーマット</h4>
+<p>
+  <a href="/blog/20201120084622.html">uint16_t</a>(符号なし16bit整数型)のフォーマットには「%u」を使います。
+</p>
+<h4>uint64_t(符号なし64bit整数型)のフォーマット</h4>
+<p>
+  <a href="/blog/20201109150850.html">uint64_t</a>(符号なし64bit整数型)のフォーマットには、この後で説明する「PRIu64」を使用します。
+</p>
+<pre>
+printf("%" PRIu64 "\n", num);
+</pre>
+<p>
+  「%lu」や「%llu」は移植性の警告が行われることがあるので、int64_tを出力する場合は、PRIu64を使っておくと安心でしょう。
+</p>
+<h4>サイズが保証された整数型のフォーマット</h4>
+<p>
+  サイズが保証された整数型のフォーマットを正しく出力する方法があります。int32_t型の値を、正しくフォーマットしてみましょう。inttypes.hヘッダで定義されているPRId32マクロを使用します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;inttypes.h&gt;
+
+int main(void) {
+  int32_t num = INT32_MIN;
+  
+  printf("%" PRId32 "\n", num);
+}
+</pre>
+<p>
+  「なんだこの書き方は...」と感じますね。C言語では、文字列リテラルは「"Foo" "Bar"」のように並べると、コンパイル時に結合されます。PRId32はマクロです。処理系の定義に応じて、適切なフォーマットの置換されます。たとえば「"%" "d" "\n"」のように置換されます。
+</p>
+<p>
+  サイズが保証された整数型のフォーマットのよく使うであろうものの一覧です。
+</p>
+<table>
+  <tr><th>PRId8</th><td>int8_tのフォーマット</td></tr>
+  <tr><th>PRId16</th><td>int16_tのフォーマット</td></tr>
+  <tr><th>PRId32</th><td>int32_tのフォーマット</td></tr>
+  <tr><th>PRId64</th><td>int64_tのフォーマット</td></tr>
+  <tr><th>PRIu8</th><td>uint8_tのフォーマット</td></tr>
+  <tr><th>PRIu16</th><td>uint16_tのフォーマット</td></tr>
+  <tr><th>PRIu32</th><td>uint32_tのフォーマット</td></tr>
+  <tr><th>PRIu64</th><td>uint64_tのフォーマット</td></tr>
+</table>
+<h3>整数型のフォーマットの表示幅の指定</h3>
+<p>
+  整数フォーマットで表示幅を指定してみましょう。
+</p>
+<h4>表示幅を指定して右寄せ</h4>
+<p>
+  「%5d」のように「%」の後ろに「表示幅」を指定します。デフォルトでは、整数が右寄せです。足りない桁は空白で埋められます。
+</p>
+<pre>
+# 整数の表示幅を指定する
+%2d
+</pre>
+<p>
+  fprintfの整数フォーマットで、表示幅を5桁に指定するサンプルです。5桁の右寄せになります。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num = 123;
+  
+  // 表示幅を5桁に指定 右寄せ
+  printf("foo,%5d,bar\n", num);
+}
+</pre>
+<p>
+  出力結果です。整数が5桁の右寄せで、出力されています。
+</p>
+<pre>
+foo,  123,bar
+</pre>
+<h4>表示幅を指定して左寄せ</h4>
+<p>
+  表示幅を指定し左寄せするには「%-5d」のように、表示幅の前にマイナスをつけます。
+</p>
+<pre>
+// 表示幅を指定し左寄せ
+%-5d
+</pre>
+<p>
+  表示幅を指定し左寄せで表示するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num = 123;
+  
+  // 桁数を5桁に指定 左寄せ
+  printf("foo,%-5d,bar\n", num);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+foo,123  ,bar
+</pre>
+<h4>表示幅を指定して0埋め</h4>
+<p>
+  表示幅を指定し左寄せするには「%05d」のように、表示幅の前に0をつけます。
+</p>
+<pre>
+// 表示幅を指定し左寄せ
+%05d
+</pre>
+<p>
+  表示幅を指定し左寄せで表示するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num = 123;
+  
+  // 桁数を5桁に指定 - 0埋め
+  printf("foo,%05d,bar\n", num);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+foo,00123,bar
+</pre>
+<h3>整数型を16進数で表示</h3>
+<p>
+  整数型を16進数で表示するには「%x」または「%X」を使用します。「%x」の場合は「a～z」で、「%X」の場合は「A～Z」を使って出力されます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t num = 0x34AB;
+  
+  printf("%x\n", num);
+  printf("%X\n", num);
+}
+</pre>
+<h3>浮動小数点型のフォーマット</h3>
+<p>
+  printf関数の浮動小数点型のフォーマットの解説です。
+</p>
+<h4>浮動小数点型のフォーマット</h4>
+<p>
+  printf関数の浮動小数点型のフォーマットは「%f」です。<a href="/blog/20201202133213.html">float型</a>も<a href="/blog/20201203133213.html">double型</a>も両方「%f」で大丈夫です。
+</p>
+<pre>
+%f
+</pre>
+<p>
+  printf関数で浮動小数点を出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  double num = 123.56;
+  
+  printf("%f\n", num);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+123.560000
+</pre>
+<h4>浮動小数の小数点以下の桁数を指定する</h4>
+<p>
+  浮動小数の小数点以下の桁数を指定するには「%.2f」のように書きます。
+</p>
+<p>
+  printf関数で浮動小数点を小数点以下2桁で出力するサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  double num = 123.56;
+  
+  // 小数点以下の桁数を2桁に指定
+  printf("%.2f\n", num);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+123.56
+</pre>
+<h4>浮動小数点をいい感じに表示する</h4>
+<p>
+  浮動小数点をいい感じに表示するには「%g」を使用します。指数表記で桁数が多い場合は、自動的に指数表記にしてくれます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  double num1 = 123.56;
+  double num2 = 2.56e40;
+  
+  // 浮動小数点をいい感じに表示
+  printf("%g\n", num1);
+  printf("%g\n", num2);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+123.56
+2.56e+40
+</pre>
+<h3>文字のフォーマット</h3>
+<p>
+  printf関数で文字をフォーマットするには「%c」を使います。
+</p>
+<pre>
+%c
+</pre>
+<p>
+  printf関数で文字をフォーマットするサンプルです。<a href="/blog/20210429092832.html">文字リテラル</a>「'a'」で記述した値は、<a href="/blog/20201204103322.html">char型</a>でASCIIコードとして保持しています。これを、「%c」で文字として出力します。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  char ch = 'a';
+  
+  // 文字列を出力
+  printf("%c\n", ch);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+a
+</pre>
+<h3>文字列のフォーマット</h3>
+<p>
+  printf関数で<a href="/blog/20210331101342.html">文字列</a>をフォーマットするには「%s」を使います。
+</p>
+<pre>
+%s
+</pre>
+<p>
+  printf関数で文字列をフォーマットするサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* message = "Hello";
+  
+  // 文字列を出力
+  printf("%s\n", message);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+Hello
+</pre>
+<h3>ポインタのフォーマット</h3>
+<p>
+  printf関数で<a href="/blog/20210211090234.html">ポインタ</a>をフォーマットするには「%p」を使います。ポインタの値(アドレス)が得られます。
+</p>
+<pre>
+%p
+</pre>
+<p>
+  printf関数でポインタをフォーマットするサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  const char* message = "Hello";
+  
+  // ポインタを出力
+  printf("%p\n", message);
+}
+</pre>
+<p>
+  私の環境での出力結果です。ポインタの値(アドレス)が出力されています。
+</p>
+<pre>
+0x4005c8
+</pre>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

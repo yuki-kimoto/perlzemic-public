@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>C99の新機能 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="C99の新機能の紹介です。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="C99の新機能 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="C99の新機能の紹介です。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <h2><a href="/blog/20201206125815.html0">C99の新機能</a></h2>
+<p>
+  C99の新機能の紹介です。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<h3>「//」による一行コメント</h3>
+<p>
+  C言語の<a href="/blog/20201207125815.html">コメント</a>は「/* コメント */」だけでしたが、「//」による一行コメントが、正式にC99で採用されました。
+</p>
+<pre>
+// コメント
+</pre>
+<h3>どの位置でもローカル変数宣言が可能</h3>
+<p>
+  C99からはどの位置でも<a href="/blog/20201217105308.html">ローカル変数の宣言</a>が可能になりました。ローカル変数の宣言は、ブロックの先頭でなければならないという制約はなくなりました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+int main (void) {
+  {
+    int32_t num1 = 5;
+    
+    1 + 1;
+    
+    // どの位置でもローカル変数の宣言が可能
+    int32_t num2 = 4;
+  }
+}
+</pre>
+<h3>for文のループ変数初期化部でローカル変数の宣言が可能に</h3>
+<p>
+  <a href="/blog/20210115151850.html">for文</a>のループ変数初期化部で<a href="/blog/20201217105308.html">ローカル変数の宣言</a>が可能になりました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  int32_t total = 0;
+
+  // forのループ変数初期化部で変数宣言を行う
+  for (int32_t i = 0; i &lt; 10; i++) {
+    total += i;
+  }
+  
+  printf("%d\n", total);
+}
+</pre>
+<h3>確実な幅を指定できる整数型</h3>
+<p>
+  確実な幅を指定できる整数型が利用できるようになりました。
+</p>
+<ul>
+  <li><a href="/blog/20201117090747.html">int8_t - 符号あり8bit整数型</a></li>
+  <li><a href="/blog/20201126090559.html">int16_t - 符号あり16bit整数型</a></li>
+  <li><a href="/blog/20201130082751.html">int32_t - 符号あり32bit整数型</a></li>
+  <li><a href="/blog/20201127082751.html">int64_t - 符号あり64bit整数型</a></li>
+  <li><a href="/blog/20201122084622.html">uint8_t - 符号なし8bit整数型</a></li>
+  <li><a href="/blog/20201120084622.html">uint16_t - 符号なし16bit整数型</a></li>
+  <li><a href="/blog/20201111150850.html">uint32_t - 符号なし32bit整数型</a></li>
+  <li><a href="/blog/20201109150850.html">uint64_t - 符号なし64bit整数型</a></li>
+</ul>
+<h3>ポインタと相互変換可能な整数型</h3>
+<ul>
+  <li><a href="/blog/20210225131724.html">intptr_t - ポインタのサイズの符号あり整数型</a></li>
+  <li><a href="/blog/20210223131724.html">uintptr_t - ポインタのサイズの符号なし整数型</a></li>
+</ul>
+<h3>構造体のメンバ変数名を指定して値を指定</h3>
+<p>
+  <a href="/blog/20210208155548.html">構造体</a>のメンバ変数名を指定して値を指定できるようになりました。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体変数の宣言と初期化(メンバ変数名を指定して値を指定)
+  struct myapp_book book = {.id = 1, .name = "C99 Book", .price = 2000};
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

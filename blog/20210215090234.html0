@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>汎用ポインタ型 - void* - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="あらゆるポインタ型を代入できるポインタ型を汎用ポインタ型「void*」があります。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="汎用ポインタ型 - void* - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="あらゆるポインタ型を代入できるポインタ型を汎用ポインタ型「void*」があります。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/types.html">
+        <span itemprop="name">C言語の型</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210215090234.html0">汎用ポインタ型 - void*</a></h3>
+<p>
+  あらゆるポインタ型を代入できるポインタ型を汎用ポインタ型「void*」があります。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+void*
+</pre>
+<h3>汎用ポインタ型のサンプル</h3>
+<p>
+  汎用ポインタ型のサンプルです。
+</p>
+<h4>汎用ポインタへの代入とその逆の代入</h3>
+<p>
+  <a href="/blog/20210210082644.html">malloc関数</a>や<a href="/blog/20210209082644.html">calloc関数</a>は「void*」型の値を返します。実際に「void*」型の変数を宣言して他のポインタ型に代入してみましょう。
+</p>
+<p>
+  また他のポインタ型を「void*」型に代入するのもやってみましょう。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+  
+  void* memory_block1 = malloc(sizeof(int32_t) * 10);
+  void* memory_block2 = calloc(sizeof(int32_t), 10);
+  
+  int32_t* nums1 = memory_block1;
+  int32_t* nums2 = memory_block2;
+
+  void* memory_block1_again = nums1;
+  void* memory_block2_again = nums2;
+}
+</pre>
+<p>
+  C言語では、void*型を他のポインタ型に代入する場合も、他のポインタ型にvoid*型を代入する場合も明示的なキャストは、必要がありません。
+</p>
+<h4>汎用ポインタ型変数へint32_t型の値を保存する</h3>
+<p>
+  これは、裏技的な方法ですが、汎用ポインタ型の変数へ、<a href="/blog/20201130082751.html">int32_t</a>型の値を保存することができます。この裏技は「配列の要素をvoid*型で実装したんだけど、あー、これに、整数も保存したいねぇ、どうやるのよ?」という場合に使えます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  
+  // void*型を要素に持つ配列
+  void** objects = calloc(sizeof(void*), 10);
+  
+  // int32_t型の値をvoid*型の要素に保存
+  int32_t num = 5;
+  
+  // int32_t型ををintptr_tにキャスト、さらにvoid*に変換して代入
+  objects[1] = (void*)(intptr_t)num;
+  
+  // void*型をintptr_tへキャスト、さらにint32_t型へキャストして、取得
+  int32_t num2 = (int32_t)(intptr_t)objects[1];
+  
+  printf("%d\n", num2);
+}
+</pre>
+<p>
+  「void*型」と互換性があり、符号あり整数型とも互換性のある<a href="/blog/20210225131724.html">intptr_t型</a>のキャストを挟み込むのがポイントです。
+</p>
+<p>
+  この裏技的テクニックを使う場合は、32bit環境と64bit環境の両方で動作させるために、int32_tを使うことに注意してください。<a href="/blog/20201127082751.html">int64_t</a>を使うと、32bit環境では、正しく動きません。符号なし32bit整数型の<a href="/blog/20201111150850.html">uint32_t</a>は、問題なく使うことができます。
+</p>
+<p>
+  浮動小数点を保存したい場合は<a href="/blog/20201202133213.html">float</a>なら32bit幅なのでOKです。<a href="/blog/20201203133213.html">double</a>は64bit幅なので、アウトです。
+</p>
+<h3>void型とvoid*型のvoidは同じ意味?</h3>
+<p>
+  いいえ、void型のvoidは「存在しない」ということを表現する特殊な型です。
+</p>
+<p>
+  一方、「void*型」のvoidの部分は「汎用(どんな型でも)」を意味しています。
+</p>
+<h3>void*から他のポイント型への明示的キャストについてどう思いますか?</h3>
+<p>
+  void*から他のポイント型への明示的キャストについてどう思いますか?
+</p>
+<p>
+  以下のような書き方ですね。
+</p>
+<pre>
+  void* memory_block1 = malloc(sizeof(int32_t) * 10);
+  int32_t* nums1 = (int32_t*)memory_block1;
+</pre>
+<p>
+  これは、C言語仕様では、特に求められていないことです。一方、C++仕様では、求められていることです。
+</p>
+<p>
+  もしC++について意識する必要ないのであれば、C言語にとっては冗長な書き方になっています。
+</p>
+<p>
+  冗長ですが、もし書いてあっても特別悪い影響はないと思います。
+</p>
+<p>
+  書いていても、特別良い影響があるわけでもないと思います。
+</p>
+<p>
+  言語論争なようなものに巻き込まれがちな分野でもありますが、実用的には、そんなに気にすることはないと思います。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

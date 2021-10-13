@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>#includeプリプロセッサ命令 - ファイルのインクルード - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="#includeプリプロセッサ命令は、他のソースコードをインクルードするためのプリプロセッサ命令です。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="#includeプリプロセッサ命令 - ファイルのインクルード - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="#includeプリプロセッサ命令は、他のソースコードをインクルードするためのプリプロセッサ命令です。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/preprocessor.html">
+        <span itemprop="name">プリプロセッサ</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210203153019.html0">#includeプリプロセッサ命令 - ファイルのインクルード</a></h2>
+<p>
+  #includeプリプロセッサ命令は、他のソースコードをインクルードするためのプリプロセッサ命令です。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+#include &lt;ファイル名&gt;
+
+#include "ファイル名"
+</pre>
+<p>
+  ファイル名で指定されたファイルの内容を、現在のソースコードに、埋め込みます。
+</p>
+<p>
+  「<ファイル名>」と「"ファイル名"」の違いはどうやらプリプロセッサの実装に依存するようです。
+</p>
+<p>
+  gccで試してみた結果です。
+</p>
+<p>
+  「<ファイル名>」の場合は「-I オプションで指定されたディレクトリ」「システムのヘッダファイルのインクルードパス」の順にファイルを検索します。
+</p>
+<p>
+  「"ファイル名"」の場合は「カレントディレクトリ」「-I オプションで指定されたディレクトリ」「システムのヘッダファイルのインクルードパス」でファイルを検索します。
+</p>
+<p>
+  複数の「-I」オプションが指定された場合は、先に指定したIオプションから検索されます。
+</p>
+<p>
+  使い分けとしては、<a href="/library.html">標準ライブラリ</a>を使う場合や、システムのヘッダファイルのインクルードパスにインストールされているライブラリを使う場合は「<ファイル名>」、自作のアプリケーション用のヘッダファイルはは「"ファイル名"」くらいの感じでよいのではないでしょうか。
+</p>
+<h3>#includeプリプロセッサ命令のサンプル</h3>
+<p>
+  #includeプリプロセッサ命令のサンプルです。
+</p>
+<h4>標準ライブラリのヘッダを読み込む</h4>
+<p>
+  標準ライブラリのヘッダを読み込みます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("%s\n", "Hello World!");
+}
+</pre>
+<h4>自作のアプリケーションのヘッダファイルを読み込む</h4>
+<p>
+  自作のアプリケーションのヘッダファイルを読み込みます。
+</p>
+<pre>
+#include "myapp_lib.h"
+
+int main(void) {
+  // myapp_lib.hで宣言されている関数を使うなど
+}
+</pre>
+<h3>読み込むファイルの拡張子は「.h」でなくてもよいのですか?</h3>
+<p>
+  はい、拡張子名は関係ありません。たとえば「.c」でも読み込めます。読み込めますが、本当に特別な理由がない限りは、ヘッダファイル以外は読み込まない方がよいでしょう。
+</p>
+<h3>ファイル名は、絶対パスでも良いのですか?</h3>
+<p>
+  はい、ファイル名は絶対パスでもかまいません。ただし、本当に特別な理由がない限りは、相対パスで読み込むのがよいでしょう。
+</p>
+<h3>システムのヘッダファイルのインクルードパスを調べるにはどうすればよいですか?</h3>
+<p>
+  「いったいどうやってしらべりゃーいいのよ!」
+</p>
+<p>
+  これは、コンパイラのプリプロセッサに静的に書き込まれた情報ですので、プリプロセッサの情報を調べる必要があります。
+</p>
+<p>
+  Ubuntuの場合に、調べ方を記述した記事があるので、参考にしてください。
+</p>
+<ul>
+  <li><a href="https://ubuntu.perlclub.net/blog/20200429174004.html">ヘッダーファイルの読み込みパス - Ubuntu+PerlでWebシステム開発 環境構築</a></li>
+</ul>
+<h3>なぜヘッダファイルをインクルードするだけで、標準ライブラリが使えるのですか?</h3>
+<p>
+  「なぜヘッダファイルをインクルードするだけで、標準ライブラリが使えるのですか? libstdio.oのようなオブジェクトファイルをリンクしないで使えるのはなぜですか?」
+</p>
+<p>
+  gccの場合で説明しますが、「printf関数」など<a href="/library.html">標準ライブラリ</a>が実装された「libglibc.o(あるいはlibglibc.so)」というオブジェクトファイルが、暗黙的にリンクされるからです。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

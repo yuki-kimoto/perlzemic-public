@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>switch文 - 整数の高速な条件分岐 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="switch文を使うと、整数の高速な条件分岐を行うことができます。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="switch文 - 整数の高速な条件分岐 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="switch文を使うと、整数の高速な条件分岐を行うことができます。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/syntax.html">
+        <span itemprop="name">基本文法</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210122133501.html0">switch文 - 整数の高速な条件分岐</a></h2>
+<p>
+  switch文を使うと、整数の高速な条件分岐を行うことができます。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+switch (値) {
+  case ケース1の値:
+    // 処理1
+    break;
+  case ケース2の値:
+    // 処理2
+    break;
+  case ケース3の値:
+    // 処理3
+    break;
+  default:
+    // 上記以外のケースの場合の処理
+}
+</pre>
+<p>
+  break文は必須ではありませんが、breakがない場合は、switch文の外には移動せずに、下の文が実行されます。
+</p>
+<pre>
+switch (値) {
+  case ケース1の値:
+  case ケース2の値:
+    // ケース1あるいはケース2の場合の処理
+    break;
+  case ケース3の値:
+    // 処理3
+    break;
+  default:
+    // 上記以外のケースの場合の処理
+}
+</pre>
+<p>
+  break文の記述のし忘れは、経験的に語ると、頻繁に発生します。「あれ、おかしいな、プログラムの動きが謎過ぎる」と思ったらbreak文書き忘れてたみたいな。
+</p>
+<p>
+  switch文のそれぞれの場合の処理では、変数宣言を行いたい場合も多いので、変数宣言を行いたい場合は、以下のようにスコープを作っておくとよいでしょう。
+</p>
+<pre>
+switch (値) {
+  case ケース1の値: {
+    // 処理1
+    break;
+  }
+  case ケース2の値: {
+    // 処理2
+    break;
+  }
+  case ケース3の値: {
+    // 処理3
+    break;
+  }
+  default: {
+    // 上記以外のケースの場合の処理
+  }
+}
+</pre>
+<p>
+  switch文を使ったサンプルです。<a href="/blog/20210120133501.html">列挙型</a>と組み合わせて使っています。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+enum {
+  SPVM_OP_C_ID_IF,
+  SPVM_OP_C_ID_UNLESS,
+  SPVM_OP_C_ID_ELSIF,
+  SPVM_OP_C_ID_ELSE,
+  SPVM_OP_C_ID_FOR,
+};
+
+int main(void) {
+  
+  int32_t id = SPVM_OP_C_ID_UNLESS;
+  
+  switch (id) {
+    case SPVM_OP_C_ID_IF: {
+      printf("IF\n");
+      break;
+    }
+    case SPVM_OP_C_ID_UNLESS: {
+      printf("UNLESS\n");
+      break;
+    }
+    case SPVM_OP_C_ID_ELSIF: {
+      printf("ELSIF\n");
+      break;
+    }
+    case SPVM_OP_C_ID_ELSE: {
+      printf("ELSE\n");
+      break;
+    }
+    case SPVM_OP_C_ID_FOR: {
+      printf("FOR\n");
+      break;
+    }
+    default: {
+      printf("No Match\n");
+    }
+  }
+}
+</pre>
+<h3>switch文の内部実装はどうなっていますか?</h3>
+<p>
+  整数のパターンによって、二種類のジャンプテーブルが選択的に使われていると想像します。
+</p>
+<h4>整数の範囲が小さい場合</h4>
+<p>
+  ジャンプ先のアドレスは、連続した整数位置に並べられ、計算量O(1)でジャンプできます。
+</p>
+<pre>
+5 0x1235
+6 0x4568
+7 NULL
+8 NULL
+9 0x3289
+</pre>
+<h4>整数の範囲が大きい場合</h4>
+<p>
+  ジャンプ先のアドレスは、二分探索が可能なように小さい順に並べられ、計算量O(log n)でジャンプできます。
+</p>
+<pre>
+5     0x1237
+6     0x4563
+7000  0x8768
+10000 0x3284
+</pre>
+<h3>if文とswitch文はどのように使い分けますか?</h3>
+<p>
+  <a href="/blog/20201224090954.html">if文</a>とswitch文はどのように使い分けるでしょうか?
+</p>
+<p>
+  switch文は、整数にマッチする場合にだけ使います。switch文は、<a href="/blog/20210120133501.html">列挙型</a>との相性が非常によいです。
+</p>
+<p>
+  また、マッチさせる数が多い場合は、if文よりも速いです。たとえば、255個のIDで分岐したい場合は、switch文は高速で適しているといえます。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

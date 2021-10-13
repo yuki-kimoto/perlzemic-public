@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>グローバル変数 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="C言語のグローバル変数についての解説です。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="グローバル変数 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="C言語のグローバル変数についての解説です。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/syntax.html">
+        <span itemprop="name">基本文法</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210315140759.html0">グローバル変数</a></h2>
+<p>
+  C言語のグローバル変数についての解説です。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<h3>グローバル変数を使わないC言語プログラミングを推奨</h3>
+<p>
+  最初に書いておくと、グローバル変数は使わないでC言語プログラミングを行うことを強く推奨します。
+</p>
+<p>
+  自分でライブブラリやアプリケーションを作成する場合は、グローバル変数を使わずに、プログラミングできます。
+</p>
+<p>
+  自分で作成していないライブラリが、ライブラリンのインターフェースとして、グローバル変数を使うことを要求していた場合は、グローバル変数を使う必要がありますが、自作のC言語プログラミングであれば、グローバル変数を使わずに、プログラミングできます。そのような場合でも、グローバル変数へのアクセスを、極力さけるための工夫をします。
+</p>
+<h4>グローバル変数の危険性</h4>
+<p>
+  グローバル変数の危険性というのは、一言で書くと、グローバル変数はどこからでも変更可能だということです。
+</p>
+<p>
+  さて、プログラミングが100万行あったとして、何かの間違いで、どこかの場所でグローバル変数が変更されました。
+</p>
+<p>
+  さて、皆さんは、この箇所を、苦労して探したいですか? それとも、最初からリスクをなくしておきますでしょうか?
+</p>
+<p>
+  C99対応のC言語入門では、最初からリスクをなくしておく方法を強くお勧めしています。
+</p>
+<h4>でもどうしてグローバル変数があふれているの?</h4>
+<p>
+  でも、どうして、結局のところ、世の中に出回っているプログラミングは、こんなにもグローバル変数にあふれているのでしょうか?
+</p>
+<p>
+  500行のときは、グローバル変数でも、確認するのは簡単でした。次の担当の人は、前に書いてあったものを、コピーして、真似しました。その場しのぎとして、とても楽です。プログラムは、次第にどんどん大きくなっていきます。
+</p>
+<p>
+  気づけば、1万行に達しています。
+</p>
+<p>
+  書き換えようと思っても、リファクタリングの時間は与えてもらえません。そのような交渉をする権限も雰囲気もありません。
+</p>
+<p>
+  次の要件を達成するための現実的な策は、前のものをコピペして、少し変えて使うことです。そして、あまりにもリファクタリングを怠っていたので、プログラミングを書く作業時間は、どんどん伸び、試験の期間に到達しています。試験の期間のぎりぎりで、夜10時までの残業をこなして、やっと、プログラムが書き終わりました。さて、そのようなシステムは、信頼性の高いシステムでしょうか?
+</p>
+<h3>グローバル変数を使わないでプログラミングする手法</h3>
+<p>
+  グローバル変数を使わないでプログラミングする手法について紹介します。
+</p>
+<h4>整数定数はenum</h4>
+<p>
+  整数定数を使いたい場合は、<a href="/blog/20210120133501.html">列挙型enum</a>を使います。
+</p>
+<h4>浮動小数点定数は定数マクロ</h4>
+<p>
+  浮動小数点定数を使いたい場合は、<a href="/blog/20210302083009.html">#defineによるマクロの記述</a>を行います。
+</p>
+<h4>文字列定数は静的ローカル変数</h4>
+<p>
+  文字列定数を使いたい場合のテクニックをローカル変数の解説の静的ローカル変数の部分に書いています。
+</p>
+<ul>
+  <li>
+    <a href="/blog/20201217105308.html">ローカル変数の記事の「静的ローカル変数」の部分</a>
+  </li>
+</ul>
+<h4>文字列定数の配列は静的ローカル変数</h4>
+<p>
+  文字列定数の配列を使いたい場合のテクニックをローカル変数の解説の静的ローカル変数の部分に書いています。
+</p>
+<ul>
+  <li>
+    <a href="/blog/20201217105308.html">ローカル変数の記事の「静的ローカル変数」の部分</a>
+  </li>
+</ul>
+<h4>プログラムの開始から終わりまで同じ値を保持したい</h4>
+<p>
+  この場合も静的ローカル変数が使えます。
+</p>
+<ul>
+  <li>
+    <a href="/blog/20201217105308.html">ローカル変数の記事の「静的ローカル変数」の部分</a>
+  </li>
+</ul>
+<h4>複数の関数からまとまったデータにアクセスしたい</h4>
+<p>
+  グローバル変数を使いたくなる動機は、必要なデータだけ関数を引数に渡すのがめんどうで、複数の関数からまとまったデータにアクセスしたい場合があるからです。
+</p>
+<p>
+  必要なデータだけを関数に渡すのは、リエントラントで最も安全な方法ですが、少し大きなアプリケーションを作る場合には、面倒で現実的ではないのです。
+</p>
+<p>
+  このような場合は、C言語にオブジェクト指向の考え方を取り入れましょう。オブジェクトにデータを保存して、アクセスするようにします。
+</p>
+<ul>
+  <li><a href="/blog/20210212090234.html">オブジェクト指向C言語</a></li>
+</ul>
+<h3>グローバル変数の文法の解説</h3>
+<p>
+  ここまでにグローバル変数の「ヒヤリ、はっと」を感じてもらって、文法の解説をします。
+</p>
+<h4>グローバル変数の宣言</h4>
+<p>
+  関数外で宣言した変数は、グローバル変数になります。グローバル変数は0(すべてのビットが0)で初期化されます。値が不定である<a href="/blog/20201217105308.html">ローカル変数</a>とは、この点で異なります。
+</p>
+<p>
+  グローバル変数は、プログラムは始まりから、終わりまで有効です。グローバル変数は、プログラムのすべての位置から見えます(ファイル外の場合は、externすれば)。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+// グローバル変数の宣言
+int32_t MYAPP_GLOBAL_VAR;
+
+// 中身を出力
+int main(void) {
+  printf("%d\n", MYAPP_GLOBAL_VAR);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+0
+</pre>
+<p>
+  C言語には、関数の外には、式を書くことはできませんが、グローバル変数を初期化するための右辺の項が書けるという仕様があります。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+// グローバル変数の宣言と初期化
+int32_t MYAPP_GLOBAL_VAR_CONST1 = 5;
+int32_t MYAPP_GLOBAL_VAR_CONST2 = sizeof(6);
+int32_t MYAPP_GLOBAL_VAR_NO_CONST = strlen("AAABBB");
+
+// 式を書いた場合は文法エラー
+// strlen("AAABBB");
+
+// 中身を出力
+int main(void) {
+  printf("%d\n", MYAPP_GLOBAL_VAR_CONST1);
+  printf("%d\n", MYAPP_GLOBAL_VAR_CONST2);
+  printf("%d\n", MYAPP_GLOBAL_VAR_NO_CONST);
+}
+</pre>
+<p>
+  <a href="https://linux.perlclub.net/blog/20201216103956.html">gcc</a>での出力結果です。初期化が、定数でなかった場合は、警告がでます。
+</p>
+<pre>
+a.c:8: warning: initializer element is not constant
+a.c:8: warning: (near initialization for ‘MYAPP_GLOBAL_VAR_NO_CONST’)
+5
+4
+6
+</pre>
+<p>
+  これは、仕様として覚えておいて、もし定数を使いたい場合は、上記で紹介したグローバル変数を使わない方法をお勧めします。
+</p>
+<h3>他のオブジェクトファイルで定義されたグローバル変数にアクセスする</h3>
+<p>
+  C言語にはファイルスコープという概念があり、他のオブジェクトファイルに記述されているグローバル変数は、そのままでは見えません。他のオブジェクトファイルにあるグローバル変数にアクセスしたい場合は、extern宣言を使用します。
+</p>
+<pre>
+# 他のファイルに記述されているグローバル変数にアクセスできるようにする
+extern OUTER_GLOBAL_VAR;
+</pre>
+<h3>グローバル変数を他のオブジェクトファイルからアクセスできなくする</h3>
+<p>
+  グローバル変数を他のオブジェクトファイルからアクセスできなくするにはstatic修飾子を使います。static修飾子を使うと、このファイル(オブジェクトファイルになったと想像して)の中だけで、使用できます。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+// このファイル(オブジェクトファイルになったと想像して)の中だけで有効なグローバル変数の宣言
+static int32_t MYAPP_GLOBAL_VAR;
+
+// 中身を出力
+int main(void) {
+  printf("%d\n", MYAPP_GLOBAL_VAR);
+}
+</pre>
+<h3>グローバル変数を実際に使ってしまった場面があれば教えてください</h3>
+<p>
+  はい。正直に告白します。
+</p>
+<p>
+  static修飾されたグローバル変数を使ってしまった場合のことを話します。
+</p>
+<p>
+  プログラミング言語の処理系でのことですが、関数のIDを関数名から取り出すロジックがあります。関数名から関数のIDを取り出す処理は、線形探索で、毎回IDを取り出していては、非常にパフォーマンスのコストがかかります。
+</p>
+<p>
+  さらに、関数のIDは、同じオブジェクトファイルの中で、数十回から百回程度、利用されることが想定されています。
+</p>
+<p>
+  関数のIDは、プログラミングが始まってから終わりまで、変わることはありません。一度だけ取得して設定しておけば、それをずっと使えます。
+</p>
+<p>
+  このような用途を満たすために、static修飾されたグローバル変数を使いたくなり、実際に、static修飾されたグローバル変数を使ってしまいました。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

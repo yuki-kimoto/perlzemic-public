@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>if文 - 条件分岐 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="C言語の条件分岐について解説します。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="if文 - 条件分岐 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="C言語の条件分岐について解説します。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/syntax.html">
+        <span itemprop="name">基本文法</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20201224090954.html0">if文 - 条件分岐</a></h2>
+<p>
+  C言語の<b>条件分岐</b>について解説します。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<h3>if文</h3>
+<p>
+  条件分岐を行うために<br>if文</b>を使用します。
+</p>
+<pre>
+if (条件) {
+  // 条件が満たされた場合に実行する処理
+}
+</pre>
+<p>
+  C言語での真偽値は、0が偽で、それ以外の値が真です。NULLはC言語では、0として定義されていますので、偽になります。
+</p>
+<p>
+  if文のサンプルです。
+</p>
+<p>
+  比較演算子は、満たされた場合に1が、満たされなかった場合に0になります。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t flag = 1;
+  
+  if (flag == 1) {
+    printf("1 OK\n");
+  }
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+1 OK
+</pre>
+<h3>else if文</h3>
+<p>
+  複数の条件を書きたい場合は<b>else if文</b>を使用します。else if文は複数記述することができます。
+</p>
+<pre>
+if (条件1) {
+  // 条件1が満たされた場合に実行する処理
+}
+else if (条件2) {
+  // 条件2が満たされた場合に実行する処理
+}
+else if (条件3) {
+  // 条件3が満たされた場合に実行する処理
+}
+</pre>
+<p>
+  else if文のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t flag = 2;
+  
+  if (flag == 1) {
+    printf("1 OK\n");
+  }
+  else if (flag == 2) {
+    printf("2 OK\n");
+  }
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+2 OK
+</pre>
+<h3>else文</h3>
+<p>
+  条件が満たされなかった場合に処理を実行したい場合はelse文を使用します。
+</p>
+<pre>
+if (条件) {
+  // 条件が満たされた場合に実行する処理
+}
+else {
+  // 条件が満たされなかった場合に実行する処理
+}
+
+if (条件1) {
+  // 条件1が満たされた場合に実行する処理
+}
+else if (条件2) {
+  // 条件2が満たされた場合に実行する処理
+}
+else if (条件3) {
+  // 条件3が満たされた場合に実行する処理
+}
+else {
+  // 上記の条件がすべてみたされなかった場合の処理
+}
+</pre>
+<p>
+  else文のサンプルです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  int32_t flag = 3;
+  
+  if (flag == 1) {
+    printf("1 OK\n");
+  }
+  else if (flag == 2) {
+    printf("2 OK\n");
+  }
+  else {
+    printf("Not OK\n");
+  }
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+Not OK
+</pre>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

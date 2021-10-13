@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>memmove関数 - メモリ領域をバイト単位でコピーする - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="memmove関数は、メモリ領域をバイト単位でコピーする関数です。「string.h」をインクルードします。memcpy関数は、コピー先とコピー元のデータ領域が重なっていた場合には、動作は保証されませんが、memmove関数は保証されます。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="memmove関数 - メモリ領域をバイト単位でコピーする - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="memmove関数は、メモリ領域をバイト単位でコピーする関数です。「string.h」をインクルードします。memcpy関数は、コピー先とコピー元のデータ領域が重なっていた場合には、動作は保証されませんが、memmove関数は保証されます。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/library.html">
+        <span itemprop="name">C標準ライブラリ</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/library/string.html">
+        <span itemprop="name">string.h</span>
+      </a>
+      <meta itemprop="position" content="3" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210412082820.html0">memmove関数 - メモリ領域をバイト単位でコピーする</a></h2>
+<p>
+  <b>memmove関数</b>は、メモリ領域をバイト単位でコピーする関数です。「<a href="/blog/20210303101711.html">string.h</a>」をインクルードします。<a href="/blog/20210221132505.html">memcpy関数</a>は、コピー先とコピー元のデータ領域が重なっていた場合には、動作は保証されませんが、memmove関数は保証されます。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+#include &lt;string.h&gt;
+
+void *memmove(void *buf1, const void *buf2, size_t n);
+</pre>
+<p>
+  第一引数はコピー先の<a href="/blog/20210211090234.html">アドレス</a>です。<a href="/blog/20210215090234.html">汎用ポインタ型</a>ですので、どのポインタ型でも大丈夫です。
+</p>
+<p>
+  第二引数はコピー元の<a href="/blog/20210211090234.html">アドレス</a>です。<a href="/blog/20210215090234.html">汎用ポインタ型</a>ですので、どのポインタ型でも大丈夫です。
+</p>
+<p>
+  第三引数にバイトサイズを指定します。size_t型です。<a href="/blog/20201130082751.html">int32_t</a>型までの範囲で0以上の数値であれば、まず安心です。0の指定は有効な引数で、この場合コピーは行われません。
+</p>
+<h3>文字列をの先頭の文字を削除する</h3>
+<p>
+  memmove関数で<a href="/blog/20210331101342.html">文字列</a>をの先頭の文字を削除するするサンプルです。領域が重なっているのでmemmove関数を使います。<a href="/blog/20210405101342.html">strlen関数</a>で文字列の長さを取得しています。
+</p>
+<pre>
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  // 変数名
+  const char* var_name = "$foo";
+  
+  // 変数名の長さ
+  int32_t var_name_length = strlen(var_name);
+  
+  // 変数名をコピー
+  char* var_name_alphabet = calloc(var_name_length + 1, sizeof(char));
+  memcpy(var_name_alphabet, var_name, var_name_length);
+  
+  // 変数名をアルファベットの部分だけにする
+  memmove(var_name_alphabet, var_name_alphabet + 1, var_name_length - 1);
+  var_name_alphabet[var_name_length - 1] = '\0';
+  
+  printf("%s\n", var_name_alphabet);
+  
+  free(var_name_alphabet);
+}
+</pre>
+<p>
+  出力結果です。
+</p>
+<pre>
+foo
+</pre>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

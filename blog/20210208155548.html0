@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>構造体 - 複合データ型 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="構造体は、複数の種類のデータを保存できる複合データ型です。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="構造体 - 複合データ型 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="構造体は、複数の種類のデータを保存できる複合データ型です。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/syntax.html">
+        <span itemprop="name">基本文法</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20210208155548.html0">構造体 - 複合データ型</a></h2>
+<p>
+  構造体は、複数の種類のデータを保存できる複合データ型です。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<p>
+  書籍のデータを考えてみましょう。書籍は、「ID」「名前」「価格」という情報を持つとします。この情報を構造体で表現します。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+</pre>
+<p>
+  構造体の要素となるデータをメンバ変数と呼びます。「id」「name」「price」はメンバ変数です。
+</p>
+<p>
+  「id」「price」は「<a href="/blog/20201130082751.html">int32_t型</a>」、「name」は「<a href="/blog/20201208125815.html">const char*型</a>」です。
+</p>
+<p>
+  メンバ変数のアクセスには「構造体変数名.メンバ変数名」とします。
+</p>
+<h3>構造体の使用</h3>
+<p>
+  構造体を使用してみましょう。構造体は、型として利用できます。構造体を宣言して、メンバ変数に値を代入して、内容を出力しています。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体変数の宣言
+  struct myapp_book book;
+  
+  // メンバ変数に値を代入
+  book.id = 1;
+  book.name = "C99 Book";
+  book.price = 2000;
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
+<h3>構造体変数の初期化</h3>
+<p>
+  構造体変数は、最初に初期化できます。
+</p>
+<h4>構造体のメンバ変数の順序通りに値を指定</h4>
+<p>
+  構造体のメンバ変数の順序通りに値を指定する方法です。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体変数の宣言と初期化(メンバ変数の順序通りに値を指定)
+  struct myapp_book book = {1, "C99 Book", 2000};
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
+<h4>構造体のメンバ変数を0で初期化</h4>
+<p>
+  構造体を0で初期化するための簡単な構文があるので紹介します。これは、初期化の構文で、初期値が指定されなかった場合は、0(すべてのビットが0)が初期値として使われるというC言語仕様を利用したものです。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体変数の宣言と0初期化
+  struct myapp_book book = {0};
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+id: 0, name: (null), price: 0
+</pre>
+<h4>構造体のメンバ変数名を指定して値を指定</h4>
+<p>
+  構造体のメンバ変数名を指定して値を指定できます。これは<a href="/blog/20201206125815.html">C99</a>で追加された構文です。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体変数の宣言と初期化(メンバ変数名を指定して値を指定)
+  struct myapp_book book = {.id = 1, .name = "C99 Book", .price = 2000};
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
+<h3>構造体の動的メモリ確保</h3>
+<p>
+  構造体をヒープ領域に動的メモリ確保してみましょう。動的にメモリを割り当てる場合は、構造体のポインタ型を使います。この例では「struct myapp_book*」です。
+</p>
+<p>
+  <a href="/blog/20210210082644.html">malloc関数</a>とcalloc関数を使うサンプルです。callocが0初期化してくれるのでお勧めですが、malloc関数も標準的な方法なので覚えておきましょう。
+</p>
+<p>
+  malloc関数,calloc関数は「stdlib.h」を読み込むと使える用になります。
+</p>
+<p>
+  malloc関数の引数は、構造体のサイズを指定します。構造体のサイズは<a href="/blog/20210207155548.html">sizeof演算子</a>でサイズを取得できます。
+</p>
+<p>
+  malloc関数の第一引数は、構造体のサイズを指定します。構造体のサイズは<a href="/blog/20210207155548.html">sizeof演算子</a>でサイズを取得できます。第二引数は要素の個数ですが、ここでは、一つだけなので「1」です。
+</p>
+<p>
+  メンバ変数には構造体のポインタ型からアクセスする場合は「.」の代わりに「->」を使います。
+</p>
+<p>
+  確保して使用した後は、freeで解放します。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体の動的メモリ確保(malloc)
+  struct myapp_book* book0 = malloc(sizeof(struct myapp_book));
+  book0-&gt;id = 1;
+  book0-&gt;name = "C99 Book";
+  book0-&gt;price = 2000;
+  
+  // 構造体の動的メモリ確保(calloc。0初期化してくれるので安全)
+  struct myapp_book* book1 = calloc(sizeof(struct myapp_book), 1);
+  book1-&gt;id = 2;
+  book1-&gt;name = "C Function Book";
+  book1-&gt;price = 3000;
+  
+  printf("[book0]id: %d, name: %s, price: %d\n", book0-&gt;id, book0-&gt;name, book0-&gt;price);
+  printf("[book1]id: %d, name: %s, price: %d\n", book1-&gt;id, book1-&gt;name, book1-&gt;price);
+  
+  // メモリ解放
+  free(book0);
+  free(book1);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+[book0]id: 1, name: C99 Book, price: 2000
+[book1]id: 2, name: C Function Book, price: 3000
+</pre>
+<h3>構造体の配列</h3>
+<p>
+  構造体の配列を作ってみましょう。配列については<a href="/blog/20210129143859.html">C言語の配列</a>の記事を参考にしてください。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体の配列の宣言
+  struct myapp_book books[2];
+  
+  // 配列の要素のメンバ変数に値を代入
+  books[0].id = 1;
+  books[0].name = "C99 Book";
+  books[0].price = 2000;
+
+  books[1].id = 2;
+  books[1].name = "C Function Book";
+  books[1].price = 3000;
+  
+  printf("books[0]id: %d, name: %s, price: %d\n", books[0].id, books[0].name, books[0].price);
+  printf("books[1]id: %d, name: %s, price: %d\n", books[1].id, books[1].name, books[1].price);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+books[0]id: 1, name: C99 Book, price: 2000
+books[1]id: 2, name: C Function Book, price: 3000
+</pre>
+<h3>構造体の配列のメモリを動的確保</h3>
+<p>
+  構造体の配列のメモリを動的確保してみましょう。callocで確保する方法を紹介します。callocは、要素を0初期化してくれるので安全でお勧め。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体の配列を動的メモリ確保(calloc。0初期化してくれるので安全)
+  struct myapp_book* books = calloc(sizeof(struct myapp_book), 2);
+  books[0].id = 1;
+  books[0].name = "C99 Book";
+  books[0].price = 2000;
+  
+  books[1].id = 2;
+  books[1].name = "C Function Book";
+  books[1].price = 3000;
+  
+  printf("books[0] id: %d, name: %s, price: %d\n", books[0].id, books[0].name, books[0].price);
+  printf("books[1] id: %d, name: %s, price: %d\n", books[1].id, books[1].name, books[1].price);
+  
+  // メモリ解放
+  free(books);
+}
+</pre>
+<p>
+  出力結果。
+</p>
+<pre>
+books[0] id: 1, name: C99 Book, price: 2000
+books[1] id: 2, name: C Function Book, price: 3000
+</pre>
+<p>
+  mallocの場合は、callocの箇所を以下のように変えてください。この場合は、配列の要素(構造体の各メンバ変数)が0初期化されていないことに注意してください。
+</p>
+<pre>
+  struct myapp_book* books = malloc(sizeof(struct myapp_book) * 2);
+</pre>
+<h3>構造体の定義ってどこに書くの?</h3>
+<p>
+  構造体の定義はヘッダファイルに書きます。構造体定義をヘッダに分割した場合の分割コンパイルのサンプルコードです。
+</p>
+<h4>myapp_book.h</h4>
+<pre>
+#ifndef MYAPP_BOOK_H
+#define MYAPP_BOOK_H
+
+#include &lt;stdint.h&gt;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+#endif
+</pre>
+<h4>myapp.c</h4>
+<pre>
+#include &lt;stdio.h&gt;
+#include "myapp_book.h"
+
+int main(void) {
+  // 構造体変数の宣言
+  struct myapp_book book;
+  
+  // メンバ変数に値を代入
+  book.id = 1;
+  book.name = "C99 Book";
+  book.price = 2000;
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
+<h4>コンパイルして実行</h4>
+<pre>
+gcc -o myapp myapp.c &amp;&amp; ./myapp
+</pre>
+<h3>「struct ○○」っていつでも書かないといけないの?</h3>
+<p>
+  typedef文を使うと「struct 〇〇」という型名に別名をつけることもできます。
+</p>
+<pre>
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+// 「struct myapp_book」に「MYAPP_BOOK」という別名をつける
+typedef struct myapp_book MYAPP_BOOK;
+
+// 書籍情報を表現する構造体の定義
+struct myapp_book {
+  int32_t id;
+  const char* name;
+  int32_t price;
+};
+
+int main(void) {
+  // 構造体変数の宣言と初期化(メンバ変数名を指定して値を指定)
+  MYAPP_BOOK book = {.id = 1, .name = "C99 Book", .price = 2000};
+  
+  printf("id: %d, name: %s, price: %d\n", book.id, book.name, book.price);
+}
+</pre>
+<p>
+  以下のコンテンツを参考にしてください。
+</p>
+<ul>
+  <li><a href="/blog/20210204153019.html">typedef文 - 型の別名を作成する</a></li>
+  <li><a href="/blog/20210202153503.html">型宣言ヘッダ - ヘッダファイル間の読み込みを減らす</a></li>
+</ul>
+<h3>構造体のメモリ領域は?</h3>
+<p>
+  構造体変数として宣言された場合は、構造体はコールスタック上にメモリ確保されます。
+</p>
+<p>
+  一方で、mallocやcallocを使って、動的にメモリ確保した場合は、ヒープ領域に確保されます。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>

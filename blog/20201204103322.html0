@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/images/logo.png">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+
+<script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="/js/google-code-prettify/prettify.js"></script>
+<link  type="text/css" rel="stylesheet" href="/js/google-code-prettify/prettify.css"/>
+<script>
+  $(function(){
+    // google code prettifyの有効化
+    $("pre").addClass("prettyprint");
+    function init(event){
+      prettyPrint();
+    }
+    if(window.addEventListener)window.addEventListener("load",init,false);
+    else if(window.attachEvent)window.attachEvent("onload",init);
+    
+    $(".to-top").click(function() {
+      // ページの一番上までスクロールさせます。
+      $('body, html').animate({scrollTop: 0}, 300, 'linear');;
+    });
+  });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTCP0SKTW5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FTCP0SKTW5');
+</script>
+
+<title>char - 文字を表現する型 - Perl XSユーザーのC言語入門</title>
+<meta name="description" content="charは、文字を表現する型です。char型は、ASCII文字コード(0～127)を表現することが想定されていると考えられます。char型は、8bit符号あり整数型か、8bit符号なし整数型として定義されています。">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@perlzemi" />
+<meta name="twitter:title" content="char - 文字を表現する型 - Perl XSユーザーのC言語入門" />
+<meta name="twitter:description" content="charは、文字を表現する型です。char型は、ASCII文字コード(0～127)を表現することが想定されていると考えられます。char型は、8bit符号あり整数型か、8bit符号なし整数型として定義されています。" />
+<meta name="twitter:image" content="https://c-language-perl-genki.com//images/twitter_card_large_kaeru.png" />
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header_main">
+  <h1>
+    <a href="/"><img src="/images/logo.png">Perl XSユーザーのC言語入門</a>
+  </h1>
+  <div class="header_right">
+    <a rel="nofollow" href="https://perlclub.net/account/create">会員登録</a>
+  </div>
+</div>
+
+      </div>
+      <div class="main">
+        <div class="content">
+          <div class="entry">
+  <div class="top">
+    
+  </div>
+  <div class="middle">
+    <div class="bread">
+  <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/">
+        <span itemprop="name">C言語</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      <a itemprop="item" href="/types.html">
+        <span itemprop="name">C言語の型</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li>
+      here
+    </li>
+  </ul>
+</div>
+<h2><a href="/blog/20201204103322.html0">char - 文字を表現する型</a></h2>
+<p>
+  charは、文字を表現する型です。char型は、ASCII文字コード(0～127)を表現することが想定されていると考えられます。char型は、8bit符号あり整数型か、8bit符号なし整数型として定義されています。
+</p>
+<div style="width:calc(100% - 30px);margin:10px auto;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+       crossorigin="anonymous"></script>
+  <!-- 最初の段落下 - ディスプレイ 横長 レスポンシブ -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4525414114581084"
+       data-ad-slot="2828858335"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+
+<pre>
+# 文字を表現する型
+char
+</pre>
+<h3>charのサンプルコード</h3>
+<p>
+  charを使ったサンプルコードです。
+</p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main(void) {
+  char ch = 'a';
+  
+  printf("%c\n", ch);
+}
+</pre>
+<p>
+  <a href="/blog/20210419083246.html">printf関数</a>のフォーマット指定子で「%c」を使っています。
+</p>
+<p>
+  出力結果。
+</p>
+<pre>
+a
+</pre>
+<h3>なぜchar型は、符号ありか符号なしかがはっきりしていないのですか?</h3>
+<p>
+  歴史的な経緯で、charを8bit符号あり整数として実装した処理系と8bit符号なし整数として実装した処理系があったからだと考えられます。そのためC言語仕様では、charは8bit符号あり整数または、8bit符号なし整数として定義されています。
+</p>
+<h3>幅が8bitであることは保証されていますか?</h3>
+<p>
+  はい、幅が8bitであることは保証されています。
+</p>
+<h3>8bitの数値を扱うときは、int8_t, uint8_tを使う</h3>
+<p>
+  文字ではなく、8bitの数値を表現するときは、符号あり、符号なしが、定義されている<a href="/blog/20201117090747.html">int8_t</a>, <a href="/blog/20201122084622.html">uint8_t</a>を使いましょう。
+</p>
+<h3>charではなく、int8_t, uint8_tを全部の箇所で使ったらいいのでは?</h3>
+<p>
+  理想的には、そうです。ただし、歴史的な経緯からC言語では文字や文字列を受け取る関数の引数の型は「char」や「char*」です。
+</p>
+<p>
+  文字や文字列を関数の引数に渡すことを考えると、文字の表現には「char」、文字列の表現には「char*」を使っておくと、型キャストがいらないという点で、簡潔でわかりやすくなります。
+</p>
+<p>
+  また、文字の場合は、符号ありと符号なしで区別ができないことで困るということがあまりありません。もし困った場合は、その場合だけ、int8_tあるいはuint8_tに型キャストできます。
+</p>
+<p>
+  すべてを置き換えるというよりも、広く普及している記述を尊重しつつ、必要性が高い部分で、新しく便利な機能を使っていくのは、過去と現在と未来を調和させる非常に良い方法の一つだと考えています。
+</p>
+<h3>C言語でUnicodeを表現することはできますか?</h3>
+<p>
+  まず前提として「コードポイントであるUnicode」と「実際の符号化であるUTF-8やUTF-16やUTF-32」を区別できていることを前提とします。
+</p>
+<h4>Unicodeコードポイント</h3>
+<p>
+  Unicode(デファクトスタンダードであるUCS-4)は、最大31bitで、一つの文字を表現します。つまり、包括的に表現しようと思うと、4バイト必要だということです。つまり、<a href="<a href="/blog/20201130082751.html">int32_t型</a>が必要です。一番大きなビットの32bit目は、利用されないことが仕様上保証されているので、<a href="/blog/20201111150850.html">uint32_t型</a>を使う必要はありません。
+</p>
+<p>
+  またC11で追加されたchar32_tを使うこともできます。
+</p>
+<h4>UTF-8</h4>
+<p>
+  UTF-8は、Unicodeコードポイントを1～4バイトの可変長で符号化する符号化形式です。UTF-8は、単なるバイト列で、エンディアンを意識する必要がないです。つまり、文字あるいは文字列はcharの配列として表現できます。
+</p>
+<pre>
+// C言語におけるUTF-８の表現(ソースコードはUTF-8で保存)
+const char* ch = "あ";
+const char* string = "あいうえお";
+</pre>
+<p>
+  UTF-8はprintf関数で、普通に出力できます。
+</p>
+<pre>
+printf("%s\n", string);
+</pre>
+<h4>UTF-32</h4>
+<p>
+  UTF-32は、これが符号化であるという点を除いて、Unicodeコードポイントとまったく同じものです。Unicodeコードポイントの解説を読んでください。
+</p>
+<p>
+  UTF-32は、エンディアンを意識する必要があります。
+</p>
+<h4>UTF-16</h4>
+<p>
+  UTF-16は、Unicodeを一文字を2バイトで表現する符号化形式です。ただし、Unicodeで表現する必要のある文字は、2バイトで表現できる文字の集合を超えています。その場合は、サロゲートペアと呼ばれる方法で、4バイトを使って表現します。
+</p>
+<p>
+  通常は2バイトなので、C言語では、一つの文字はuint16_tで表現できます、4バイトになる場合は、uint16_tふたつで表現できます。
+</p>
+<p>
+  また、C11で追加された、char16_tを使うこともできます。
+</p>
+<p>
+  UTF-16は、エンディアンを意識する必要があります。
+</p>
+
+  </div>
+  <div class="bottom">
+    <div class="perlclub_register">
+  <a rel="nofollow" href="https://perlclub.net/account/create">Perlクラブへの<br>無料の会員登録で<br>書籍サンプルプレゼント</a>
+</div>
+
+  </div>
+</div>
+
+        </div>
+        <div class="side">
+          <div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://perlclub.net/book/perl_text_essense"><img style="width:220px;" src="https://perlclub.net/images/book/perl_text_essence/perl_text_essence.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a  rel="nofollow" href="https://perlclub.net/book/perl_gyoumu"><img style="width:220px;" src="https://perlclub.net/images/book/perl_gyoumu/perl_gyoumu.jpg"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="side_list">
+  <div class="side_list_body">
+    <ul>
+      <li>
+        <div class="side_list_image">
+          <a rel="nofollow" href="https://twitter.com/perlzemi"><img style="height:70px;margin-right:20px;" src="https://perlclub.net/images/external/twitter_icon.png"></a>
+          <a rel="nofollow" href="https://www.youtube.com/channel/UCbeAS6ZXpSKqkzb-Nykb0ZQ"><img style="height:70px;" src="https://perlclub.net/images/external/youtube_icon.png"></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="footer">
+        <div class="perlri_link">
+  <a rel="nofollow" href="https://perlclub.net">Perlクラブ</a>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4525414114581084"
+     crossorigin="anonymous"></script>
+     
+      </div>
+    </div>
+  </body>
+</html>
